@@ -435,20 +435,20 @@ export default function Home(){
           </div>
 
           <div className="mt-10 border-t border-cardBorder">
-            <div className="grid grid-cols-1 md:grid-cols-[274px_1fr_1fr] text-center py-5 border-b border-cardBorder gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-[220px_1fr_1fr] xl:grid-cols-[274px_374px_374px] xl:justify-between text-center py-5 border-b border-cardBorder gap-4 xl:gap-0">
               <div />
               <div className="text-primary text-[28px] font-bold">Finovo</div>
               <div className="text-sub text-[19px] font-semibold">Other Competitors</div>
             </div>
 
             {compareRows.map((row, i) => (
-              <div key={i} className="grid grid-cols-1 md:grid-cols-[274px_1fr_1fr] py-4 border-b border-cardBorder gap-4">
+              <div key={i} className="grid grid-cols-1 md:grid-cols-[220px_1fr_1fr] xl:grid-cols-[274px_374px_374px] xl:justify-between py-4 border-b border-cardBorder gap-4 xl:gap-0">
                 <p className="text-[19px] text-sub font-semibold">{row.left}</p>
-                <div className="flex items-start gap-2 text-body text-[16px] leading-[25.6px]">
+                <div className="flex items-start gap-2 text-body text-[16px] leading-[25.6px] max-w-[374px]">
                   <span className="text-primary">✓</span>
                   <p>{row.finovo}</p>
                 </div>
-                <div className="flex items-start gap-2 text-body text-[16px] leading-[25.6px]">
+                <div className="flex items-start gap-2 text-body text-[16px] leading-[25.6px] max-w-[374px]">
                   <span className={row.otherBad ? 'text-sub' : 'text-primary'}>{row.otherBad ? '✕' : '✓'}</span>
                   <p>{row.other}</p>
                 </div>
@@ -552,10 +552,10 @@ export default function Home(){
             <p className="text-[16px] leading-[25.6px] text-body mt-3">Our platform does not guarantee financial results, and users remain responsible for verifying calculations and decisions before committing to financial agreements or investments.</p>
           </div>
 
-          <div className="mt-10 relative grid grid-cols-1 xl:grid-cols-2 gap-x-24 gap-y-10 items-center">
-            <img src={expectBg} alt="" aria-hidden className="hidden xl:block absolute left-0 top-0 w-[401px] opacity-80" />
+          <div className="mt-10 relative hidden xl:block h-[731px] max-w-[1268px] mx-auto">
+            <img src={expectBg} alt="" aria-hidden className="absolute left-0 top-0 w-[401px] opacity-80" />
 
-            <article className="bg-cardBorder border border-cardBorder rounded-3xl p-5 max-w-[500px] relative z-10">
+            <article className="absolute left-[73px] top-[68px] w-[500px] h-[215px] bg-cardBorder border border-cardBorder rounded-[20px] p-5 z-10">
               <div className="flex items-center justify-between">
                 <span className="text-[20px]">❔</span>
                 <span className="bg-[#a7f3d0] text-[#1d2433] text-[16px] font-medium px-3 py-1 rounded-lg">Challenges</span>
@@ -563,7 +563,7 @@ export default function Home(){
               <p className="text-[16px] leading-[25.6px] text-black mt-3">Users often need quick financial answers without navigating complicated tools or understanding complex financial formulas. Many platforms make calculations difficult or hide useful tools behind signups or paid access, creating frustration when planning finances.</p>
             </article>
 
-            <article className="bg-alt border border-cardBorder rounded-3xl p-5 max-w-[500px] xl:mt-24">
+            <article className="absolute left-[762px] top-[206px] w-[500px] h-[215px] bg-alt border border-cardBorder rounded-[20px] p-5 z-10">
               <div className="flex items-center justify-between">
                 <span className="text-[20px]">💡</span>
                 <span className="bg-primary text-[#f9fafb] text-[16px] font-medium px-3 py-1 rounded-lg">Solutions</span>
@@ -571,7 +571,7 @@ export default function Home(){
               <p className="text-[16px] leading-[25.6px] text-body mt-3">Users often need quick financial answers without navigating complicated tools or understanding complex financial formulas. Many platforms make calculations difficult or hide useful tools behind signups or paid access, creating frustration when planning finances.</p>
             </article>
 
-            <article className="bg-cardBorder border border-cardBorder rounded-3xl p-5 max-w-[500px]">
+            <article className="absolute left-[73px] top-[404px] w-[500px] h-[190px] bg-cardBorder border border-cardBorder rounded-[20px] p-5 z-10">
               <div className="flex items-center justify-between">
                 <span className="text-[20px]">❔</span>
                 <span className="bg-[#a7f3d0] text-[#1d2433] text-[16px] font-medium px-3 py-1 rounded-lg">Challenges</span>
@@ -579,7 +579,7 @@ export default function Home(){
               <p className="text-[16px] leading-[25.6px] text-black mt-3">People want financial tools that help compare options clearly before making important financial decisions, whether for loans, investments, or savings. Confusing results or limited comparison features often lead to poor financial choices.</p>
             </article>
 
-            <article className="bg-alt border border-cardBorder rounded-3xl p-5 max-w-[500px]">
+            <article className="absolute left-[768px] top-[541px] w-[500px] h-[190px] bg-alt border border-cardBorder rounded-[20px] p-5 z-10">
               <div className="flex items-center justify-between">
                 <span className="text-[20px]">💡</span>
                 <span className="bg-primary text-[#f9fafb] text-[16px] font-medium px-3 py-1 rounded-lg">Solutions</span>
@@ -587,8 +587,42 @@ export default function Home(){
               <p className="text-[16px] leading-[25.6px] text-body mt-3">We continuously enhance calculators to provide clearer breakdowns, better comparisons, and improved insights so users can confidently evaluate financial scenarios and choose the best options for their needs.</p>
             </article>
 
-            <img src={expectArrow1} alt="" aria-hidden className="hidden xl:block absolute left-[565px] top-[230px] w-[201px]" />
-            <img src={expectArrow2} alt="" aria-hidden className="hidden xl:block absolute left-[571px] top-[565px] w-[201px]" />
+            <img src={expectArrow1} alt="" aria-hidden className="absolute left-[567px] top-[254px] w-[201px] pointer-events-none" />
+            <img src={expectArrow2} alt="" aria-hidden className="absolute left-[573px] top-[589px] w-[201px] pointer-events-none" />
+          </div>
+
+          <div className="mt-10 grid grid-cols-1 gap-y-8 xl:hidden">
+            <article className="bg-cardBorder border border-cardBorder rounded-[20px] p-5">
+              <div className="flex items-center justify-between">
+                <span className="text-[20px]">❔</span>
+                <span className="bg-[#a7f3d0] text-[#1d2433] text-[16px] font-medium px-3 py-1 rounded-lg">Challenges</span>
+              </div>
+              <p className="text-[16px] leading-[25.6px] text-black mt-3">Users often need quick financial answers without navigating complicated tools or understanding complex financial formulas. Many platforms make calculations difficult or hide useful tools behind signups or paid access, creating frustration when planning finances.</p>
+            </article>
+
+            <article className="bg-alt border border-cardBorder rounded-[20px] p-5">
+              <div className="flex items-center justify-between">
+                <span className="text-[20px]">💡</span>
+                <span className="bg-primary text-[#f9fafb] text-[16px] font-medium px-3 py-1 rounded-lg">Solutions</span>
+              </div>
+              <p className="text-[16px] leading-[25.6px] text-body mt-3">Users often need quick financial answers without navigating complicated tools or understanding complex financial formulas. Many platforms make calculations difficult or hide useful tools behind signups or paid access, creating frustration when planning finances.</p>
+            </article>
+
+            <article className="bg-cardBorder border border-cardBorder rounded-[20px] p-5">
+              <div className="flex items-center justify-between">
+                <span className="text-[20px]">❔</span>
+                <span className="bg-[#a7f3d0] text-[#1d2433] text-[16px] font-medium px-3 py-1 rounded-lg">Challenges</span>
+              </div>
+              <p className="text-[16px] leading-[25.6px] text-black mt-3">People want financial tools that help compare options clearly before making important financial decisions, whether for loans, investments, or savings. Confusing results or limited comparison features often lead to poor financial choices.</p>
+            </article>
+
+            <article className="bg-alt border border-cardBorder rounded-[20px] p-5">
+              <div className="flex items-center justify-between">
+                <span className="text-[20px]">💡</span>
+                <span className="bg-primary text-[#f9fafb] text-[16px] font-medium px-3 py-1 rounded-lg">Solutions</span>
+              </div>
+              <p className="text-[16px] leading-[25.6px] text-body mt-3">We continuously enhance calculators to provide clearer breakdowns, better comparisons, and improved insights so users can confidently evaluate financial scenarios and choose the best options for their needs.</p>
+            </article>
           </div>
         </div>
       </section>
