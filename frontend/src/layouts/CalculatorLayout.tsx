@@ -14,7 +14,7 @@ export default function CalculatorLayout({ children }: PropsWithChildren) {
   return (
     <>
       {children}
-      <AdblockModal open={detected} loading={loading} onRetry={retry} />
+      <AdblockModal open={detected} loading={loading} onRetry={() => { retry(); }} />
     </>
   )
 }

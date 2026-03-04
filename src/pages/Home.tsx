@@ -1,5 +1,31 @@
-import React from 'react'
+import React, { ChangeEvent, FormEvent, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { calculate, schema, type AutoLoanResults } from '../../backend/calculations/autoLoan'
+
+type AutoLoanFormState = {
+  price: string
+  termMonths: string
+  annualRatePct: string
+  downPayment: string
+  tradeInValue: string
+  amountOwedOnTradeIn: string
+  cashIncentives: string
+  salesTaxPct: string
+  titlesFees: string
+  otherFees: string
+}
+
+const toNumber = (value: string): number => {
+  const parsed = Number(value)
+  return Number.isFinite(parsed) ? parsed : 0
+}
+
+const currencyFormatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD'
+})
+
+const formatCurrency = (value: number): string => currencyFormatter.format(value)
 
 export default function Home(){
   const heroGraphic = 'https://www.figma.com/api/mcp/asset/0649dbdf-6b4c-4205-874b-dbbdef53ccaf'
@@ -131,6 +157,61 @@ export default function Home(){
     ['Mortgage Payoff', 'Compound Interest', '401K', 'Sales Tax']
   ]
 
+  const [autoLoanInputs, setAutoLoanInputs] = useState<AutoLoanFormState>({
+    price: '50000',
+    termMonths: '60',
+    annualRatePct: '7.2',
+    downPayment: '5000',
+    tradeInValue: '7000',
+    amountOwedOnTradeIn: '2000',
+    cashIncentives: '1000',
+    salesTaxPct: '3',
+    titlesFees: '300',
+    otherFees: '500'
+  })
+  const [autoLoanResults, setAutoLoanResults] = useState<AutoLoanResults | null>(null)
+  const [calculateError, setCalculateError] = useState<string | null>(null)
+
+  const upfrontPayment =
+    toNumber(autoLoanInputs.downPayment) +
+    toNumber(autoLoanInputs.tradeInValue) +
+    toNumber(autoLoanInputs.cashIncentives)
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target
+    setAutoLoanInputs((previous) => ({
+      ...previous,
+      [name]: value
+    }))
+  }
+
+  const handleAutoLoanSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setCalculateError(null)
+
+    const raw = {
+      price: toNumber(autoLoanInputs.price),
+      termMonths: toNumber(autoLoanInputs.termMonths),
+      annualRatePct: toNumber(autoLoanInputs.annualRatePct),
+      downPayment: toNumber(autoLoanInputs.downPayment),
+      tradeInValue: toNumber(autoLoanInputs.tradeInValue),
+      amountOwedOnTradeIn: toNumber(autoLoanInputs.amountOwedOnTradeIn),
+      cashIncentives: toNumber(autoLoanInputs.cashIncentives),
+      salesTaxPct: toNumber(autoLoanInputs.salesTaxPct),
+      titlesFees: toNumber(autoLoanInputs.titlesFees),
+      otherFees: toNumber(autoLoanInputs.otherFees)
+    }
+
+    const parsed = schema.safeParse(raw)
+    if (!parsed.success) {
+      setCalculateError('Invalid inputs. Please check your values.')
+      return
+    }
+
+    const results = calculate(parsed.data)
+    setAutoLoanResults(results)
+  }
+
   return (
     <div className="bg-alt">
       <section className="relative overflow-hidden">
@@ -153,33 +234,51 @@ export default function Home(){
                 Plan loans, investments, taxes, savings, and retirement in seconds using our powerful and free financial calculators.
               </p>
 
-              <div className="mt-5 border border-cardBorder rounded-[28px] p-5 bg-alt w-full max-w-[516px]">
+              <form
+                className="mt-5 border border-cardBorder rounded-[28px] p-5 bg-alt w-full max-w-[516px]"
+                onSubmit={handleAutoLoanSubmit}
+              >
                 <h3 className="text-[36px] leading-none font-semibold text-heading">Auto Loan Calculator</h3>
                 <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-x-[10px] gap-y-5">
                   {[
-                    ['Auto Price', '$0'],
-                    ['Loan Term', 'Months'],
-                    ['Interest Rate', '%0'],
-                    ['Cash Incentives', '$0'],
-                    ['Down Payment', '$0'],
-                    ['Trade-in Value', '$0'],
-                    ['Amount Owed on Trade-in', '$0'],
-                    ['Your State', 'Bangalore'],
-                    ['Sales Tax', '%'],
-                    ['Titles, Registration', '$0']
-                  ].map(([label, value]) => (
-                    <div key={label}>
-                      <p className="text-[16px] text-sub font-medium">{label}</p>
-                      <div className="h-[42px] mt-1.5 rounded-md border border-cardBorder bg-alt px-2 flex items-center text-[16px] text-sub font-medium">
-                        {value}
-                      </div>
+                    { label: 'Auto Price', name: 'price', placeholder: '50000' },
+                    { label: 'Loan Term (Months)', name: 'termMonths', placeholder: '60' },
+                    { label: 'Interest Rate (%)', name: 'annualRatePct', placeholder: '7.2' },
+                    { label: 'Cash Incentives', name: 'cashIncentives', placeholder: '1000' },
+                    { label: 'Down Payment', name: 'downPayment', placeholder: '5000' },
+                    { label: 'Trade-in Value', name: 'tradeInValue', placeholder: '7000' },
+                    { label: 'Amount Owed on Trade-in', name: 'amountOwedOnTradeIn', placeholder: '2000' },
+                    { label: 'Sales Tax (%)', name: 'salesTaxPct', placeholder: '3' },
+                    { label: 'Titles / Registration', name: 'titlesFees', placeholder: '300' },
+                    { label: 'Other Fees', name: 'otherFees', placeholder: '500' }
+                  ].map((field) => (
+                    <div key={field.name}>
+                      <p className="text-[16px] text-sub font-medium">{field.label}</p>
+                      <input
+                        type="number"
+                        step="any"
+                        min="0"
+                        name={field.name}
+                        value={autoLoanInputs[field.name as keyof AutoLoanFormState]}
+                        onChange={handleInputChange}
+                        placeholder={field.placeholder}
+                        className="h-[42px] mt-1.5 w-full rounded-md border border-cardBorder bg-alt px-2 text-[16px] text-sub font-medium"
+                      />
                     </div>
                   ))}
                 </div>
-                <button className="mt-7 w-full h-[46px] rounded-lg bg-primary text-white text-[30px] font-medium shadow-card">
+                <button
+                  type="submit"
+                  className="mt-7 w-full h-[46px] rounded-lg bg-primary text-white text-[30px] font-medium shadow-card"
+                >
                   Calculate
                 </button>
-              </div>
+                {calculateError ? (
+                  <p className="mt-3 text-sm text-red-600" role="status" aria-live="polite">
+                    {calculateError}
+                  </p>
+                ) : null}
+              </form>
             </div>
 
             <div className="pt-14 xl:pt-[147px]">
@@ -187,15 +286,15 @@ export default function Home(){
                 <div className="text-center">
                   <p className="text-[16px] font-medium text-sub">Total Monthly Payment</p>
                   <p className="text-[56px] leading-none font-semibold text-heading mt-3">
-                    <span className="text-sub">$ </span>754.85
+                    {formatCurrency(autoLoanResults?.monthlyPayment ?? 0)}
                   </p>
                 </div>
                 <div className="h-px bg-[#a7f3d0] my-10" />
                 <div className="space-y-4 text-[19px]">
                   {[
-                    ['Total Loan Amount', '$40,000.00'],
-                    ['Sale Tax', '$1,500.00'],
-                    ['Upfront Payment', '$14,300.00']
+                    ['Total Loan Amount', formatCurrency(autoLoanResults?.loanAmount ?? 0)],
+                    ['Sale Tax', formatCurrency(autoLoanResults?.saleTax ?? 0)],
+                    ['Upfront Payment', formatCurrency(upfrontPayment)]
                   ].map(([k, v]) => (
                     <div key={k} className="flex items-center justify-between">
                       <span className="text-body font-medium">{k}</span>
@@ -205,9 +304,9 @@ export default function Home(){
                 </div>
                 <div className="space-y-4 text-[19px] mt-10">
                   {[
-                    ['Total of 60 Loan Payments', '$45,290.96'],
-                    ['Total Loan Interest', '$5,290.96'],
-                    ['Total Cost (Price, Interest, Tax, Fees', '$59,590.96']
+                    [`Total of ${toNumber(autoLoanInputs.termMonths)} Loan Payments`, formatCurrency(autoLoanResults?.totalPayments ?? 0)],
+                    ['Total Loan Interest', formatCurrency(autoLoanResults?.totalInterest ?? 0)],
+                    ['Total Cost (Price, Interest, Tax, Fees)', formatCurrency(autoLoanResults?.totalCost ?? 0)]
                   ].map(([k, v]) => (
                     <div key={k} className="flex items-center justify-between gap-4">
                       <span className="text-body font-medium">{k}</span>

@@ -37,37 +37,38 @@ const round2 = (value: number): number => Math.round((value + Number.EPSILON) * 
 export function calculate(inputs: AutoLoanInputs): AutoLoanResults {
   const saleTax = (inputs.price * inputs.salesTaxPct) / 100
 
-  const grossVehicleCost =
-    inputs.price +
+const netTrade = Math.max(0, inputs.tradeInValue - inputs.amountOwedOnTradeIn)
+const negativeEquity = Math.max(0, inputs.amountOwedOnTradeIn - inputs.tradeInValue)
+
+const loanAmount = Math.max(
+  0,
+  inputs.price +
     saleTax +
     inputs.titlesFees +
     inputs.otherFees +
-    inputs.amountOwedOnTradeIn
+    negativeEquity -
+    inputs.downPayment -
+    netTrade -
+    inputs.cashIncentives
+)
 
-  const totalCredits = inputs.downPayment + inputs.tradeInValue + inputs.cashIncentives
+const n = inputs.termMonths
+const monthlyRate = inputs.annualRatePct / 100 / 12
 
-  const loanAmount = Math.max(0, grossVehicleCost - totalCredits)
+const monthlyPayment =
+  monthlyRate === 0
+    ? loanAmount / n
+    : (loanAmount * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -n))
 
-  const n = inputs.termMonths
-  const monthlyRate = inputs.annualRatePct / 100 / 12
+const totalPayments = monthlyPayment * n
+const totalInterest = Math.max(0, totalPayments - loanAmount)
 
-  const monthlyPayment =
-    monthlyRate === 0
-      ? loanAmount / n
-      : (loanAmount * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -n))
-
-  const totalPayments = monthlyPayment * n
-  const totalInterest = Math.max(0, totalPayments - loanAmount)
-
-  // Total ownership cost estimate for this purchase setup.
-  const totalCost =
-    inputs.downPayment +
-    inputs.cashIncentives +
-    inputs.tradeInValue +
-    inputs.amountOwedOnTradeIn +
-    totalPayments +
-    inputs.titlesFees +
-    inputs.otherFees
+const totalCost =
+  inputs.price +
+  saleTax +
+  inputs.titlesFees +
+  inputs.otherFees +
+  totalInterest
 
   return {
     loanAmount: round2(loanAmount),
