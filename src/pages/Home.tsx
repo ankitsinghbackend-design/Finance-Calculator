@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { calculate, schema, type AutoLoanResults } from '../../backend/calculations/autoLoan'
+import { landingCalculatorColumns } from '../config/calculatorConfig'
 
 type AutoLoanFormState = {
   price: string
@@ -147,14 +148,6 @@ export default function Home(){
       other: 'Slower tools or outdated calculations.',
       otherBad: true
     }
-  ]
-
-  const calcColumns = [
-    ['Mortgage', 'Auto Loan', 'Payment', 'Amortization'],
-    ['Currency', 'Finance', 'Income Tax', 'Salary'],
-    ['Interest Rate', 'More Financial', 'Calculators', 'Loan'],
-    ['Interest', 'Retirement', 'Investment', 'Inflation'],
-    ['Mortgage Payoff', 'Compound Interest', '401K', 'Sales Tax']
   ]
 
   const [autoLoanInputs, setAutoLoanInputs] = useState<AutoLoanFormState>({
@@ -324,9 +317,13 @@ export default function Home(){
         <div>
           <h3 className="text-[28px] font-medium text-black">Financial Calculators</h3>
           <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-x-8 gap-y-4 text-[19px] text-body font-semibold underline">
-            {calcColumns.map((col, idx) => (
+            {landingCalculatorColumns.map((col, idx) => (
               <div key={idx} className="space-y-3">
-                {col.map((item) => <p key={item}>{item}</p>)}
+                {col.map((item) => (
+                  <p key={item.calculatorId}>
+                    <Link to={`/calculators/${item.calculatorId}`}>{item.label}</Link>
+                  </p>
+                ))}
               </div>
             ))}
           </div>

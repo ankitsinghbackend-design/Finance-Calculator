@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import Finance from './pages/Finance'
 import DisableAdblockHelp from './pages/DisableAdblockHelp'
+import CalculatorPlaceholder from './pages/CalculatorPlaceholder'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import CalculatorLayout from './layouts/CalculatorLayout'
@@ -16,6 +17,7 @@ export default function App(){
           <Routes>
             <Route path="/" element={<Home/>} />
             <Route path="/finance" element={<Finance/>} />
+            <Route path="/calculators/:calculatorId" element={<CalculatorPlaceholder/>} />
             <Route path="/help/disable-adblock" element={<DisableAdblockHelp/>} />
           </Routes>
         </main>

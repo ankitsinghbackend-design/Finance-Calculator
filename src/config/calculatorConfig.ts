@@ -5,6 +5,11 @@ export type CalculatorItem = {
   category: string
 }
 
+export type LandingCalculatorLink = {
+  label: string
+  calculatorId: string
+}
+
 export type FinanceMenuSection = {
   title: string
   items: string[]
@@ -31,6 +36,39 @@ export const calculators: CalculatorItem[] = [
 ]
 
 export const categories = Array.from(new Set(calculators.map(c => c.category)))
+
+export const landingCalculatorColumns: LandingCalculatorLink[][] = [
+  [
+    { label: 'Mortgage', calculatorId: 'mortgage' },
+    { label: 'Auto Loan', calculatorId: 'auto-loan' },
+    { label: 'Payment', calculatorId: 'payment' },
+    { label: 'Amortization', calculatorId: 'amortization' }
+  ],
+  [
+    { label: 'Currency', calculatorId: 'currency' },
+    { label: 'Finance', calculatorId: 'finance' },
+    { label: 'Income Tax', calculatorId: 'income-tax' },
+    { label: 'Salary', calculatorId: 'salary' }
+  ],
+  [
+    { label: 'Interest Rate', calculatorId: 'interest-rate' },
+    { label: 'More Financial', calculatorId: 'more-financial' },
+    { label: 'Calculators', calculatorId: 'calculators' },
+    { label: 'Loan', calculatorId: 'loan' }
+  ],
+  [
+    { label: 'Interest', calculatorId: 'interest' },
+    { label: 'Retirement', calculatorId: 'retirement' },
+    { label: 'Investment', calculatorId: 'investment' },
+    { label: 'Inflation', calculatorId: 'inflation' }
+  ],
+  [
+    { label: 'Mortgage Payoff', calculatorId: 'mortgage-payoff' },
+    { label: 'Compound Interest', calculatorId: 'compound-interest' },
+    { label: '401K', calculatorId: '401k' },
+    { label: 'Sales Tax', calculatorId: 'sales-tax' }
+  ]
+]
 
 export const financeMenuColumns: FinanceMenuColumn[] = [
   {
