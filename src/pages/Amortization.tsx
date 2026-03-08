@@ -1,6 +1,8 @@
-import React, { useMemo, useState } from 'react'
+import React, { FormEvent, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { calculateAmortization } from '../utils/amortization'
+import axios from 'axios'
+import { apiUrl } from '../config/api'
 
 const heroGraphic = 'https://www.figma.com/api/mcp/asset/0649dbdf-6b4c-4205-874b-dbbdef53ccaf'
 
@@ -13,34 +15,60 @@ const currency = (v: number) =>
   }).format(v)
 
 export default function Amortization() {
-  const [loanAmount, setLoanAmount] = useState<number>(200000)
-  const [interestRate, setInterestRate] = useState<number>(6)
-  const [loanTermYears, setLoanTermYears] = useState<number>(15)
-  const [loanTermMonths, setLoanTermMonths] = useState<number>(0)
+  const [loanAmount, setLoanAmount] = useState<string>('200000')
+  const [interestRate, setInterestRate] = useState<string>('6')
+  const [loanTermYears, setLoanTermYears] = useState<string>('15')
+  const [loanTermMonths, setLoanTermMonths] = useState<string>('0')
   const [withExtraPayment, setWithExtraPayment] = useState<boolean>(false)
-  const [extraMonthlyPayment, setExtraMonthlyPayment] = useState<number>(0)
+  const [extraMonthlyPayment, setExtraMonthlyPayment] = useState<string>('0')
+  const [result, setResult] = useState<ReturnType<typeof calculateAmortization> | null>(null)
+  const [isCalculating, setIsCalculating] = useState(false)
+  const [calculateError, setCalculateError] = useState<string | null>(null)
 
-  const result = useMemo(
-    () =>
-      calculateAmortization({
-        loanAmount,
-        interestRate,
-        loanTermYears,
-        loanTermMonths,
-        extraMonthlyPayment: withExtraPayment ? extraMonthlyPayment : 0
-      }),
+  const parsedInputs = useMemo(
+    () => ({
+      loanAmount: Math.max(0, Number(loanAmount) || 0),
+      interestRate: Math.max(0, Number(interestRate) || 0),
+      loanTermYears: Math.max(0, Math.round(Number(loanTermYears) || 0)),
+      loanTermMonths: Math.max(0, Math.round(Number(loanTermMonths) || 0)),
+      extraMonthlyPayment: withExtraPayment ? Math.max(0, Number(extraMonthlyPayment) || 0) : 0
+    }),
     [loanAmount, interestRate, loanTermYears, loanTermMonths, withExtraPayment, extraMonthlyPayment]
   )
 
-  const termLabel = `${Math.floor(result.payoffMonths / 12)} years`
+  const handleCalculate = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setCalculateError(null)
+
+    try {
+      setIsCalculating(true)
+      const response = await axios.post<{ results: ReturnType<typeof calculateAmortization> }>(
+        apiUrl('/api/calculators/amortization'),
+        { inputs: parsedInputs }
+      )
+      setResult(response.data.results)
+    } catch {
+      setResult(calculateAmortization(parsedInputs))
+      setCalculateError('Unable to reach server. Showing local calculation results.')
+    } finally {
+      setIsCalculating(false)
+    }
+  }
+
+  const termLabel =
+    result
+      ? `${Math.floor(result.payoffMonths / 12)} years`
+      : `${Math.floor(parsedInputs.loanTermYears)} years`
 
   const clearAll = () => {
-    setLoanAmount(0)
-    setInterestRate(0)
-    setLoanTermYears(0)
-    setLoanTermMonths(0)
+    setLoanAmount('0')
+    setInterestRate('0')
+    setLoanTermYears('0')
+    setLoanTermMonths('0')
     setWithExtraPayment(false)
-    setExtraMonthlyPayment(0)
+    setExtraMonthlyPayment('0')
+    setResult(null)
+    setCalculateError(null)
   }
 
   return (
@@ -63,7 +91,7 @@ export default function Amortization() {
                 There are two general definitions of amortization. The first is the systematic repayment of a loan over time. The second is used in the context of business accounting and is the act of spreading the cost of an expensive and long-lived item over many periods.
               </p>
 
-              <div className="mt-6 border border-cardBorder rounded-[28px] p-5 bg-alt max-w-[516px]">
+              <form onSubmit={handleCalculate} className="mt-6 border border-cardBorder rounded-[28px] p-5 bg-alt max-w-[516px]">
                 <h2 className="text-[19px] font-semibold text-heading">Mortgage Calculator</h2>
 
                 <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-x-[10px] gap-y-5">
@@ -73,7 +101,7 @@ export default function Amortization() {
                       type="number"
                       className="mt-1.5 h-[42px] w-full rounded-md border border-cardBorder bg-alt px-2 text-[16px] text-sub"
                       value={loanAmount}
-                      onChange={(e) => setLoanAmount(Number(e.target.value || 0))}
+                      onChange={(e) => setLoanAmount(e.target.value)}
                     />
                   </div>
 
@@ -84,14 +112,14 @@ export default function Amortization() {
                         type="number"
                         className="h-[42px] w-full rounded-md border border-cardBorder bg-alt px-2 text-[16px] text-sub"
                         value={loanTermYears}
-                        onChange={(e) => setLoanTermYears(Number(e.target.value || 0))}
+                        onChange={(e) => setLoanTermYears(e.target.value)}
                         placeholder="Years"
                       />
                       <input
                         type="number"
                         className="h-[42px] w-full rounded-md border border-cardBorder bg-alt px-2 text-[16px] text-sub"
                         value={loanTermMonths}
-                        onChange={(e) => setLoanTermMonths(Number(e.target.value || 0))}
+                        onChange={(e) => setLoanTermMonths(e.target.value)}
                         placeholder="Months"
                       />
                     </div>
@@ -104,7 +132,7 @@ export default function Amortization() {
                       step="0.01"
                       className="mt-1.5 h-[42px] w-full rounded-md border border-cardBorder bg-alt px-2 text-[16px] text-sub"
                       value={interestRate}
-                      onChange={(e) => setInterestRate(Number(e.target.value || 0))}
+                      onChange={(e) => setInterestRate(e.target.value)}
                     />
                   </div>
 
@@ -116,7 +144,7 @@ export default function Amortization() {
                           type="number"
                           className="mt-1.5 h-[42px] w-full rounded-md border border-cardBorder bg-alt px-2 text-[16px] text-sub"
                           value={extraMonthlyPayment}
-                          onChange={(e) => setExtraMonthlyPayment(Number(e.target.value || 0))}
+                          onChange={(e) => setExtraMonthlyPayment(e.target.value)}
                         />
                       </div>
                     )}
@@ -134,22 +162,26 @@ export default function Amortization() {
                 </label>
 
                 <div className="mt-5 grid grid-cols-2 gap-[15px]">
-                  <button className="h-[37px] rounded-lg bg-primary text-white text-[16px] font-medium">Calculate</button>
+                  <button type="submit" disabled={isCalculating} className="h-[37px] rounded-lg bg-primary text-white text-[16px] font-medium disabled:opacity-60">
+                    {isCalculating ? 'Calculating...' : 'Calculate'}
+                  </button>
                   <button
+                    type="button"
                     onClick={clearAll}
                     className="h-[37px] rounded-lg border border-cardBorder bg-white text-[16px] font-medium text-sub"
                   >
                     Clear
                   </button>
                 </div>
-              </div>
+                {calculateError && <p className="text-sm text-red-600 mt-3">{calculateError}</p>}
+              </form>
             </div>
 
             <div className="pt-20 xl:pt-[140px] relative z-10">
               <div className="max-w-[516px] ml-auto bg-alt border border-cardBorder rounded-2xl px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)]">
                 <div className="text-center">
                   <p className="text-[16px] font-medium text-sub">Monthly Payment</p>
-                  <p className="text-[48px] leading-none font-semibold text-heading mt-3">{currency(result.monthlyPayment)}</p>
+                  <p className="text-[48px] leading-none font-semibold text-heading mt-3">{result ? currency(result.monthlyPayment) : '$0.00'}</p>
                 </div>
 
                 <div className="h-px bg-[#a7f3d0] my-10" />
@@ -159,11 +191,11 @@ export default function Amortization() {
                 <div className="mt-8 space-y-4 text-[19px]">
                   <div className="flex items-center justify-between gap-4">
                     <span className="text-body font-medium">Total Payments</span>
-                    <span className="text-heading font-semibold whitespace-nowrap">{currency(result.totalPayments)}</span>
+                    <span className="text-heading font-semibold whitespace-nowrap">{result ? currency(result.totalPayments) : '$0.00'}</span>
                   </div>
                   <div className="flex items-center justify-between gap-4">
                     <span className="text-body font-medium">Total Interest</span>
-                    <span className="text-heading font-semibold whitespace-nowrap">{currency(result.totalInterest)}</span>
+                    <span className="text-heading font-semibold whitespace-nowrap">{result ? currency(result.totalInterest) : '$0.00'}</span>
                   </div>
                   <div className="flex items-center justify-between gap-4">
                     <span className="text-body font-medium">Loan Term</span>
