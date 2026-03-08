@@ -159,12 +159,14 @@ const runScriptLoadCheck = async (scriptUrl: string): Promise<HeuristicResult> =
 /*  4. Ad-network fetch – try multiple known ad domains               */
 /*     Any real adblocker will block at least one of these            */
 /* ------------------------------------------------------------------ */
+// Only URLs that reliably return an opaque response (with mode:'no-cors')
+// when no adblocker is present.  Avoid fake IDs, tracking endpoints that
+// 404, or domains that might be geo-blocked.
 const AD_NETWORK_URLS = [
   'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',
-  'https://c.amazon-adsystem.com/aax2/apstag.js',
-  'https://static.ads-twitter.com/uwt.js',
-  'https://connect.facebook.net/signals/config/000000000000000',
   'https://securepubads.g.doubleclick.net/tag/js/gpt.js',
+  'https://c.amazon-adsystem.com/aax2/apstag.js',
+  'https://www.googletagmanager.com/gtag/js',
 ]
 
 const runAdNetworkFetchCheck = async (): Promise<HeuristicResult> => {
@@ -187,10 +189,12 @@ const runAdNetworkFetchCheck = async (): Promise<HeuristicResult> => {
     }
   })
 
-  const positive = blockedCount > 0
+  // Require at least 2 domains blocked to avoid false positives from
+  // transient network issues or geo-blocking.
+  const positive = blockedCount >= 2
   return {
     positive,
-    reason: positive ? `${blockedCount}/${AD_NETWORK_URLS.length}_ad_domains_blocked` : 'all_ad_domains_accessible',
+    reason: positive ? `${blockedCount}/${AD_NETWORK_URLS.length}_ad_domains_blocked` : `${blockedCount}_blocked_below_threshold`,
     meta
   }
 }
@@ -199,33 +203,52 @@ const runAdNetworkFetchCheck = async (): Promise<HeuristicResult> => {
 /*  5. Image bait – use <img> pointing to known ad tracking pixels    */
 /*     Adblockers often block ad-related image requests               */
 /* ------------------------------------------------------------------ */
-const AD_PIXEL_URLS = [
-  'https://www.googleadservices.com/pagead/conversion/1/?label=test',
-  'https://ad.doubleclick.net/ddm/trackimp/N1/ci.gif',
-  'https://pixel.adsafeprotected.com/rfw/st/0/img.gif',
+// Image-based check: create <img> tags pointing to well-known ad JS
+// files (served as no-cors).  If the adblocker blocks the request the
+// onerror fires; if it goes through, onload fires (even though the
+// response isn't a valid image the browser fires onload for opaque
+// cross-origin fetches in some cases, or onerror for CORS — either
+// way we only flag as blocked when the request is truly killed).
+const AD_IMG_URLS = [
+  'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',
+  'https://securepubads.g.doubleclick.net/tag/js/gpt.js',
+  'https://c.amazon-adsystem.com/aax2/apstag.js',
 ]
 
-const testImageLoad = (url: string): Promise<boolean> => {
+const testImageLoad = (url: string): Promise<'blocked' | 'loaded' | 'timeout'> => {
   return new Promise((resolve) => {
     const img = new Image()
     img.style.display = 'none'
-    const timer = setTimeout(() => resolve(true), 2000)
+    const timer = setTimeout(() => resolve('timeout'), 2500)
 
-    img.onload = () => { clearTimeout(timer); resolve(false) }
-    img.onerror = () => { clearTimeout(timer); resolve(true) }
-    img.src = `${url}&_=${Date.now()}`
+    // For cross-origin JS URLs, both onload and onerror can fire
+    // depending on CORS headers.  The key distinction: when an
+    // adblocker kills the request, onerror fires almost instantly
+    // (< 50ms).  A real server onerror from CORS takes longer.
+    const start = Date.now()
+    img.onload = () => { clearTimeout(timer); resolve('loaded') }
+    img.onerror = () => {
+      clearTimeout(timer)
+      // If onerror fires within 50ms, it's almost certainly a
+      // network-level block (adblocker), not a CORS/404 error.
+      resolve(Date.now() - start < 50 ? 'blocked' : 'loaded')
+    }
+    img.src = `${url}?_=${Date.now()}`
   })
 }
 
 const runImgBaitCheck = async (): Promise<HeuristicResult> => {
-  const results = await Promise.all(AD_PIXEL_URLS.map(testImageLoad))
-  const blockedCount = results.filter(Boolean).length
+  const results = await Promise.all(AD_IMG_URLS.map(testImageLoad))
+  const blockedCount = results.filter((r) => r === 'blocked').length
 
-  const positive = blockedCount > 0
+  // Require >= 2 to avoid false positives
+  const positive = blockedCount >= 2
   return {
     positive,
-    reason: positive ? `${blockedCount}/${AD_PIXEL_URLS.length}_ad_pixels_blocked` : 'all_ad_pixels_loaded',
-    meta: Object.fromEntries(AD_PIXEL_URLS.map((u, i) => [new URL(u).hostname, results[i] ? 'blocked' : 'loaded']))
+    reason: positive
+      ? `${blockedCount}/${AD_IMG_URLS.length}_ad_imgs_blocked`
+      : `${blockedCount}_imgs_blocked_below_threshold`,
+    meta: Object.fromEntries(AD_IMG_URLS.map((u, i) => [new URL(u).hostname, results[i]]))
   }
 }
 
@@ -276,7 +299,10 @@ export const detectAdblock = async (
   const strongSignals = [domBait, fetchBait, scriptLoad, adNetworkFetch, imgBait]
   const positiveStrongSignals = strongSignals.filter((h) => h.positive).length
 
-  const detected = positiveStrongSignals >= 1 || weakWindow.value === true
+  // Require at least 2 independent strong signals to flag as detected.
+  // This avoids false positives from a single flaky network check.
+  // A real adblocker will trip multiple checks simultaneously.
+  const detected = positiveStrongSignals >= 2 || (positiveStrongSignals >= 1 && weakWindow.value === true)
 
   // Debug log — remove later if needed
   console.log('[adblock-detect]', {
