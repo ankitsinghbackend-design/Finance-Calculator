@@ -73,9 +73,9 @@ const calculateSalaryLocal = (inputs: {
 
   const adjustedYearlySalary = dailySalary * workDaysPerYear
   const adjustedMonthlySalary = adjustedYearlySalary / 12
-  const adjustedWeeklySalary = adjustedYearlySalary / WEEKS_PER_YEAR
-  const adjustedDailySalary = adjustedWeeklySalary / daysPerWeek
-  const adjustedHourlySalary = adjustedWeeklySalary / hoursPerWeek
+  const adjustedDailySalary = workDaysPerYear > 0 ? adjustedYearlySalary / workDaysPerYear : 0
+  const adjustedWeeklySalary = adjustedDailySalary * daysPerWeek
+  const adjustedHourlySalary = adjustedDailySalary * (daysPerWeek / hoursPerWeek)
 
   return {
     yearlySalary: round2(yearlySalary),
@@ -101,10 +101,10 @@ export default function SalaryCalculatorPage() {
     result ??
     calculateSalaryLocal({
       salaryAmount: Math.max(0, toNumber(form.salaryAmount)),
-      hoursPerWeek: Math.max(1, toNumber(form.hoursPerWeek)),
-      daysPerWeek: Math.max(1, toNumber(form.daysPerWeek)),
-      holidaysPerYear: Math.max(0, toNumber(form.holidaysPerYear)),
-      vacationDaysPerYear: Math.max(0, toNumber(form.vacationDaysPerYear))
+      hoursPerWeek: Math.min(168, Math.max(1, toNumber(form.hoursPerWeek))),
+      daysPerWeek: Math.min(7, Math.max(1, toNumber(form.daysPerWeek))),
+      holidaysPerYear: Math.min(365, Math.max(0, toNumber(form.holidaysPerYear))),
+      vacationDaysPerYear: Math.min(365, Math.max(0, toNumber(form.vacationDaysPerYear)))
     })
 
   const handleCalculate = async (event: FormEvent<HTMLFormElement>) => {
@@ -113,10 +113,10 @@ export default function SalaryCalculatorPage() {
 
     const inputs = {
       salaryAmount: Math.max(0, toNumber(form.salaryAmount)),
-      hoursPerWeek: Math.max(1, toNumber(form.hoursPerWeek)),
-      daysPerWeek: Math.max(1, toNumber(form.daysPerWeek)),
-      holidaysPerYear: Math.max(0, toNumber(form.holidaysPerYear)),
-      vacationDaysPerYear: Math.max(0, toNumber(form.vacationDaysPerYear))
+      hoursPerWeek: Math.min(168, Math.max(1, toNumber(form.hoursPerWeek))),
+      daysPerWeek: Math.min(7, Math.max(1, toNumber(form.daysPerWeek))),
+      holidaysPerYear: Math.min(365, Math.max(0, toNumber(form.holidaysPerYear))),
+      vacationDaysPerYear: Math.min(365, Math.max(0, toNumber(form.vacationDaysPerYear)))
     }
 
     try {
@@ -167,7 +167,7 @@ export default function SalaryCalculatorPage() {
                 />
               </div>
               <div>
-                <p className="text-[16px] text-sub font-medium">Hours</p>
+                <p className="text-[16px] text-sub font-medium">Salary period</p>
                 <input
                   type="text"
                   value="Year"
@@ -180,6 +180,7 @@ export default function SalaryCalculatorPage() {
                 <input
                   type="number"
                   min="1"
+                  max="168"
                   step="any"
                   value={form.hoursPerWeek}
                   onChange={(e) => setForm((prev) => ({ ...prev, hoursPerWeek: e.target.value }))}
@@ -192,6 +193,7 @@ export default function SalaryCalculatorPage() {
                 <input
                   type="number"
                   min="1"
+                  max="7"
                   step="any"
                   value={form.daysPerWeek}
                   onChange={(e) => setForm((prev) => ({ ...prev, daysPerWeek: e.target.value }))}
@@ -204,6 +206,7 @@ export default function SalaryCalculatorPage() {
                 <input
                   type="number"
                   min="0"
+                  max="365"
                   step="any"
                   value={form.holidaysPerYear}
                   onChange={(e) => setForm((prev) => ({ ...prev, holidaysPerYear: e.target.value }))}
@@ -216,6 +219,7 @@ export default function SalaryCalculatorPage() {
                 <input
                   type="number"
                   min="0"
+                  max="365"
                   step="any"
                   value={form.vacationDaysPerYear}
                   onChange={(e) => setForm((prev) => ({ ...prev, vacationDaysPerYear: e.target.value }))}

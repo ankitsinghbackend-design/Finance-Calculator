@@ -2,11 +2,37 @@ import { z } from 'zod'
 
 export const schema = z.object({
   salaryAmount: z.number().nonnegative(),
-  hoursPerWeek: z.number().positive().default(40),
-  daysPerWeek: z.number().positive().default(5),
-  holidaysPerYear: z.number().min(0).default(0),
-  vacationDaysPerYear: z.number().min(0).default(0)
-})
+
+  hoursPerWeek: z
+    .number()
+    .min(1)
+    .max(168)
+    .default(40),
+
+  daysPerWeek: z
+    .number()
+    .min(1)
+    .max(7) 
+    .default(5),
+
+  holidaysPerYear: z
+    .number()
+    .min(0)
+    .max(365)
+    .default(0),
+
+  vacationDaysPerYear: z
+    .number()
+    .min(0)
+    .max(365)
+    .default(0)
+}).refine(
+  (data) => data.holidaysPerYear + data.vacationDaysPerYear <= data.daysPerWeek * 52,
+  {
+    message: 'Total days off cannot exceed working days in a year',
+    path: ['vacationDaysPerYear']
+  }
+)
 
 export type SalaryInputs = z.infer<typeof schema>
 
@@ -47,9 +73,9 @@ export function calculate(inputs: SalaryInputs): SalaryResults {
 
   const adjustedYearlySalary = dailySalary * workDaysPerYear
   const adjustedMonthlySalary = adjustedYearlySalary / 12
-  const adjustedWeeklySalary = adjustedYearlySalary / WEEKS_PER_YEAR
-  const adjustedDailySalary = adjustedWeeklySalary / daysPerWeek
-  const adjustedHourlySalary = adjustedWeeklySalary / hoursPerWeek
+  const adjustedDailySalary = workDaysPerYear > 0 ? adjustedYearlySalary / workDaysPerYear : 0
+  const adjustedWeeklySalary = adjustedDailySalary * daysPerWeek
+  const adjustedHourlySalary = adjustedDailySalary * (daysPerWeek / hoursPerWeek)
 
   return {
     yearlySalary: round2(yearlySalary),
