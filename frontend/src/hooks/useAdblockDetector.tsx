@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { AdblockDetectionDetails, detectAdblock } from '../utils/adblockDetect'
 
 export interface UseAdblockDetectorConfig {
@@ -45,29 +45,19 @@ export const useAdblockDetector = (config: UseAdblockDetectorConfig = {}): UseAd
   const [loading, setLoading] = useState(true)
   const [details, setDetails] = useState<AdblockDetectionDetails | null>(null)
   const [suppressedUntil, setSuppressedUntil] = useState<number | null>(null)
-  const mountedRef = useRef(true)
 
-  useEffect(() => {
-    return () => {
-      mountedRef.current = false
-    }
-  }, [])
-
-  const isSuppressed = useMemo(
-    () => (suppressedUntil ? Date.now() < suppressedUntil : false),
-    [suppressedUntil]
-  )
+  const isSuppressed = suppressedUntil ? Date.now() < suppressedUntil : false
 
   const executeDetection = useCallback(async (): Promise<boolean> => {
     setLoading(true)
 
     const result = await detectAdblock({ baitUrl: baitPath })
-    if (!mountedRef.current) {
-      return result.detected
-    }
 
     setDetails(result.details)
-    setDetected(!isSuppressed && result.detected)
+
+    const shouldShow = !isSuppressed && result.detected
+    console.log('[adblock-hook] setting detected =', shouldShow)
+    setDetected(shouldShow)
     setLoading(false)
 
     sendLog(logEndpoint, {
@@ -80,11 +70,15 @@ export const useAdblockDetector = (config: UseAdblockDetectorConfig = {}): UseAd
     })
 
     return result.detected
-  }, [baitPath, isSuppressed, locationKey, logEndpoint])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [baitPath, logEndpoint, locationKey])
 
+  // Run detection on mount. The empty dep array [] ensures it runs exactly
+  // once even with StrictMode (cleanup is a no-op, remount re-runs).
   useEffect(() => {
     void executeDetection()
-  }, [executeDetection])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const retry = useCallback(async () => {
     const isDetected = await executeDetection()

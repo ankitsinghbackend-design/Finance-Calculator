@@ -11,6 +11,8 @@ export default function CalculatorLayout({ children }: PropsWithChildren) {
     location: 'finance-calculators'
   })
 
+  console.log('[CalculatorLayout] detected =', detected, ', loading =', loading)
+
   return (
     <>
       {children}

@@ -12,6 +12,8 @@ export interface AdblockDetectionDetails {
   domBait: HeuristicResult
   fetchBait: HeuristicResult
   scriptLoad: HeuristicResult
+  adNetworkFetch: HeuristicResult
+  imgBait: HeuristicResult
   weakWindow: {
     value: boolean | null
     reason: string
@@ -32,71 +34,101 @@ declare global {
   }
 }
 
-const createDomBaitCheck = (): HeuristicResult => {
-  const bait = document.createElement('div')
-  bait.className = 'ads adsbox ad-banner ad-bait pub_300x250 text-ad sponsored-links'
-  bait.setAttribute('aria-hidden', 'true')
-  bait.style.position = 'absolute'
-  bait.style.left = '-9999px'
-  bait.style.width = '10px'
-  bait.style.height = '10px'
-  bait.style.pointerEvents = 'none'
+/* ------------------------------------------------------------------ */
+/*  1. DOM bait – inject multiple ad-like elements, check survival    */
+/* ------------------------------------------------------------------ */
+const createDomBaitCheck = async (): Promise<HeuristicResult> => {
+  // Create several bait elements with different ad-related patterns
+  const baits: HTMLElement[] = []
 
-  document.body.appendChild(bait)
+  // Bait 1 – classic adsbox / banner-ad
+  const b1 = document.createElement('div')
+  b1.className = 'adsbox ad-banner banner_ad pub_300x250'
+  b1.style.cssText = 'position:absolute;top:0;left:0;width:1px;height:1px;overflow:hidden;pointer-events:none;'
+  baits.push(b1)
 
-  const style = window.getComputedStyle(bait)
-  const opacity = style.opacity
-  const opacityHidden = opacity === '0' || opacity === '0.0'
-  const hiddenByStyle =
-    style.display === 'none' ||
-    style.visibility === 'hidden' ||
-    opacityHidden
+  // Bait 2 – Google AdSense-like element
+  const b2 = document.createElement('ins')
+  b2.className = 'adsbygoogle'
+  b2.setAttribute('data-ad-client', 'ca-pub-0000000000000000')
+  b2.setAttribute('data-ad-slot', '0000000000')
+  b2.style.cssText = 'display:inline-block;width:1px;height:1px;position:absolute;top:0;left:0;'
+  baits.push(b2)
 
-  const collapsed = bait.offsetParent === null || bait.offsetHeight === 0 || bait.offsetWidth === 0
-  const removed = !document.body.contains(bait)
-  const positive = hiddenByStyle || collapsed || removed
+  // Bait 3 – id-based bait (many filter lists target ad IDs)
+  const b3 = document.createElement('div')
+  b3.id = 'ad-container'
+  b3.className = 'ad-wrapper textAd sponsored-link'
+  b3.style.cssText = 'position:absolute;top:0;left:0;width:1px;height:1px;overflow:hidden;pointer-events:none;'
+  b3.innerHTML = '<span class="ad-text">sponsored</span>'
+  baits.push(b3)
 
-  bait.remove()
+  // Bait 4 – common ad-slot div
+  const b4 = document.createElement('div')
+  b4.id = 'google_ads_frame'
+  b4.className = 'ad-slot ad-leaderboard'
+  b4.style.cssText = 'position:absolute;top:0;left:0;width:728px;height:90px;overflow:hidden;pointer-events:none;'
+  baits.push(b4)
 
+  for (const el of baits) document.body.appendChild(el)
+
+  // Give cosmetic filters time to apply (some are async)
+  await new Promise((r) => setTimeout(r, 200))
+
+  let blockedCount = 0
+  const meta: Record<string, unknown> = {}
+
+  for (let i = 0; i < baits.length; i++) {
+    const el = baits[i]
+    const removed = !document.body.contains(el)
+    let hidden = false
+    let collapsed = false
+
+    if (!removed) {
+      const style = window.getComputedStyle(el)
+      hidden =
+        style.display === 'none' ||
+        style.visibility === 'hidden' ||
+        parseFloat(style.opacity) === 0
+      collapsed = el.offsetHeight === 0 && el.offsetWidth === 0
+    }
+
+    const blocked = removed || hidden || collapsed
+    if (blocked) blockedCount++
+    meta[`bait${i}`] = { removed, hidden, collapsed, blocked }
+    try { el.remove() } catch { /* already gone */ }
+  }
+
+  const positive = blockedCount > 0
   return {
     positive,
-    reason: positive ? 'bait_hidden_or_collapsed' : 'bait_visible',
-    meta: {
-      hiddenByStyle,
-      collapsed,
-      removed
-    }
+    reason: positive ? `${blockedCount}/${baits.length}_baits_blocked` : 'all_baits_visible',
+    meta
   }
 }
 
+/* ------------------------------------------------------------------ */
+/*  2. Fetch bait – try fetching a first-party ad-like JS file        */
+/* ------------------------------------------------------------------ */
 const runFetchCheck = async (baitUrl: string): Promise<HeuristicResult> => {
   try {
     const response = await fetch(`${baitUrl}?_=${Date.now()}`, {
-      cache: 'no-store',
-      mode: 'no-cors'
+      cache: 'no-store'
     })
-
-    const blocked = typeof response?.ok === 'boolean' ? !response.ok : false
-
+    const blocked = !response.ok
     return {
       positive: blocked,
-      reason: blocked ? 'fetch_not_ok_or_opaque_blocked' : 'fetch_success',
-      meta: {
-        ok: (response as Response).ok,
-        type: (response as Response).type
-      }
+      reason: blocked ? 'fetch_blocked' : 'fetch_success',
+      meta: { ok: response.ok, status: response.status }
     }
-  } catch (error) {
-    return {
-      positive: true,
-      reason: 'fetch_failed',
-      meta: {
-        message: error instanceof Error ? error.message : 'unknown_error'
-      }
-    }
+  } catch {
+    return { positive: true, reason: 'fetch_failed' }
   }
 }
 
+/* ------------------------------------------------------------------ */
+/*  3. Script-tag load – inject a <script> with an ad-like URL        */
+/* ------------------------------------------------------------------ */
 const runScriptLoadCheck = async (scriptUrl: string): Promise<HeuristicResult> => {
   return new Promise((resolve) => {
     const script = document.createElement('script')
@@ -104,84 +136,159 @@ const runScriptLoadCheck = async (scriptUrl: string): Promise<HeuristicResult> =
     script.async = true
 
     let settled = false
-    const cleanup = () => {
-      script.remove()
-    }
-
     const settle = (result: HeuristicResult) => {
-      if (settled) {
-        return
-      }
-
+      if (settled) return
       settled = true
       window.clearTimeout(timeout)
-      cleanup()
+      try { script.remove() } catch { /* ok */ }
       resolve(result)
     }
 
     const timeout = window.setTimeout(() => {
-      settle({
-        positive: true,
-        reason: 'script_timeout'
-      })
-    }, 1200)
+      settle({ positive: true, reason: 'script_timeout' })
+    }, 2000)
 
-    script.onerror = () => {
-      settle({
-        positive: true,
-        reason: 'script_error'
-      })
-    }
-
-    script.onload = () => {
-      settle({
-        positive: false,
-        reason: 'script_loaded'
-      })
-    }
+    script.onerror = () => settle({ positive: true, reason: 'script_error' })
+    script.onload = () => settle({ positive: false, reason: 'script_loaded' })
 
     document.head.appendChild(script)
   })
 }
 
-const runWeakWindowChecks = (): { value: boolean | null; reason: string } => {
-  if (window.isAdBlockActive === true || window.canRunAds === false) {
-    return { value: true, reason: 'explicit_window_signal' }
-  }
+/* ------------------------------------------------------------------ */
+/*  4. Ad-network fetch – try multiple known ad domains               */
+/*     Any real adblocker will block at least one of these            */
+/* ------------------------------------------------------------------ */
+const AD_NETWORK_URLS = [
+  'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',
+  'https://c.amazon-adsystem.com/aax2/apstag.js',
+  'https://static.ads-twitter.com/uwt.js',
+  'https://connect.facebook.net/signals/config/000000000000000',
+  'https://securepubads.g.doubleclick.net/tag/js/gpt.js',
+]
 
-  if (window.isAdBlockActive === false || window.canRunAds === true) {
+const runAdNetworkFetchCheck = async (): Promise<HeuristicResult> => {
+  const results = await Promise.allSettled(
+    AD_NETWORK_URLS.map((url) =>
+      fetch(url, { mode: 'no-cors', cache: 'no-store' })
+    )
+  )
+
+  let blockedCount = 0
+  const meta: Record<string, string> = {}
+
+  results.forEach((r, i) => {
+    const domain = new URL(AD_NETWORK_URLS[i]).hostname
+    if (r.status === 'rejected') {
+      blockedCount++
+      meta[domain] = 'blocked'
+    } else {
+      meta[domain] = 'accessible'
+    }
+  })
+
+  const positive = blockedCount > 0
+  return {
+    positive,
+    reason: positive ? `${blockedCount}/${AD_NETWORK_URLS.length}_ad_domains_blocked` : 'all_ad_domains_accessible',
+    meta
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  5. Image bait – use <img> pointing to known ad tracking pixels    */
+/*     Adblockers often block ad-related image requests               */
+/* ------------------------------------------------------------------ */
+const AD_PIXEL_URLS = [
+  'https://www.googleadservices.com/pagead/conversion/1/?label=test',
+  'https://ad.doubleclick.net/ddm/trackimp/N1/ci.gif',
+  'https://pixel.adsafeprotected.com/rfw/st/0/img.gif',
+]
+
+const testImageLoad = (url: string): Promise<boolean> => {
+  return new Promise((resolve) => {
+    const img = new Image()
+    img.style.display = 'none'
+    const timer = setTimeout(() => resolve(true), 2000)
+
+    img.onload = () => { clearTimeout(timer); resolve(false) }
+    img.onerror = () => { clearTimeout(timer); resolve(true) }
+    img.src = `${url}&_=${Date.now()}`
+  })
+}
+
+const runImgBaitCheck = async (): Promise<HeuristicResult> => {
+  const results = await Promise.all(AD_PIXEL_URLS.map(testImageLoad))
+  const blockedCount = results.filter(Boolean).length
+
+  const positive = blockedCount > 0
+  return {
+    positive,
+    reason: positive ? `${blockedCount}/${AD_PIXEL_URLS.length}_ad_pixels_blocked` : 'all_ad_pixels_loaded',
+    meta: Object.fromEntries(AD_PIXEL_URLS.map((u, i) => [new URL(u).hostname, results[i] ? 'blocked' : 'loaded']))
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  6. Window-variable check (weak signal)                            */
+/* ------------------------------------------------------------------ */
+const runWeakWindowChecks = (): { value: boolean | null; reason: string } => {
+  if (window.isAdBlockActive === true) {
+    return { value: true, reason: 'explicit_adblock_active' }
+  }
+  if (window.canRunAds === false) {
+    return { value: true, reason: 'canRunAds_false' }
+  }
+  if (window.__AD_PREBID_BAIT__ === undefined) {
+    return { value: true, reason: 'prebid_not_loaded' }
+  }
+  if (window.canRunAds === true || window.__AD_PREBID_BAIT__ === 'loaded') {
     return { value: false, reason: 'window_signal_clean' }
   }
-
   return { value: null, reason: 'window_signal_unavailable' }
 }
 
+/* ------------------------------------------------------------------ */
+/*  Helpers                                                           */
+/* ------------------------------------------------------------------ */
 const toScriptProbePath = (baitUrl: string): string => {
-  if (baitUrl.includes('ads-bait-')) {
-    return baitUrl.replace('ads-bait-', 'ads-prebid-')
-  }
-
-  if (baitUrl.endsWith('.js')) {
-    return baitUrl.replace('.js', '-prebid.js')
-  }
-
+  if (baitUrl.includes('ads-bait-')) return baitUrl.replace('ads-bait-', 'ads-prebid-')
+  if (baitUrl.endsWith('.js')) return baitUrl.replace('.js', '-prebid.js')
   return '/ads-prebid.js'
 }
 
-export const detectAdblock = async ({ baitUrl = '/ads-bait-a9f3d1.js' }: AdblockDetectionOptions = {}): Promise<AdblockDetectionResult> => {
-  const domBait = createDomBaitCheck()
-  const [fetchBait, scriptLoad] = await Promise.all([
+/* ------------------------------------------------------------------ */
+/*  Main detection entry point                                        */
+/* ------------------------------------------------------------------ */
+export const detectAdblock = async (
+  { baitUrl = '/ads-bait-a9f3d1.js' }: AdblockDetectionOptions = {}
+): Promise<AdblockDetectionResult> => {
+  const [domBait, fetchBait, scriptLoad, adNetworkFetch, imgBait] = await Promise.all([
+    createDomBaitCheck(),
     runFetchCheck(baitUrl),
-    runScriptLoadCheck(toScriptProbePath(baitUrl))
+    runScriptLoadCheck(toScriptProbePath(baitUrl)),
+    runAdNetworkFetchCheck(),
+    runImgBaitCheck()
   ])
+
   const weakWindow = runWeakWindowChecks()
 
-  const positiveStrongSignals = [domBait, fetchBait, scriptLoad].filter((h) => h.positive).length
+  const strongSignals = [domBait, fetchBait, scriptLoad, adNetworkFetch, imgBait]
+  const positiveStrongSignals = strongSignals.filter((h) => h.positive).length
 
-  const hasMultipleStrongSignals = positiveStrongSignals >= 2
-const hasOneStrongAndWeak = positiveStrongSignals === 1 && weakWindow.value === true
+  const detected = positiveStrongSignals >= 1 || weakWindow.value === true
 
-const detected = hasMultipleStrongSignals || hasOneStrongAndWeak
+  // Debug log — remove later if needed
+  console.log('[adblock-detect]', {
+    detected,
+    positiveStrongSignals,
+    domBait: domBait.reason,
+    fetchBait: fetchBait.reason,
+    scriptLoad: scriptLoad.reason,
+    adNetworkFetch: adNetworkFetch.reason,
+    imgBait: imgBait.reason,
+    weakWindow: weakWindow.reason
+  })
 
   return {
     detected,
@@ -189,6 +296,8 @@ const detected = hasMultipleStrongSignals || hasOneStrongAndWeak
       domBait,
       fetchBait,
       scriptLoad,
+      adNetworkFetch,
+      imgBait,
       weakWindow,
       positiveStrongSignals
     }

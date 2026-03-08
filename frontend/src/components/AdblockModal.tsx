@@ -10,99 +10,135 @@ export interface AdblockModalProps {
 const FOCUS_SELECTOR =
   'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
 
+/**
+ * IMPORTANT – every class name, ID, and visible string in this component
+ * is intentionally kept generic.  Ad-blockers ship cosmetic-filter lists
+ * that hide elements whose attributes or text content match patterns like
+ * "adblock", "ad-blocker", "anti-adblock", "ad blocker detected", etc.
+ *
+ * We therefore:
+ *  1. Use only inline styles (no Tailwind classes the filter can match).
+ *  2. Avoid the words "ad block" in IDs, classes, and visible copy.
+ *  3. Use the maximum z-index so no other layer can obscure the overlay.
+ */
 export default function AdblockModal({ open, loading = false, onRetry }: AdblockModalProps) {
   const navigate = useNavigate()
-  const containerRef = useRef<HTMLDivElement | null>(null)
+  const panelRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    if (!open || !containerRef.current) {
-      return
-    }
+    if (!open || !panelRef.current) return
 
-    const container = containerRef.current
-    const focusable = Array.from(container.querySelectorAll<HTMLElement>(FOCUS_SELECTOR))
+    const panel = panelRef.current
+    const focusable = Array.from(panel.querySelectorAll<HTMLElement>(FOCUS_SELECTOR))
     focusable[0]?.focus()
 
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        event.preventDefault()
-        return
-      }
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') { e.preventDefault(); return }
+      if (e.key !== 'Tab') return
 
-      if (event.key !== 'Tab') {
-        return
-      }
-
-      const elements = Array.from(container.querySelectorAll<HTMLElement>(FOCUS_SELECTOR))
-      if (elements.length === 0) {
-        return
-      }
-
-      const first = elements[0]
-      const last = elements[elements.length - 1]
+      const els = Array.from(panel.querySelectorAll<HTMLElement>(FOCUS_SELECTOR))
+      if (!els.length) return
+      const first = els[0], last = els[els.length - 1]
       const active = document.activeElement as HTMLElement | null
 
-      if (!event.shiftKey && active === last) {
-        event.preventDefault()
-        first.focus()
-      }
-
-      if (event.shiftKey && active === first) {
-        event.preventDefault()
-        last.focus()
-      }
+      if (!e.shiftKey && active === last)  { e.preventDefault(); first.focus() }
+      if (e.shiftKey  && active === first) { e.preventDefault(); last.focus()  }
     }
 
     document.addEventListener('keydown', onKeyDown)
     return () => document.removeEventListener('keydown', onKeyDown)
   }, [open])
 
-  if (!open) {
-    return null
-  }
+  if (!open) return null
 
   return (
-    <div className="fixed inset-0 z-[100] bg-black/70 flex items-center justify-center px-4" aria-hidden={false}>
+    <div
+      data-fc-overlay=""
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 2147483647,
+        backgroundColor: 'rgba(0,0,0,0.72)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '1rem',
+      }}
+    >
       <div
-        ref={containerRef}
+        ref={panelRef}
         role="dialog"
         aria-modal="true"
-        aria-labelledby="adblock-modal-title"
-        aria-describedby="adblock-modal-desc"
-        className="w-full max-w-xl rounded-xl bg-white p-6 shadow-xl outline-none"
+        aria-labelledby="fc-notice-title"
+        aria-describedby="fc-notice-desc"
+        style={{
+          width: '100%',
+          maxWidth: '540px',
+          borderRadius: '12px',
+          backgroundColor: '#fff',
+          padding: '24px',
+          boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
+          outline: 'none',
+          fontFamily: 'system-ui, -apple-system, sans-serif',
+        }}
       >
-        <h2 id="adblock-modal-title" className="text-2xl font-semibold text-gray-900">
-          Ad blocker detected
+        <h2
+          id="fc-notice-title"
+          style={{ margin: 0, fontSize: '1.375rem', fontWeight: 600, color: '#111827' }}
+        >
+          Please support this free tool
         </h2>
-        <p id="adblock-modal-desc" className="mt-3 text-sm leading-6 text-gray-700">
-          To keep these financial tools free, please whitelist this site in your ad blocker and then retry.
+
+        <p
+          id="fc-notice-desc"
+          style={{ marginTop: '12px', fontSize: '0.875rem', lineHeight: '1.6', color: '#374151' }}
+        >
+          It looks like a browser extension is preventing some resources
+          from loading. To keep these financial calculators free for everyone,
+          please whitelist this site and then click <strong>Retry</strong>.
         </p>
 
-        <ol className="mt-4 list-decimal pl-5 text-sm text-gray-700 space-y-1">
-          <li>Open your ad blocker extension.</li>
-          <li>Choose “Pause on this site” or “Allow ads on this site”.</li>
-          <li>Refresh permissions and click Retry.</li>
+        <ol style={{ marginTop: '14px', paddingLeft: '20px', fontSize: '0.875rem', color: '#374151', lineHeight: '1.8' }}>
+          <li>Open your browser extension settings.</li>
+          <li>Choose &ldquo;Pause on this site&rdquo; or &ldquo;Allow&rdquo;.</li>
+          <li>Click <strong>Retry</strong> below.</li>
         </ol>
 
-        <div className="mt-6 flex flex-wrap gap-3">
+        <div style={{ marginTop: '20px', display: 'flex', flexWrap: 'wrap', gap: '10px', alignItems: 'center' }}>
           <button
             type="button"
             onClick={() => void onRetry()}
             disabled={loading}
-            className="rounded-md bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700 disabled:opacity-50"
+            style={{
+              borderRadius: '6px',
+              backgroundColor: '#16a34a',
+              padding: '8px 18px',
+              color: '#fff',
+              fontWeight: 500,
+              fontSize: '0.875rem',
+              border: 'none',
+              cursor: loading ? 'not-allowed' : 'pointer',
+              opacity: loading ? 0.55 : 1,
+            }}
           >
-            {loading ? 'Checking…' : 'Retry'}
+            {loading ? 'Checking\u2026' : 'Retry'}
           </button>
           <button
             type="button"
             onClick={() => navigate('/help/disable-adblock')}
-            className="rounded-md border border-gray-300 px-4 py-2 text-gray-800 hover:bg-gray-50"
+            style={{
+              borderRadius: '6px',
+              border: '1px solid #d1d5db',
+              backgroundColor: '#fff',
+              padding: '8px 18px',
+              color: '#1f2937',
+              fontWeight: 500,
+              fontSize: '0.875rem',
+              cursor: 'pointer',
+            }}
           >
             Help
           </button>
-          <a href="/subscribe" className="text-sm text-emerald-700 underline underline-offset-2 self-center">
-            Prefer ad-free? View subscription options.
-          </a>
         </div>
       </div>
     </div>
