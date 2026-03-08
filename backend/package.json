@@ -1,0 +1,8 @@
+{
+  "name": "finance-calculator-backend",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix .. run backend:dev",
+    "start": "npm --prefix .. run backend:start"
+  }
+}
