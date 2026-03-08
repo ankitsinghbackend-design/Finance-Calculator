@@ -32,14 +32,15 @@ const isPublicIp = (ip: string): boolean => {
 }
 
 export const getLocationFromIp = async (ip?: string): Promise<CalculatorLogLocation> => {
-  if (!ip || !isPublicIp(ip)) {
-    return UNKNOWN_LOCATION
-  }
-
   try {
-    const response = await axios.get(`https://ipapi.co/${encodeURIComponent(ip)}/json/`, {
-      timeout: 1500
-    })
+    // If the IP is public, look it up directly; otherwise call without an IP
+    // so ipapi resolves location from the server's outgoing public IP.
+    const url =
+      ip && isPublicIp(ip)
+        ? `https://ipapi.co/${encodeURIComponent(ip)}/json/`
+        : 'https://ipapi.co/json/'
+
+    const response = await axios.get(url, { timeout: 3000 })
 
     const data = response.data as {
       country_name?: string

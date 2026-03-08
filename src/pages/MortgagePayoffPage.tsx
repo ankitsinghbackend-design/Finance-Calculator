@@ -1,5 +1,6 @@
 import React, { FormEvent, useMemo, useState } from 'react'
 import axios from 'axios'
+import { apiUrl } from '../config/api'
 
 type RepaymentOption = 'original' | 'extra' | 'biweekly' | 'normal'
 
@@ -143,10 +144,10 @@ export default function MortgagePayoffPage() {
       setIsCalculating(true)
 
       const [baseResponse, payoffResponse] = await Promise.all([
-        axios.post<{ results: MortgagePayoffResult }>('/api/calculators/mortgage-payoff', {
+        axios.post<{ results: MortgagePayoffResult }>(apiUrl('/api/calculators/mortgage-payoff'), {
           inputs: payloadBase
         }),
-        axios.post<{ results: MortgagePayoffResult }>('/api/calculators/mortgage-payoff', {
+        axios.post<{ results: MortgagePayoffResult }>(apiUrl('/api/calculators/mortgage-payoff'), {
           inputs: payloadPayoff
         })
       ])

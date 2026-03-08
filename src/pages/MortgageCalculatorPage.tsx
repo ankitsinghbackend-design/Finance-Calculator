@@ -1,5 +1,6 @@
 import React, { FormEvent, useMemo, useState } from 'react'
 import axios from 'axios'
+import { apiUrl } from '../config/api'
 
 type MortgageFormState = {
   homePrice: string
@@ -142,7 +143,7 @@ export default function MortgageCalculatorPage() {
     try {
       setIsCalculating(true)
 
-      const response = await axios.post<{ results: MortgageResult }>('/api/calculators/mortgage', {
+      const response = await axios.post<{ results: MortgageResult }>(apiUrl('/api/calculators/mortgage'), {
         inputs
       })
 

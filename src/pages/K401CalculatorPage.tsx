@@ -1,5 +1,6 @@
 import React, { FormEvent, useState } from 'react'
 import axios from 'axios'
+import { apiUrl } from '../config/api'
 
 type K401FormState = {
   currentAge: string
@@ -160,7 +161,7 @@ export default function K401CalculatorPage() {
 
     try {
       setIsCalculating(true)
-      const response = await axios.post<{ results: K401Result }>('/api/calculators/401k', { inputs })
+      const response = await axios.post<{ results: K401Result }>(apiUrl('/api/calculators/401k'), { inputs })
       setResult(response.data.results)
     } catch {
       setResult(calculate401kLocal(inputs))

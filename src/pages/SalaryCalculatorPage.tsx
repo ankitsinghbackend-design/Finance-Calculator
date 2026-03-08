@@ -1,5 +1,6 @@
 import React, { FormEvent, useState } from 'react'
 import axios from 'axios'
+import { apiUrl } from '../config/api'
 
 type SalaryFormState = {
   salaryAmount: string
@@ -120,7 +121,7 @@ export default function SalaryCalculatorPage() {
 
     try {
       setIsCalculating(true)
-      const response = await axios.post<{ results: SalaryResult }>('/api/calculators/salary', {
+      const response = await axios.post<{ results: SalaryResult }>(apiUrl('/api/calculators/salary'), {
         inputs
       })
       setResult(response.data.results)
