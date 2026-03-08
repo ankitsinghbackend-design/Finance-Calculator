@@ -321,7 +321,9 @@ export default function Home(){
               <div key={idx} className="space-y-3">
                 {col.map((item) => (
                   <p key={item.calculatorId}>
-                    <Link to={`/calculators/${item.calculatorId}`}>{item.label}</Link>
+                    <Link to={item.calculatorId === 'amortization' ? '/finance/amortization' : `/calculators/${item.calculatorId}`}>
+                      {item.label}
+                    </Link>
                   </p>
                 ))}
               </div>
