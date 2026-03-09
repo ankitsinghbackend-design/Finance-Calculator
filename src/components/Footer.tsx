@@ -27,7 +27,7 @@ export default function Footer(){
           <ul className="mt-3 text-sub space-y-1 text-sm">
             <li><Link to="/">Home</Link></li>
             <li><Link to="/finance">Financial Calculators</Link></li>
-            <li><a href="#">Blogs</a></li>
+            <li><Link to="/blogs">Blogs</Link></li>
             <li><a href="#">About Us</a></li>
           </ul>
         </div>

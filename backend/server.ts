@@ -1,11 +1,15 @@
 import path from 'node:path'
 import dotenv from 'dotenv'
-import mongoose from 'mongoose'
-import { createApp } from './app'
-
 dotenv.config({ path: path.resolve(process.cwd(), 'backend/.env') })
 
+import mongoose from 'mongoose'
+import { createApp } from './app'
+import uploadRoutes from "./routes/imageUpload"
+import blogRoutes from "./routes/blog.routes"
+
 const app = createApp()
+app.use('/api/upload', uploadRoutes)
+app.use('/api/blogs', blogRoutes)
 const port = Number(process.env.PORT || 5000)
 const mongoUri = process.env.MONGODB_URI
 

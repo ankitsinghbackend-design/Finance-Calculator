@@ -4,5 +4,10 @@
   "scripts": {
     "dev": "npm --prefix .. run backend:dev",
     "start": "npm --prefix .. run backend:start"
+  },
+  "dependencies": {
+    "cloudinary": "^1.41.3",
+    "multer": "^2.1.1",
+    "multer-storage-cloudinary": "^4.0.0"
   }
 }

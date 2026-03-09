@@ -1,0 +1,145 @@
+import React, { useEffect, useState } from 'react'
+import { useParams, Link } from 'react-router-dom'
+import axios from 'axios'
+import DOMPurify from 'dompurify'
+import { apiUrl } from '../config/api'
+
+interface Blog {
+  _id: string
+  title: string
+  slug: string
+  excerpt: string
+  content: string
+  coverImage: string
+  tags: string[]
+  keywords: string[]
+  author: string
+  isPublished: boolean
+  createdAt: string
+  updatedAt: string
+}
+
+function formatDate(dateStr: string): string {
+  return new Date(dateStr).toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric'
+  })
+}
+
+export default function BlogDetailPage() {
+  const { slug } = useParams<{ slug: string }>()
+  const [blog, setBlog] = useState<Blog | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    async function fetchBlog() {
+      if (!slug) return
+      try {
+        const { data } = await axios.get<Blog>(apiUrl(`/api/blogs/${slug}`))
+        setBlog(data)
+      } catch {
+        setError('Blog post not found')
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchBlog()
+  }, [slug])
+
+  if (loading) {
+    return (
+      <div className="container mx-auto px-6 py-20 text-center">
+        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-heading border-r-transparent" />
+        <p className="mt-4 text-sub">Loading...</p>
+      </div>
+    )
+  }
+
+  if (error || !blog) {
+    return (
+      <div className="container mx-auto px-6 py-20 text-center">
+        <h1 className="text-2xl font-bold text-heading mb-4">Blog Not Found</h1>
+        <p className="text-sub mb-6">{error || 'The blog post you are looking for does not exist.'}</p>
+        <Link to="/blogs" className="text-primary font-medium hover:underline">
+          ← Back to all blogs
+        </Link>
+      </div>
+    )
+  }
+
+  return (
+    <article className="container mx-auto px-6 py-10 max-w-4xl">
+      {/* Back Link */}
+      <Link to="/blogs" className="inline-flex items-center text-sub hover:text-heading transition-colors mb-8 text-sm">
+        ← Back to all blogs
+      </Link>
+
+      {/* Tags */}
+      {blog.tags.length > 0 && (
+        <div className="flex flex-wrap gap-2 mb-4">
+          {blog.tags.map(tag => (
+            <span
+              key={tag}
+              className="bg-[#ebf2fe] text-heading text-xs font-semibold uppercase px-3 py-1.5 rounded-md tracking-wide"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
+
+      {/* Title */}
+      <h1 className="text-heading text-3xl md:text-4xl font-bold font-figtree leading-tight mb-4">
+        {blog.title}
+      </h1>
+
+      {/* Meta */}
+      <div className="flex items-center gap-4 text-sub text-sm mb-8">
+        <span>By {blog.author}</span>
+        <span>•</span>
+        <time dateTime={blog.createdAt}>{formatDate(blog.createdAt)}</time>
+      </div>
+
+      {/* Cover Image */}
+      {blog.coverImage && (
+        <div className="w-full rounded-xl overflow-hidden mb-10">
+          <img
+            src={blog.coverImage}
+            alt={blog.title}
+            className="w-full max-h-[450px] object-cover"
+          />
+        </div>
+      )}
+
+      {/* Blog Content */}
+      <div
+        className="blog-content max-w-none"
+        dangerouslySetInnerHTML={{
+          __html: DOMPurify.sanitize(blog.content)
+        }}
+      />
+
+      {/* Keywords (for SEO visibility) */}
+      {blog.keywords.length > 0 && (
+        <div className="mt-12 pt-8 border-t border-cardBorder">
+          <p className="text-xs text-sub">
+            <span className="font-medium">Keywords:</span>{' '}
+            {blog.keywords.join(', ')}
+          </p>
+        </div>
+      )}
+
+      {/* Back Link Bottom */}
+      <div className="mt-12 pt-8 border-t border-cardBorder">
+        <Link
+          to="/blogs"
+          className="inline-block bg-heading text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors"
+        >
+          ← Back to All Blogs
+        </Link>
+      </div>
+    </article>
+  )
+}
