@@ -1,7 +1,9 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 import { calculate, schema, type AutoLoanResults } from '../../backend/calculations/autoLoan'
 import { landingCalculatorColumns } from '../config/calculatorConfig'
+import { apiUrl } from '../config/api'
 
 type AutoLoanFormState = {
   price: string
@@ -164,6 +166,7 @@ export default function Home(){
   })
   const [autoLoanResults, setAutoLoanResults] = useState<AutoLoanResults | null>(null)
   const [calculateError, setCalculateError] = useState<string | null>(null)
+  const [isCalculatingAutoLoan, setIsCalculatingAutoLoan] = useState(false)
 
   const upfrontPayment =
     toNumber(autoLoanInputs.downPayment) +
@@ -178,7 +181,7 @@ export default function Home(){
     }))
   }
 
-  const handleAutoLoanSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleAutoLoanSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setCalculateError(null)
 
@@ -201,8 +204,19 @@ export default function Home(){
       return
     }
 
-    const results = calculate(parsed.data)
-    setAutoLoanResults(results)
+    try {
+      setIsCalculatingAutoLoan(true)
+      const response = await axios.post<{ results: AutoLoanResults }>(apiUrl('/api/calculators/auto-loan'), {
+        inputs: parsed.data
+      })
+      setAutoLoanResults(response.data.results)
+    } catch {
+      const results = calculate(parsed.data)
+      setAutoLoanResults(results)
+      setCalculateError('Unable to reach server. Showing local calculation results.')
+    } finally {
+      setIsCalculatingAutoLoan(false)
+    }
   }
 
   return (
@@ -262,9 +276,10 @@ export default function Home(){
                 </div>
                 <button
                   type="submit"
+                  disabled={isCalculatingAutoLoan}
                   className="mt-7 w-full h-[46px] rounded-lg bg-primary text-white text-[30px] font-medium shadow-card"
                 >
-                  Calculate
+                  {isCalculatingAutoLoan ? 'Calculating...' : 'Calculate'}
                 </button>
                 {calculateError ? (
                   <p className="mt-3 text-sm text-red-600" role="status" aria-live="polite">
