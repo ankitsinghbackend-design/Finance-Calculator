@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react'
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { calculate, schema, type AutoLoanResults } from '../../backend/calculations/autoLoan'
@@ -219,6 +219,31 @@ export default function Home(){
     }
   }
 
+  useEffect(() => {
+    const revealNodes = document.querySelectorAll<HTMLElement>('.reveal-left, .reveal-right')
+
+    if (!revealNodes.length) return
+
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active')
+            obs.unobserve(entry.target)
+          }
+        })
+      },
+      {
+        threshold: 0.2,
+        rootMargin: '0px 0px -10% 0px'
+      }
+    )
+
+    revealNodes.forEach((node) => observer.observe(node))
+
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <div className="bg-alt">
       <section className="relative overflow-hidden">
@@ -233,7 +258,7 @@ export default function Home(){
 
         <div className="max-w-[1360px] mx-auto px-6 xl:px-0 pt-16 pb-10 relative z-10">
           <div className="grid grid-cols-1 xl:grid-cols-[586px_1fr] gap-8 items-start">
-            <div>
+            <div className="reveal-left">
               <h1 className="text-[48px] leading-[1.12] font-semibold text-heading">
                 Smart Financial Calculations Made <span className="text-primary">Simple</span>
               </h1>
@@ -289,7 +314,7 @@ export default function Home(){
               </form>
             </div>
 
-            <div className="pt-14 xl:pt-[147px]">
+            <div className="pt-14 xl:pt-[147px] reveal-right">
               <div className="max-w-[516px] ml-auto bg-alt border border-cardBorder rounded-2xl px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)]">
                 <div className="text-center">
                   <p className="text-[16px] font-medium text-sub">Total Monthly Payment</p>
@@ -329,7 +354,7 @@ export default function Home(){
       </section>
 
       <section className="max-w-[1360px] mx-auto px-6 xl:px-0 py-8 grid grid-cols-1 xl:grid-cols-[1fr_321px] gap-10 items-start">
-        <div>
+        <div className="reveal-left">
           <h3 className="text-[28px] font-medium text-black">Financial Calculators</h3>
           <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-x-8 gap-y-4 text-[19px] text-body font-semibold underline">
             {landingCalculatorColumns.map((col, idx) => (
@@ -346,20 +371,20 @@ export default function Home(){
           </div>
           <p className="text-[23px] text-primaryDark underline mt-2 text-right">View All</p>
         </div>
-        <div className="h-[316px] rounded-2xl border border-cardBorder bg-white flex items-center justify-center text-[28px] text-sub">AD.</div>
+        <div className="h-[316px] rounded-2xl border border-cardBorder bg-white flex items-center justify-center text-[28px] text-sub reveal-right">AD.</div>
       </section>
 
       <section className="bg-alt py-10">
         <div className="max-w-[1360px] mx-auto px-6 xl:px-0">
-          <div className="text-center max-w-[652px] mx-auto">
+          <div className="text-center max-w-[652px] mx-auto reveal-left">
             <h2 className="text-[40px] font-semibold text-heading">How It Work’s</h2>
             <p className="mt-3 text-[16px] leading-[25.6px] text-sub">Follow three simple steps to quickly calculate loans, investments, savings, and other financial estimates with accurate results.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-10">
-            {howItWorks.map((item) => (
+            {howItWorks.map((item, index) => (
               <article
                 key={item.no}
-                className="relative border border-cardBorder bg-alt rounded-[10px] min-h-[254px] overflow-hidden px-[42px] py-[30px]"
+                className={`relative border border-cardBorder bg-alt rounded-[10px] min-h-[254px] overflow-hidden px-[42px] py-[30px] ${index % 2 === 0 ? 'reveal-left' : 'reveal-right'}`}
               >
                 <p className="absolute right-5 top-[56px] text-[100px] leading-none font-black text-cardBorder">{item.no}</p>
                 <img src={item.icon} alt="icon" className="w-[42px] h-[42px] relative z-10" />
@@ -373,10 +398,10 @@ export default function Home(){
 
       <section className="max-w-[1360px] mx-auto px-6 xl:px-0 py-14">
         <div className="grid grid-cols-1 xl:grid-cols-[720px_586px] gap-12 items-center">
-          <div className="h-[378px] rounded-2xl overflow-hidden">
+          <div className="h-[378px] rounded-2xl overflow-hidden reveal-left">
             <img src="https://www.figma.com/api/mcp/asset/25ee04d3-7f81-448a-9e53-f5003e69dd51" alt="finance calculator visual" className="w-full h-full object-cover" />
           </div>
-          <div className="relative">
+          <div className="relative reveal-right">
             <h2 className="text-[40px] leading-tight font-semibold text-heading">Your Complete Financial Calculator Platform</h2>
             <p className="text-[19px] font-semibold text-sub mt-3">Make smarter financial decisions with fast, accurate, and easy-to-use calculation tools.</p>
             <p className="text-[16px] leading-[25.6px] text-body mt-3">Access a wide range of calculators to plan loans, investments, savings, and retirement with confidence. Our tools simplify complex financial numbers into clear and easy results anyone can understand. No complicated setup or account is required just enter your values and calculate instantly.</p>
@@ -387,11 +412,11 @@ export default function Home(){
 
       <section className="max-w-[1360px] mx-auto px-6 xl:px-0 py-2" id="features">
         <div className="grid grid-cols-1 xl:grid-cols-[652px_605px] justify-between gap-10">
-          <div>
+          <div className="reveal-left">
             <h2 className="text-[40px] leading-tight font-semibold text-heading max-w-[528px]">Powerful Features Built for Smart Financial Planning</h2>
             <p className="text-[16px] leading-[25.6px] text-sub mt-3 max-w-[652px]">Everything you need to calculate, compare, and plan finances with accuracy and confidence.</p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 reveal-right">
             <div className="w-[12px] bg-primary rounded-full" />
             <div className="space-y-5">
               {featureList.map((item) => (
@@ -406,7 +431,7 @@ export default function Home(){
       </section>
 
       <section className="max-w-[1360px] mx-auto px-6 xl:px-0 py-16">
-        <div className="text-center max-w-[652px] mx-auto">
+        <div className="text-center max-w-[652px] mx-auto reveal-left">
           <h2 className="text-[40px] font-semibold text-heading">Why Choose Our Platform?</h2>
           <p className="text-[16px] leading-[25.6px] text-sub mt-3">We provide fast, accurate, and easy-to-use financial calculators designed to help everyone make smarter financial decisions with confidence.</p>
         </div>
@@ -417,7 +442,7 @@ export default function Home(){
             ['Secure & Private Usage', 'Fill in values like amount, interest rate, or time period to process accurate calculations.', 'https://www.figma.com/api/mcp/asset/6135251b-86eb-4fc1-9921-8e8d376e8f87'],
             ['Free & Always Accessible', 'Get clear payment breakdowns and projections to make smarter financial decisions instantly.', 'https://www.figma.com/api/mcp/asset/58b01610-94ae-4b66-9792-cd79dfda45ea']
           ].map(([title, body, icon]) => (
-            <article key={title} className="bg-alt border border-cardBorder rounded-[10px] p-5 min-h-[254px]">
+            <article key={title} className="bg-alt border border-cardBorder rounded-[10px] p-5 min-h-[254px] reveal-right">
               <img src={icon} alt="icon" className="w-[42px] h-[42px]" />
               <h3 className="text-[32px] leading-tight font-medium text-heading mt-6">{title}</h3>
               <p className="text-[16px] leading-[25.6px] text-body mt-3">{body}</p>
@@ -427,13 +452,13 @@ export default function Home(){
       </section>
 
       <section className="max-w-[1360px] mx-auto px-6 xl:px-0 py-8">
-        <div className="text-center max-w-[652px] mx-auto">
+        <div className="text-center max-w-[652px] mx-auto reveal-left">
           <h2 className="text-[40px] font-semibold text-heading">Benefits of Financial Calculators</h2>
           <p className="text-[16px] leading-[25.6px] text-sub mt-3">Make smarter financial decisions with clarity, confidence, and better planning tools.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 mt-10">
           {benefits.map((item) => (
-            <article key={item.title} className={`rounded-[10px] border border-cardBorder p-5 ${item.active ? 'bg-primary text-white' : 'bg-alt'}`}>
+            <article key={item.title} className={`rounded-[10px] border border-cardBorder p-5 ${item.active ? 'bg-primary text-white' : 'bg-alt'} ${item.active ? 'reveal-right' : 'reveal-left'}`}>
               <h3 className={`text-[32px] leading-tight font-medium ${item.active ? 'text-white' : 'text-heading'}`}>{item.title}</h3>
               <p className={`text-[16px] leading-[25.6px] mt-3 ${item.active ? 'text-[#f9fafb]' : 'text-body'}`}>{item.body}</p>
             </article>
@@ -443,12 +468,12 @@ export default function Home(){
 
       <section className="bg-alt py-12 mt-10">
         <div className="max-w-[1360px] mx-auto px-6 xl:px-0">
-          <div className="text-center max-w-[652px] mx-auto">
+          <div className="text-center max-w-[652px] mx-auto reveal-left">
             <h2 className="text-[40px] font-semibold text-heading">How We Compare to Others</h2>
             <p className="text-[16px] leading-[25.6px] text-sub mt-3">See why users prefer our platform for faster, simpler, and more reliable financial calculations.</p>
           </div>
 
-          <div className="mt-10 border-t border-cardBorder">
+          <div className="mt-10 border-t border-cardBorder reveal-right">
             <div className="grid grid-cols-1 md:grid-cols-[220px_1fr_1fr] xl:grid-cols-[274px_374px_374px] xl:justify-between text-center py-5 border-b border-cardBorder gap-4 xl:gap-0">
               <div />
               <div className="text-primary text-[28px] font-bold">Finovo</div>
@@ -473,13 +498,13 @@ export default function Home(){
       </section>
 
       <section className="max-w-[1360px] mx-auto px-6 xl:px-0 py-16">
-        <div className="max-w-[528px]">
+        <div className="max-w-[528px] reveal-left">
           <h2 className="text-[40px] leading-tight font-semibold text-heading">Additional Reasons to Use Our Platforms.</h2>
           <p className="text-[16px] leading-[25.6px] text-sub mt-3">Discover additional advantages that make our platform smarter and more convenient for everyday financial planning.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-10">
           {additional.map((item) => (
-            <article key={item.title} className="bg-alt border border-cardBorder rounded-[10px] p-5 min-h-[254px]">
+            <article key={item.title} className="bg-alt border border-cardBorder rounded-[10px] p-5 min-h-[254px] reveal-right">
               <h3 className="text-[32px] leading-tight font-medium text-heading">{item.title}</h3>
               <p className="text-[16px] leading-[25.6px] text-body mt-3">{item.body}</p>
             </article>
@@ -488,19 +513,19 @@ export default function Home(){
       </section>
 
       <section className="max-w-[1360px] mx-auto px-6 xl:px-0 py-6 pb-14">
-        <div className="text-center max-w-[652px] mx-auto">
+        <div className="text-center max-w-[652px] mx-auto reveal-left">
           <h2 className="text-[40px] font-semibold text-heading">Your Privacy & Data Security Matter</h2>
           <p className="text-[16px] leading-[25.6px] text-sub mt-3">We prioritize user privacy and ensure all financial calculations remain secure and confidential.</p>
         </div>
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 mt-10">
-          <article className="bg-primary rounded-2xl border border-cardBorder p-5 md:p-6 text-white">
+          <article className="bg-primary rounded-2xl border border-cardBorder p-5 md:p-6 text-white reveal-left">
             <h3 className="text-[32px] leading-tight font-semibold">SSL & TLS</h3>
             <p className="text-[19px] font-semibold mt-2">Included across all calculators</p>
             <p className="text-[16px] leading-[25.6px] mt-5 text-[#f9fafb]">All calculations are processed through secure encrypted connections to ensure financial inputs remain protected at all times. We do not expose or transmit sensitive information beyond the calculation process, keeping every session secure and private. This encryption technology safeguards data while users calculate loans, investments, or savings, providing peace of mind during financial planning. Our goal is to maintain a safe environment where users can perform calculations confidently without worrying about data misuse or security risks.</p>
             <button className="mt-6 bg-white text-[#1d2433] border border-[#e1e6ef] rounded-lg px-4 py-2 font-medium">Learn More ↗</button>
           </article>
 
-          <article className="bg-alt rounded-2xl border border-cardBorder p-5 md:p-6 relative overflow-hidden">
+          <article className="bg-alt rounded-2xl border border-cardBorder p-5 md:p-6 relative overflow-hidden reveal-right">
             <h3 className="text-[32px] leading-tight font-semibold text-heading">No PII Stored</h3>
             <p className="text-[19px] font-semibold text-sub mt-2">No signup required</p>
             <p className="text-[16px] leading-[25.6px] mt-5 text-body">Our platform does not collect or store personally identifiable information when users perform financial calculations. All calculations are processed instantly within the session without requiring account creation, personal details, or financial records to be submitted or saved. Users maintain full control over their privacy, allowing them to explore loan options, investment scenarios, savings plans, and other financial estimates securely and confidently. By avoiding unnecessary data collection, we ensure users can access tools freely without concerns about misuse of information or unwanted tracking.</p>
@@ -512,20 +537,20 @@ export default function Home(){
 
       <section className="max-w-[1360px] mx-auto px-6 xl:px-0 py-4">
         <div className="grid grid-cols-1 xl:grid-cols-[670px_448px] justify-between gap-8 items-center">
-          <div>
+          <div className="reveal-left">
             <h3 className="text-[33px] font-semibold text-heading">Disclaimer</h3>
             <p className="text-[16px] leading-[25.6px] text-body mt-3">All calculations are processed through secure encrypted connections to ensure financial inputs remain protected at all times. We do not expose or transmit sensitive information beyond the calculation process, keeping every session secure and private. This encryption technology safeguards data while users calculate loans, investments, or savings, providing peace of mind during financial planning. Our goal is to maintain a safe environment where users can perform calculations confidently without worrying about data misuse or security risks.</p>
             <p className="text-[16px] leading-[25.6px] text-body mt-3">Users are encouraged to consult qualified financial advisors or professionals before making financial decisions based on calculator results. Actual loan terms, investment returns, taxes, or financial outcomes may vary depending on individual circumstances and market conditions.</p>
             <p className="text-[16px] leading-[25.6px] text-body mt-3">Our platform does not guarantee financial results, and users remain responsible for verifying calculations and decisions before committing to financial agreements or investments.</p>
             <p className="text-[16px] leading-[25.6px] text-body mt-3">By using this platform, users acknowledge that calculations are estimates only and agree to use the information at their own discretion and risk.</p>
           </div>
-          <div className="h-[343px] rounded-lg bg-cardBorder flex items-center justify-center text-[23px] font-medium text-black">AD.</div>
+          <div className="h-[343px] rounded-lg bg-cardBorder flex items-center justify-center text-[23px] font-medium text-black reveal-right">AD.</div>
         </div>
       </section>
 
       <section className="max-w-[1360px] mx-auto px-6 xl:px-0 py-16">
         <div className="grid grid-cols-1 xl:grid-cols-[513px_670px] justify-between gap-10">
-          <div className="flex flex-col justify-center gap-14">
+          <div className="flex flex-col justify-center gap-14 reveal-left">
             <div>
               <img src={faqQuote} alt="" aria-hidden className="w-[68px] h-[56px]" />
               <h2 className="text-[40px] font-semibold text-heading mt-5">Frequently Asked Questions</h2>
@@ -537,7 +562,7 @@ export default function Home(){
             </div>
           </div>
 
-          <div className="space-y-5">
+          <div className="space-y-5 reveal-right">
             <article className="border border-cardBorder rounded-2xl p-4">
               <div className="flex items-center justify-between gap-4">
                 <h3 className="text-[19px] font-semibold text-heading">Accurate Financial Calculations</h3>
@@ -560,7 +585,7 @@ export default function Home(){
           </div>
         </div>
 
-        <div className="mt-20">
+        <div className="mt-20 reveal-left">
           <div className="text-center max-w-[652px] mx-auto">
             <h2 className="text-[40px] font-semibold text-heading">What You Can Expect From Us</h2>
             <p className="text-[16px] leading-[25.6px] text-body mt-3">Our platform does not guarantee financial results, and users remain responsible for verifying calculations and decisions before committing to financial agreements or investments.</p>
@@ -643,12 +668,12 @@ export default function Home(){
 
       <section className="bg-alt py-10">
         <div className="max-w-[1360px] mx-auto px-6 xl:px-0">
-          <div className="text-center max-w-[563px] mx-auto">
+          <div className="text-center max-w-[563px] mx-auto reveal-left">
             <h2 className="text-[40px] font-semibold text-heading">Share Your Experience With Us</h2>
             <p className="text-[16px] leading-[25.6px] text-sub mt-3">Your feedback helps us improve our financial tools and deliver a better experience for everyone. Share your thoughts, suggestions, or experience using our calculators so we can continue improving our services.</p>
           </div>
 
-          <div className="mt-10 max-w-[1080px] mx-auto bg-cardBorder rounded-[20px] p-6 md:p-10">
+          <div className="mt-10 max-w-[1080px] mx-auto bg-cardBorder rounded-[20px] p-6 md:p-10 reveal-right">
             <h3 className="text-[33px] font-semibold text-heading text-center">Leave a Review</h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-10">
