@@ -41,7 +41,7 @@ export const landingCalculatorColumns: LandingCalculatorLink[][] = [
   [
     { label: 'Mortgage', calculatorId: 'mortgage' },
     { label: 'Auto Loan', calculatorId: 'auto-loan' },
-    { label: 'Payment', calculatorId: 'payment' },
+    { label: 'RePayment', calculatorId: 'repayment' },
     { label: 'Amortization', calculatorId: 'amortization' }
   ],
   [
@@ -52,8 +52,8 @@ export const landingCalculatorColumns: LandingCalculatorLink[][] = [
   ],
   [
     { label: 'Interest Rate', calculatorId: 'interest-rate' },
-    { label: 'More Financial', calculatorId: 'more-financial' },
-    { label: 'Calculators', calculatorId: 'calculators' },
+    { label: 'College Cost', calculatorId: 'college-cost' },
+    { label: 'Student Loan', calculatorId: 'student-loan' },
     { label: 'Loan', calculatorId: 'loan' }
   ],
   [
