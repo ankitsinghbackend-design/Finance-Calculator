@@ -5,6 +5,7 @@ import * as mortgagePayoff from './mortgagePayoff'
 import * as k401 from './k401'
 import * as salary from './salary'
 import * as amortization from './amortization'
+import * as currency from './currency'
 import { ZodTypeAny } from 'zod'
 
 export interface CalculatorModule {
@@ -19,6 +20,7 @@ export const calculatorRegistry = {
   amortization,
   '401k': k401,
   salary,
+  currency,
   'compound-interest': compoundInterest
 } satisfies Record<string, CalculatorModule>
 

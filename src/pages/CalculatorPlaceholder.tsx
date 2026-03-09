@@ -4,6 +4,7 @@ import MortgageCalculatorPage from './MortgageCalculatorPage'
 import MortgagePayoffPage from './MortgagePayoffPage'
 import K401CalculatorPage from './K401CalculatorPage'
 import SalaryCalculatorPage from './SalaryCalculatorPage'
+import CurrencyCalculatorPage from './CurrencyCalculatorPage'
 
 export default function CalculatorPlaceholder() {
 	const { calculatorId } = useParams()
@@ -22,6 +23,10 @@ export default function CalculatorPlaceholder() {
 
 	if (calculatorId === 'salary') {
 		return <SalaryCalculatorPage />
+	}
+
+	if (calculatorId === 'currency') {
+		return <CurrencyCalculatorPage />
 	}
 
 	return <div className="min-h-[60vh]" />
