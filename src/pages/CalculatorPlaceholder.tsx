@@ -5,6 +5,7 @@ import MortgagePayoffPage from './MortgagePayoffPage'
 import K401CalculatorPage from './K401CalculatorPage'
 import SalaryCalculatorPage from './SalaryCalculatorPage'
 import CurrencyCalculatorPage from './CurrencyCalculatorPage'
+import CompoundInterestCalculatorPage from './CompoundInterestCalculatorPage'
 
 export default function CalculatorPlaceholder() {
 	const { calculatorId } = useParams()
@@ -27,6 +28,10 @@ export default function CalculatorPlaceholder() {
 
 	if (calculatorId === 'currency') {
 		return <CurrencyCalculatorPage />
+	}
+
+	if (calculatorId === 'compound-interest') {
+		return <CompoundInterestCalculatorPage />
 	}
 
 	return <div className="min-h-[60vh]" />
