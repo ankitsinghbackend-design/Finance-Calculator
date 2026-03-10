@@ -42,7 +42,13 @@ export async function calculateHandler(req: Request, res: Response): Promise<voi
 
   try {
     const payload = req.body as { inputs?: unknown }
-    const rawInputs = payload?.inputs ?? req.body
+    const rawInputs =
+      payload?.inputs && typeof payload.inputs === 'object' && payload.inputs !== null
+        ? {
+            ...(payload.inputs as Record<string, unknown>),
+            ...(typeof req.body?.mode === 'string' ? { mode: req.body.mode } : {})
+          }
+        : payload?.inputs ?? req.body
     const validatedInputs = calculatorModule.schema.parse(rawInputs)
     const results = calculatorModule.calculate(validatedInputs)
 

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
+import AutoLoanPage from './components/calculators/AutoLoanPage'
 import Home from './pages/Home'
 import Finance from './pages/Finance'
 import DisableAdblockHelp from './pages/DisableAdblockHelp'
@@ -28,6 +29,7 @@ export default function App(){
             <Route path="/finance" element={<Finance/>} />
             <Route path="/finance/amortization" element={<Amortization/>} />
             <Route path="/calculators/amortization" element={<Amortization/>} />
+            <Route path="/calculators/auto-loan" element={<AutoLoanPage/>} />
             <Route path="/calculators/college-cost" element={<CollegeCostCalculatorPage/>} />
             <Route path="/calculators/compound-interest" element={<CompoundInterestCalculatorPage/>} />
             <Route path="/calculators/student-loan" element={<StudentLoanCalculatorPage/>} />

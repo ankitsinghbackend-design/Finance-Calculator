@@ -111,32 +111,50 @@ export default function Home(){
     {
       title: 'Make Smarter Financial Decisions',
       body: 'Understand loan payments, savings growth, and investment returns clearly before making commitments. Our calculators help users compare options and choose financially better solutions. By visualizing financial outcomes in advance, users avoid costly mistakes and plan responsibly. Better decisions today lead to stronger financial security tomorrow.',
-      icon: iconAnalytics
+      icon: iconAnalytics,
+      iconWrapClassName: 'h-[31px] w-[34px]',
+      iconClassName: 'h-[31px] w-auto',
+      featured: false
     },
     {
       title: 'Save Valuable Time Planning',
       body: 'Instead of manually calculating numbers or searching multiple sources, get instant financial estimates in seconds. Automated tools reduce calculation errors and provide quick results. Users spend less time figuring out finances and more time focusing on goals that matter. Efficient tools simplify complex financial planning.',
-      icon: iconTimer
+      icon: iconTimer,
+      iconWrapClassName: 'h-[31px] w-[39px]',
+      iconClassName: 'h-[28px] w-auto',
+      featured: true
     },
     {
       title: 'Plan Future Finances Confidently',
       body: 'Whether saving for retirement, buying a home, or planning investments, our calculators provide clear future projections. Users can see how small financial changes impact long-term goals. This clarity builds confidence in planning major life decisions. Financial future planning becomes easier and less stressful.',
-      icon: iconChartBar
+      icon: iconChartBar,
+      iconWrapClassName: 'h-[31px] w-[32px]',
+      iconClassName: 'h-[29px] w-auto',
+      featured: false
     },
     {
       title: 'Compare Financial Options Easily',
       body: 'Compare loans, savings, or investment scenarios instantly to find the best financial path. Users can adjust inputs and immediately see outcome differences. This helps select affordable loans, smarter investments, and better savings strategies. Better comparisons lead to better financial choices.',
-      icon: iconSearch2
+      icon: iconSearch2,
+      iconWrapClassName: 'h-[31px] w-[31px]',
+      iconClassName: 'h-[31px] w-auto',
+      featured: false
     },
     {
       title: 'Avoid Unexpected Financial Surprises',
       body: 'Know future payments, interest costs, and savings growth before making commitments. Financial awareness prevents unexpected burdens later. Calculators help users prepare budgets realistically. Planning ahead protects users from risky financial decisions.',
-      icon: iconShieldRed
+      icon: iconShieldRed,
+      iconWrapClassName: 'h-[31px] w-[28px]',
+      iconClassName: 'h-[29px] w-auto',
+      featured: false
     },
     {
       title: 'Financial Tools Accessible Everyone',
       body: 'Whether students, professionals, families, or business owners, anyone can use our tools easily. No financial expertise is required to understand results. Simple interfaces ensure accessibility for all users. Everyone deserves access to clear financial planning tools.',
-      icon: iconUserComment
+      icon: iconUserComment,
+      iconWrapClassName: 'h-[31px] w-[31px]',
+      iconClassName: 'h-[28px] w-auto',
+      featured: false
     }
   ]
 
@@ -501,14 +519,34 @@ export default function Home(){
           <h2 className="text-[40px] font-semibold text-heading">Benefits of Financial Calculators</h2>
           <p className="text-[16px] leading-[25.6px] text-sub mt-3">Make smarter financial decisions with clarity, confidence, and better planning tools.</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 mt-10">
-          {benefits.map((item) => (
-            <article key={item.title} className="rounded-[10px] border border-cardBorder p-5 bg-alt">
-              <img src={item.icon} alt="" className="w-[42px] h-[42px]" />
-              <h3 className="text-[23px] leading-tight font-medium text-heading mt-6">{item.title}</h3>
-              <p className="text-[16px] leading-[25.6px] mt-3 text-body">{item.body}</p>
-            </article>
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[15px] mt-10">
+          {benefits.map((item) => {
+            const isFeatured = item.featured
+
+            return (
+              <article
+                key={item.title}
+                className={[
+                  'rounded-[10px] border px-[14px] pt-[15px] pb-[14px] min-h-[223px] overflow-hidden flex flex-col',
+                  isFeatured ? 'border-primary bg-primary' : 'border-cardBorder bg-alt'
+                ].join(' ')}
+              >
+                <div className={['flex items-start justify-start overflow-visible', item.iconWrapClassName].join(' ')}>
+                  <img
+                    src={item.icon}
+                    alt=""
+                    className={['block shrink-0 self-start object-contain object-left-top', item.iconClassName].join(' ')}
+                  />
+                </div>
+                <h3 className={['text-[18px] md:text-[23px] leading-[31px] font-medium mt-[18px]', isFeatured ? 'text-white' : 'text-heading'].join(' ')}>
+                  {item.title}
+                </h3>
+                <p className={['text-[16px] leading-[25.6px] mt-[7px]', isFeatured ? 'text-[#F8FAFC]' : 'text-body'].join(' ')}>
+                  {item.body}
+                </p>
+              </article>
+            )
+          })}
         </div>
       </section>
 

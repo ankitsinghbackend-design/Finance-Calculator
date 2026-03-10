@@ -48,7 +48,7 @@ export const landingCalculatorColumns: LandingCalculatorLink[][] = [
   ],
   [
     { label: 'Currency', calculatorId: 'currency' },
-    { label: 'Finance', calculatorId: 'finance' },
+    { label: 'House Affordability', calculatorId: 'house-affordability' },
     { label: 'Income Tax', calculatorId: 'income-tax' },
     { label: 'Salary', calculatorId: 'salary' }
   ],
