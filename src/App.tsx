@@ -32,6 +32,8 @@ import DownPaymentPage from './pages/DownPaymentPage'
 import CashBackComparisonPage from './pages/CashBackComparisonPage'
 import AnnuityPage from './pages/AnnuityPage'
 import RothIraPage from './pages/RothIraPage'
+import RMDPage from './pages/RMDPage'
+import BondPage from './pages/BondPage'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import CalculatorLayout from './layouts/CalculatorLayout'
@@ -77,6 +79,8 @@ export default function App(){
             <Route path="/calculators/cash-back-or-low-interest" element={<CashBackComparisonPage/>} />
             <Route path="/calculators/annuity" element={<AnnuityPage/>} />
             <Route path="/calculators/roth-ira" element={<RothIraPage/>} />
+            <Route path="/calculators/rmd" element={<RMDPage/>} />
+            <Route path="/calculators/bond" element={<BondPage/>} />
             <Route path="/calculators/:calculatorId" element={<CalculatorPlaceholder/>} />
             <Route path="/help/disable-adblock" element={<DisableAdblockHelp/>} />
             <Route path="/blogs" element={<BlogListPage/>} />

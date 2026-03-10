@@ -51,6 +51,7 @@ export const calculators: CalculatorItem[] = [
   { id: 'pension', title: 'Pension Calculator', description: 'Compare lump sum versus monthly pension lifetime value.', category: 'Retirement' },
   { id: 'annuity', title: 'Annuity Calculator', description: 'Project annuity accumulation with principal and recurring additions.', category: 'Retirement' },
   { id: 'roth-ira', title: 'Roth IRA Calculator', description: 'Compare Roth IRA growth with a taxable investment account.', category: 'Retirement' },
+  { id: 'rmd', title: 'RMD Calculator', description: 'Estimate IRS required minimum distributions from retirement accounts.', category: 'Retirement' },
   { id: 'retirement', title: 'Retirement Calculator', description: 'Estimate retirement savings.', category: 'Retirement' },
   { id: 'savings', title: 'Savings Calculator', description: 'Plan savings goals.', category: 'Savings' },
   { id: 'income-tax', title: 'Income Tax Calculator', description: 'Estimate federal tax liability and credits.', category: 'Tax' },
@@ -59,6 +60,7 @@ export const calculators: CalculatorItem[] = [
   { id: 'currency', title: 'Currency Converter', description: 'Quick conversions.', category: 'Utility' },
   { id: 'college-cost', title: 'College Cost Calculator', description: 'Estimate future college cost and funding gap.', category: 'Education' },
   { id: 'inflation', title: 'Inflation Calculator', description: 'Adjust for inflation.', category: 'Investment' },
+  { id: 'bond', title: 'Bond Calculator', description: 'Calculate bond price, yield, accrued interest, and coupon cash flow.', category: 'Investment' },
   { id: 'view-all', title: 'View All Calculators', description: 'Explore full list.', category: 'General' }
 ]
 
@@ -81,7 +83,8 @@ export const landingCalculatorColumns: LandingCalculatorLink[][] = [
     { label: 'Interest Rate', calculatorId: 'interest-rate' },
     { label: 'College Cost', calculatorId: 'college-cost' },
     { label: 'Student Loan', calculatorId: 'student-loan' },
-    { label: 'Loan', calculatorId: 'loan' }
+    { label: 'Loan', calculatorId: 'loan' },
+    { label: 'Bond', calculatorId: 'bond' }
   ],
   [
     { label: 'Estate Tax', calculatorId: 'estate-tax' },
@@ -95,7 +98,8 @@ export const landingCalculatorColumns: LandingCalculatorLink[][] = [
     { label: 'Compound Interest', calculatorId: 'compound-interest' },
     { label: '401K', calculatorId: '401k' },
     { label: 'Sales Tax', calculatorId: 'sales-tax' },
-    { label: 'Annuity', calculatorId: 'annuity' }
+    { label: 'Annuity', calculatorId: 'annuity' },
+    { label: 'RMD', calculatorId: 'rmd' }
   ]
 ]
 
@@ -156,7 +160,7 @@ export const financeMenuColumns: FinanceMenuColumn[] = [
       { label: 'Savings Calculator' },
       { label: 'Simple Interest Calculator' },
       { label: 'CD Calculator' },
-      { label: 'Bond Calculator' },
+      { label: 'Bond Calculator', calculatorId: 'bond' },
       { label: 'Average Return Calculator' },
       { label: 'IRR Calculator' },
       { label: 'ROI Calculator' },
@@ -176,7 +180,7 @@ export const financeMenuColumns: FinanceMenuColumn[] = [
       { label: 'Annuity Payout Calculator' },
       { label: 'Roth IRA Calculator', calculatorId: 'roth-ira' },
       { label: 'IRA Calculator' },
-      { label: 'RMD Calculator' }
+      { label: 'RMD Calculator', calculatorId: 'rmd' }
     ]
   },
   {

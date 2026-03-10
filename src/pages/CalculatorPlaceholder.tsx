@@ -31,6 +31,8 @@ import DownPaymentPage from './DownPaymentPage'
 import CashBackComparisonPage from './CashBackComparisonPage'
 import AnnuityPage from './AnnuityPage'
 import RothIraPage from './RothIraPage'
+import RMDPage from './RMDPage'
+import BondPage from './BondPage'
 
 export default function CalculatorPlaceholder() {
 	const { calculatorId } = useParams()
@@ -157,6 +159,14 @@ export default function CalculatorPlaceholder() {
 
 	if (calculatorId === 'roth-ira') {
 		return <RothIraPage />
+	}
+
+	if (calculatorId === 'rmd') {
+		return <RMDPage />
+	}
+
+	if (calculatorId === 'bond' || calculatorId === 'bond-pricing') {
+		return <BondPage />
 	}
 
 	return <div className="min-h-[60vh]" />
