@@ -421,7 +421,9 @@ export default function Home(){
               </div>
             ))}
           </div>
-          <p className="text-[23px] text-primaryDark underline mt-2 text-right">View All</p>
+          <p className="text-[23px] text-primaryDark underline mt-2 text-right">
+            <Link to="/finance">View All</Link>
+          </p>
         </div>
         <div className="h-[316px] rounded-2xl border border-cardBorder bg-white flex items-center justify-center text-[28px] text-sub">AD.</div>
       </section>

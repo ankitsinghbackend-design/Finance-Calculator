@@ -10,14 +10,19 @@ export type LandingCalculatorLink = {
   calculatorId: string
 }
 
+export type FinanceMenuItem = {
+  label: string
+  calculatorId?: string
+}
+
 export type FinanceMenuSection = {
   title: string
-  items: string[]
+  items: FinanceMenuItem[]
 }
 
 export type FinanceMenuColumn = {
   title: string
-  items?: string[]
+  items?: FinanceMenuItem[]
   sections?: FinanceMenuSection[]
 }
 
@@ -25,7 +30,18 @@ export type FinanceMenuColumn = {
 export const calculators: CalculatorItem[] = [
   { id: 'mortgage', title: 'Mortgage Calculator', description: 'Estimate monthly mortgage payments.', category: 'Loan' },
   { id: 'house-affordability', title: 'House Affordability Calculator', description: 'Estimate the home price and mortgage amount you can afford.', category: 'Loan' },
+  { id: 'dti-ratio', title: 'Debt-to-Income (DTI) Ratio Calculator', description: 'Measure front-end and back-end debt-to-income ratios.', category: 'Loan' },
+  { id: 'refinance', title: 'Refinance Calculator', description: 'Compare mortgage refinance costs and savings.', category: 'Loan' },
+  { id: 'rental-property', title: 'Rental Property Calculator', description: 'Evaluate rental income, costs, and return potential.', category: 'Loan' },
+  { id: 'apr', title: 'APR Calculator', description: 'Estimate annual percentage rate across loan costs.', category: 'Loan' },
+  { id: 'fha-loan', title: 'FHA Loan Calculator', description: 'Estimate FHA mortgage affordability and payments.', category: 'Loan' },
+  { id: 'va-mortgage', title: 'VA Mortgage Calculator', description: 'Estimate VA mortgage payments and affordability.', category: 'Loan' },
+  { id: 'home-equity-loan', title: 'Home Equity Loan Calculator', description: 'Estimate payments against your home equity.', category: 'Loan' },
+  { id: 'heloc', title: 'Home Equity Line of Credit (HELOC) Calculator', description: 'Estimate borrowing and repayment for a HELOC.', category: 'Loan' },
+  { id: 'down-payment', title: 'Down Payment Calculator', description: 'Plan required down payment and upfront home costs.', category: 'Loan' },
+  { id: 'rent-vs-buy', title: 'Rent vs. Buy Calculator', description: 'Compare long-term rent and homeownership costs.', category: 'Loan' },
   { id: 'auto-loan', title: 'Auto Loan Calculator', description: 'Auto loan payments & amortization.', category: 'Loan' },
+  { id: 'cash-back-or-low-interest', title: 'Cash Back or Low Interest Calculator', description: 'Compare dealer cash offers with low-interest financing.', category: 'Loan' },
   { id: 'personal-loan', title: 'Personal Loan', description: 'Personal loan planner.', category: 'Loan' },
   { id: 'compound-interest', title: 'Compound Interest', description: 'Growth over time with compound interest.', category: 'Investment' },
   { id: 'pension', title: 'Pension Calculator', description: 'Compare lump sum versus monthly pension lifetime value.', category: 'Retirement' },
@@ -77,22 +93,22 @@ export const financeMenuColumns: FinanceMenuColumn[] = [
   {
     title: 'Mortgage & Real Estate',
     items: [
-      'Mortgage & Real Estate',
-      'Amortization Calculator',
-      'Mortgage Payoff Calculator',
-      'House Affordability Calculator',
-      'Rent Calculator',
-      'Debt-to-Income Ratio Calculator',
-      'Real Estate Calculator',
-      'Refinance Calculator',
-      'Rental Property Calculator',
-      'APR Calculator',
-      'FHA Loan Calculator',
-      'VA Mortgage Calculator',
-      'Home Equity Loan Calculator',
-      'HELOC Calculator',
-      'Down Payment Calculator',
-      'Rent vs. Buy Calculator'
+      { label: 'Mortgage & Real Estate' },
+      { label: 'Amortization Calculator', calculatorId: 'amortization' },
+      { label: 'Mortgage Payoff Calculator', calculatorId: 'mortgage-payoff' },
+      { label: 'House Affordability Calculator', calculatorId: 'house-affordability' },
+      { label: 'Rent Calculator' },
+      { label: 'Debt-to-Income (DTI) Ratio Calculator', calculatorId: 'dti-ratio' },
+      { label: 'Real Estate Calculator' },
+      { label: 'Refinance Calculator', calculatorId: 'refinance' },
+      { label: 'Rental Property Calculator', calculatorId: 'rental-property' },
+      { label: 'APR Calculator', calculatorId: 'apr' },
+      { label: 'FHA Loan Calculator', calculatorId: 'fha-loan' },
+      { label: 'VA Mortgage Calculator', calculatorId: 'va-mortgage' },
+      { label: 'Home Equity Loan Calculator', calculatorId: 'home-equity-loan' },
+      { label: 'Home Equity Line of Credit (HELOC) Calculator', calculatorId: 'heloc' },
+      { label: 'Down Payment Calculator', calculatorId: 'down-payment' },
+      { label: 'Rent vs. Buy Calculator', calculatorId: 'rent-vs-buy' }
     ]
   },
   {
@@ -101,19 +117,19 @@ export const financeMenuColumns: FinanceMenuColumn[] = [
       {
         title: 'Auto',
         items: [
-          'Auto Loan Calculator',
-          'Cash Back or Low Interest Calculator',
-          'Auto Lease Calculator'
+          { label: 'Auto Loan Calculator', calculatorId: 'auto-loan' },
+          { label: 'Cash Back or Low Interest Calculator', calculatorId: 'cash-back-or-low-interest' },
+          { label: 'Auto Lease Calculator' }
         ]
       },
       {
         title: 'Tax and Salary',
         items: [
-          'Income Tax Calculator',
-          'Salary Calculator',
-          'Marriage Tax Calculator',
-          'Estate Tax Calculator',
-          'Take-Home-Paycheck Calculator'
+          { label: 'Income Tax Calculator', calculatorId: 'income-tax' },
+          { label: 'Salary Calculator', calculatorId: 'salary' },
+          { label: 'Marriage Tax Calculator' },
+          { label: 'Estate Tax Calculator' },
+          { label: 'Take-Home-Paycheck Calculator' }
         ]
       }
     ]
@@ -121,62 +137,62 @@ export const financeMenuColumns: FinanceMenuColumn[] = [
   {
     title: 'Investment',
     items: [
-      'Interest Calculator',
-      'Investment Calculator',
-      'Finance Calculator',
-      'Compound Interest Calculator',
-      'Interest Rate Calculator',
-      'Savings Calculator',
-      'Simple Interest Calculator',
-      'CD Calculator',
-      'Bond Calculator',
-      'Average Return Calculator',
-      'IRR Calculator',
-      'ROI Calculator',
-      'Payback Period Calculator',
-      'Present Value Calculator',
-      'Future Value Calculator'
+      { label: 'Interest Calculator' },
+      { label: 'Investment Calculator' },
+      { label: 'Finance Calculator' },
+      { label: 'Compound Interest Calculator', calculatorId: 'compound-interest' },
+      { label: 'Interest Rate Calculator' },
+      { label: 'Savings Calculator' },
+      { label: 'Simple Interest Calculator' },
+      { label: 'CD Calculator' },
+      { label: 'Bond Calculator' },
+      { label: 'Average Return Calculator' },
+      { label: 'IRR Calculator' },
+      { label: 'ROI Calculator' },
+      { label: 'Payback Period Calculator' },
+      { label: 'Present Value Calculator' },
+      { label: 'Future Value Calculator' }
     ]
   },
   {
     title: 'Retirement',
     items: [
-      'Retirement Calculator',
-      '401K Calculator',
-      'Pension Calculator',
-      'Social Security Calculator',
-      'Annuity Calculator',
-      'Annuity Payout Calculator',
-      'Roth IRA Calculator',
-      'IRA Calculator',
-      'RMD Calculator'
+      { label: 'Retirement Calculator' },
+      { label: '401K Calculator', calculatorId: '401k' },
+      { label: 'Pension Calculator', calculatorId: 'pension' },
+      { label: 'Social Security Calculator' },
+      { label: 'Annuity Calculator' },
+      { label: 'Annuity Payout Calculator' },
+      { label: 'Roth IRA Calculator' },
+      { label: 'IRA Calculator' },
+      { label: 'RMD Calculator' }
     ]
   },
   {
     title: 'Other',
     items: [
-      'Loan Calculator',
-      'Payment Calculator',
-      'Currency Calculator',
-      'Inflation Calculator',
-      'Sales Tax Calculator',
-      'Credit Card Calculator',
-      'Credit Cards Payoff Calculator',
-      'Debt Payoff Calculator',
-      'Debt Consolidation Calculator',
-      'Repayment Calculator',
-      'Student Loan Calculator',
-      'College Cost Calculator',
-      'VAT Calculator',
-      'Depreciation Calculator',
-      'Margin Calculator',
-      'Discount Calculator',
-      'Business Loan Calculator',
-      'Personal Loan Calculator',
-      'Boat Loan Calculator',
-      'Lease Calculator',
-      'Budget Calculator',
-      'Commission Calculator'
+      { label: 'Loan Calculator' },
+      { label: 'Payment Calculator' },
+      { label: 'Currency Calculator', calculatorId: 'currency' },
+      { label: 'Inflation Calculator', calculatorId: 'inflation' },
+      { label: 'Sales Tax Calculator' },
+      { label: 'Credit Card Calculator' },
+      { label: 'Credit Cards Payoff Calculator' },
+      { label: 'Debt Payoff Calculator' },
+      { label: 'Debt Consolidation Calculator' },
+      { label: 'Repayment Calculator' },
+      { label: 'Student Loan Calculator', calculatorId: 'student-loan' },
+      { label: 'College Cost Calculator', calculatorId: 'college-cost' },
+      { label: 'VAT Calculator' },
+      { label: 'Depreciation Calculator' },
+      { label: 'Margin Calculator' },
+      { label: 'Discount Calculator' },
+      { label: 'Business Loan Calculator' },
+      { label: 'Personal Loan Calculator' },
+      { label: 'Boat Loan Calculator' },
+      { label: 'Lease Calculator' },
+      { label: 'Budget Calculator' },
+      { label: 'Commission Calculator' }
     ]
   }
 ]

@@ -1,5 +1,18 @@
 import React from 'react'
-import { financeMenuColumns } from '../config/calculatorConfig'
+import { Link } from 'react-router-dom'
+import { financeMenuColumns, type FinanceMenuItem } from '../config/calculatorConfig'
+
+function FinanceMenuLink({ item }: { item: FinanceMenuItem }) {
+  if (!item.calculatorId) {
+    return <span>{item.label}</span>
+  }
+
+  return (
+    <Link to={`/calculators/${item.calculatorId}`} className="underline underline-offset-2 hover:text-heading transition-colors">
+      {item.label}
+    </Link>
+  )
+}
 
 export default function Finance(){
   return (
@@ -13,7 +26,7 @@ export default function Finance(){
                   <h2 className="text-[23px] font-medium leading-tight text-heading">{column.title}</h2>
                   <ul className="mt-3 space-y-2 text-[16px] font-normal leading-tight text-body">
                     {column.items?.map((item) => (
-                      <li key={item}>{item}</li>
+                      <li key={item.label}><FinanceMenuLink item={item} /></li>
                     ))}
                   </ul>
                 </>
@@ -24,7 +37,7 @@ export default function Finance(){
                       <h2 className="text-[23px] font-medium leading-tight text-heading">{section.title}</h2>
                       <ul className="mt-3 space-y-2 text-[16px] font-normal leading-tight text-body">
                         {section.items.map((item) => (
-                          <li key={item}>{item}</li>
+                          <li key={item.label}><FinanceMenuLink item={item} /></li>
                         ))}
                       </ul>
                     </div>
