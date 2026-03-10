@@ -218,6 +218,30 @@ export default function Home(){
   const [autoLoanResults, setAutoLoanResults] = useState<AutoLoanResults | null>(null)
   const [calculateError, setCalculateError] = useState<string | null>(null)
   const [isCalculatingAutoLoan, setIsCalculatingAutoLoan] = useState(false)
+  const [showAllCalculators, setShowAllCalculators] = useState(false)
+
+  const additionalCalculatorColumns = [
+    [
+      { label: 'Debt-to-Income Ratio', calculatorId: 'dti-ratio' },
+      { label: 'Refinance', calculatorId: 'refinance' },
+      { label: 'Rental Property', calculatorId: 'rental-property' }
+    ],
+    [
+      { label: 'APR', calculatorId: 'apr' },
+      { label: 'FHA Loan', calculatorId: 'fha-loan' },
+      { label: 'VA Mortgage', calculatorId: 'va-mortgage' }
+    ],
+    [
+      { label: 'Home Equity Loan', calculatorId: 'home-equity-loan' },
+      { label: 'HELOC', calculatorId: 'heloc' },
+      { label: 'Down Payment', calculatorId: 'down-payment' }
+    ],
+    [
+      { label: 'Rent vs. Buy', calculatorId: 'rent-vs-buy' },
+      { label: 'Cash Back or Low Interest', calculatorId: 'cash-back-or-low-interest' }
+    ],
+    []
+  ]
 
   const upfrontPayment =
     toNumber(autoLoanInputs.downPayment) +
@@ -420,10 +444,30 @@ export default function Home(){
                 ))}
               </div>
             ))}
+
+            {showAllCalculators
+              ? additionalCalculatorColumns.map((col, idx) => (
+                  <div key={`extra-${idx}`} className="space-y-3">
+                    {col.map((item) => (
+                      <p key={item.calculatorId}>
+                        <Link to={`/calculators/${item.calculatorId}`}>{item.label}</Link>
+                      </p>
+                    ))}
+                  </div>
+                ))
+              : null}
           </div>
-          <p className="text-[23px] text-primaryDark underline mt-2 text-right">
-            <Link to="/finance">View All</Link>
-          </p>
+
+          <div className="mt-2 text-right">
+            <button
+              type="button"
+              onClick={() => setShowAllCalculators((previous) => !previous)}
+              className="text-[23px] text-primaryDark underline"
+              aria-expanded={showAllCalculators}
+            >
+              {showAllCalculators ? 'Show Less' : 'View All'}
+            </button>
+          </div>
         </div>
         <div className="h-[316px] rounded-2xl border border-cardBorder bg-white flex items-center justify-center text-[28px] text-sub">AD.</div>
       </section>

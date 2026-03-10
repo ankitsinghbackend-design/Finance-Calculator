@@ -11,6 +11,8 @@ import * as studentLoan from './studentLoan'
 import * as incomeTax from './incomeTax'
 import * as pension from './pension'
 import * as houseAffordability from './houseAffordability'
+import * as repayment from './repayment'
+import * as investment from './investment'
 import { ZodTypeAny } from 'zod'
 
 export interface CalculatorModule {
@@ -25,6 +27,8 @@ export const calculatorRegistry = {
   amortization,
   '401k': k401,
   salary,
+  repayment,
+  investment,
   currency,
   'college-cost': collegeCost,
   'student-loan': studentLoan,

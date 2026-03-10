@@ -2,6 +2,7 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import AutoLoanPage from '../components/calculators/AutoLoanPage'
 import HouseAffordabilityPage from './HouseAffordabilityPage'
+import RepaymentCalculatorPage from './RepaymentCalculatorPage'
 import MortgageCalculatorPage from './MortgageCalculatorPage'
 import MortgagePayoffPage from './MortgagePayoffPage'
 import K401CalculatorPage from './K401CalculatorPage'
@@ -11,6 +12,7 @@ import CompoundInterestCalculatorPage from './CompoundInterestCalculatorPage'
 import StudentLoanCalculatorPage from './StudentLoanCalculatorPage'
 import IncomeTaxCalculatorPage from './IncomeTaxCalculatorPage'
 import PensionCalculatorPage from './PensionCalculatorPage'
+import InvestmentCalculatorPage from './InvestmentCalculatorPage'
 
 export default function CalculatorPlaceholder() {
 	const { calculatorId } = useParams()
@@ -21,6 +23,10 @@ export default function CalculatorPlaceholder() {
 
 	if (calculatorId === 'house-affordability') {
 		return <HouseAffordabilityPage />
+	}
+
+	if (calculatorId === 'repayment') {
+		return <RepaymentCalculatorPage />
 	}
 
 	if (calculatorId === 'mortgage') {
@@ -57,6 +63,10 @@ export default function CalculatorPlaceholder() {
 
 	if (calculatorId === 'pension') {
 		return <PensionCalculatorPage />
+	}
+
+	if (calculatorId === 'investment') {
+		return <InvestmentCalculatorPage />
 	}
 
 	return <div className="min-h-[60vh]" />

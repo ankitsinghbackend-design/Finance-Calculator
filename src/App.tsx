@@ -9,9 +9,11 @@ import Amortization from './pages/Amortization'
 import CollegeCostCalculatorPage from './pages/CollegeCostCalculatorPage'
 import CompoundInterestCalculatorPage from './pages/CompoundInterestCalculatorPage'
 import HouseAffordabilityPage from './pages/HouseAffordabilityPage'
+import RepaymentCalculatorPage from './pages/RepaymentCalculatorPage'
 import StudentLoanCalculatorPage from './pages/StudentLoanCalculatorPage'
 import IncomeTaxCalculatorPage from './pages/IncomeTaxCalculatorPage'
 import PensionCalculatorPage from './pages/PensionCalculatorPage'
+import InvestmentCalculatorPage from './pages/InvestmentCalculatorPage'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import CalculatorLayout from './layouts/CalculatorLayout'
@@ -32,11 +34,13 @@ export default function App(){
             <Route path="/calculators/amortization" element={<Amortization/>} />
             <Route path="/calculators/auto-loan" element={<AutoLoanPage/>} />
             <Route path="/calculators/house-affordability" element={<HouseAffordabilityPage/>} />
+            <Route path="/calculators/repayment" element={<RepaymentCalculatorPage/>} />
             <Route path="/calculators/college-cost" element={<CollegeCostCalculatorPage/>} />
             <Route path="/calculators/compound-interest" element={<CompoundInterestCalculatorPage/>} />
             <Route path="/calculators/student-loan" element={<StudentLoanCalculatorPage/>} />
             <Route path="/calculators/income-tax" element={<IncomeTaxCalculatorPage/>} />
             <Route path="/calculators/pension" element={<PensionCalculatorPage/>} />
+            <Route path="/calculators/investment" element={<InvestmentCalculatorPage/>} />
             <Route path="/calculators/:calculatorId" element={<CalculatorPlaceholder/>} />
             <Route path="/help/disable-adblock" element={<DisableAdblockHelp/>} />
             <Route path="/blogs" element={<BlogListPage/>} />
