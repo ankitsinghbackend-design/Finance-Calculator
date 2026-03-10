@@ -9,9 +9,7 @@ import faqQuoteIconSvg from '../assets/Vector.svg'
 import expectBgImg from '../assets/expect-bg.png'
 import expectArrow1Img from '../assets/expect-arrow1.png'
 import expectArrow2Img from '../assets/expect-arrow2.png'
-import starIconImg from '../assets/star-icon.png'
 import financeVisualImg from '../assets/finance-visual.png'
-
 // How It Works icons (SVG)
 import iconSearch from '../assets/icon-search.svg'
 import iconEdit from '../assets/icon-edit.svg'
@@ -68,7 +66,6 @@ export default function Home(){
   const expectBg = expectBgImg
   const expectArrow1 = expectArrow1Img
   const expectArrow2 = expectArrow2Img
-  const starIcon = starIconImg
 
   const howItWorks = [
     {
@@ -758,7 +755,13 @@ export default function Home(){
               <p className="text-[16px] font-medium text-sub">Your Rating*</p>
               <div className="flex items-center gap-1.5 mt-2">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <img key={i} src={starIcon} alt="star" className="w-[26px] h-[26px]" />
+                  <span
+                    key={i}
+                    aria-hidden="true"
+                    className="inline-flex items-center justify-center text-[26px] leading-none text-[#d1d5db]"
+                  >
+                    ★
+                  </span>
                 ))}
               </div>
             </div>
