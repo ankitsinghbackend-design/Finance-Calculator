@@ -1,11 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import instagramIcon from '../assets/footer-instagram.svg'
+import twitterIcon from '../assets/footer-twitter.svg'
+import linkedinIcon from '../assets/footer-linkedin.svg'
+import facebookIcon from '../assets/footer-facebook.svg'
+import mapPinIcon from '../assets/map-pin.svg'
+import mailIcon from '../assets/mail.svg'
+import phoneIcon from '../assets/footer-phone.svg'
 
 const social = {
-  instagram: 'https://www.figma.com/api/mcp/asset/6be54d3d-d03c-41f8-a48c-42ed71007e1e',
-  twitter: 'https://www.figma.com/api/mcp/asset/94d3e9a9-fdc9-4260-873d-03141e279659',
-  linkedin: 'https://www.figma.com/api/mcp/asset/ea64f333-383c-46d1-906c-42610041b9f3',
-  facebook: 'https://www.figma.com/api/mcp/asset/4b1e0a07-14c9-4207-a7c6-cb1de2677fec'
+  instagram: instagramIcon,
+  twitter: twitterIcon,
+  linkedin: linkedinIcon,
+  facebook: facebookIcon
 }
 
 export default function Footer(){
@@ -43,9 +50,18 @@ export default function Footer(){
         <div>
           <h4 className="text-heading text-lg font-medium">Contact / Support</h4>
           <ul className="mt-3 text-sub space-y-2 text-sm">
-            <li>123 Business Avenue Street Road Bangalore</li>
-            <li>info@finovo.com</li>
-            <li>+123456987</li>
+            <li className="flex items-start gap-2">
+              <img src={mapPinIcon} alt="location" className="mt-0.5 h-4 w-4 shrink-0" />
+              <span>123 Business Avenue Street Road Bangalore</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <img src={mailIcon} alt="mail" className="h-4 w-4 shrink-0" />
+              <span>info@finovo.com</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <img src={phoneIcon} alt="phone" className="h-4 w-4 shrink-0" />
+              <span>+123456987</span>
+            </li>
           </ul>
         </div>
       </div>

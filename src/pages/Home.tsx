@@ -219,28 +219,36 @@ export default function Home(){
   const [calculateError, setCalculateError] = useState<string | null>(null)
   const [isCalculatingAutoLoan, setIsCalculatingAutoLoan] = useState(false)
   const [showAllCalculators, setShowAllCalculators] = useState(false)
+  const collapsedCalculatorRowCount = 4
 
-  const additionalCalculatorColumns = [
+  const expandedCalculatorColumns = [
     [
+      ...landingCalculatorColumns[0],
       { label: 'Debt-to-Income Ratio', calculatorId: 'dti-ratio' },
       { label: 'Refinance', calculatorId: 'refinance' },
       { label: 'Rental Property', calculatorId: 'rental-property' }
     ],
     [
+      ...landingCalculatorColumns[1],
       { label: 'APR', calculatorId: 'apr' },
       { label: 'FHA Loan', calculatorId: 'fha-loan' },
       { label: 'VA Mortgage', calculatorId: 'va-mortgage' }
     ],
     [
+      ...landingCalculatorColumns[2],
       { label: 'Social Security', calculatorId: 'social-security' },
       { label: 'HELOC', calculatorId: 'heloc' },
       { label: 'Down Payment', calculatorId: 'down-payment' }
     ],
     [
+      ...landingCalculatorColumns[3],
       { label: 'Rent vs. Buy', calculatorId: 'rent-vs-buy' },
       { label: 'Cash Back or Low Interest', calculatorId: 'cash-back-or-low-interest' }
     ],
-    []
+    [
+      ...landingCalculatorColumns[4],
+      { label: 'Auto Lease', calculatorId: 'auto-lease' }
+    ]
   ]
 
   const upfrontPayment =
@@ -248,9 +256,9 @@ export default function Home(){
     toNumber(autoLoanInputs.tradeInValue) +
     toNumber(autoLoanInputs.cashIncentives)
 
-  const visibleCalculatorColumns = showAllCalculators
-    ? [...landingCalculatorColumns, ...additionalCalculatorColumns.filter((column) => column.length > 0)]
-    : landingCalculatorColumns
+  const visibleCalculatorColumns = expandedCalculatorColumns.map((column) => (
+    showAllCalculators ? column : column.slice(0, collapsedCalculatorRowCount)
+  ))
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
@@ -435,32 +443,24 @@ export default function Home(){
 
       <section className="max-w-[1440px] mx-auto px-6 xl:px-10 py-8 grid grid-cols-1 xl:grid-cols-[1fr_321px] gap-10 items-start">
         <div>
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
             <div>
               <h3 className="text-[24px] sm:text-[28px] font-medium text-black">Financial Calculators</h3>
               <p className="mt-1 max-w-[720px] text-[14px] sm:text-[16px] leading-[24px] text-body">
                 Browse calculators by topic and jump straight into the tool you need on desktop, tablet, or phone.
               </p>
             </div>
-            <button
-              type="button"
-              onClick={() => setShowAllCalculators((previous) => !previous)}
-              className="self-start text-[18px] sm:self-auto sm:text-[20px] text-primaryDark underline"
-              aria-expanded={showAllCalculators}
-            >
-              {showAllCalculators ? 'Show Less' : 'View All'}
-            </button>
           </div>
 
-          <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
+          <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-[repeat(5,minmax(0,1fr))_auto] xl:items-start xl:gap-x-[44px]">
             {visibleCalculatorColumns.map((col, idx) => (
-              <div key={idx} className="rounded-2xl border border-cardBorder bg-alt p-4 shadow-sm">
-                <div className="space-y-2.5">
+              <div key={idx} className="min-w-0">
+                <div className="space-y-3 sm:space-y-4">
                 {col.map((item) => (
-                  <p key={item.calculatorId} className="leading-6">
+                  <p key={item.calculatorId} className="leading-none">
                     <Link
                       to={item.calculatorId === 'amortization' ? '/finance/amortization' : `/calculators/${item.calculatorId}`}
-                      className="block break-words text-[16px] sm:text-[17px] font-semibold text-body underline transition-colors hover:text-heading"
+                      className="block break-words text-[17px] sm:text-[19px] font-semibold leading-[1.2] text-[#6b7280] underline underline-offset-[3px] decoration-1 transition-colors hover:text-heading"
                     >
                       {item.label}
                     </Link>
@@ -469,6 +469,17 @@ export default function Home(){
                 </div>
               </div>
             ))}
+
+            <div className="flex items-start xl:self-start xl:justify-self-end xl:pt-[200px]">
+              <button
+                type="button"
+                onClick={() => setShowAllCalculators((previous) => !previous)}
+                className="text-left text-[20px] sm:text-[23px] font-medium leading-none text-primaryDark underline underline-offset-[4px] transition-colors hover:text-primary"
+                aria-expanded={showAllCalculators}
+              >
+                {showAllCalculators ? 'Show Less' : 'View All'}
+              </button>
+            </div>
           </div>
         </div>
         <div className="order-last xl:order-none h-[220px] sm:h-[260px] xl:h-[316px] rounded-2xl border border-cardBorder bg-white flex items-center justify-center text-[24px] sm:text-[28px] text-sub">AD.</div>
