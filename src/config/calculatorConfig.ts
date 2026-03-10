@@ -24,6 +24,7 @@ export type FinanceMenuColumn = {
 // Seeded list — extendable to 30+ items
 export const calculators: CalculatorItem[] = [
   { id: 'mortgage', title: 'Mortgage Calculator', description: 'Estimate monthly mortgage payments.', category: 'Loan' },
+  { id: 'house-affordability', title: 'House Affordability Calculator', description: 'Estimate the home price and mortgage amount you can afford.', category: 'Loan' },
   { id: 'auto-loan', title: 'Auto Loan Calculator', description: 'Auto loan payments & amortization.', category: 'Loan' },
   { id: 'personal-loan', title: 'Personal Loan', description: 'Personal loan planner.', category: 'Loan' },
   { id: 'compound-interest', title: 'Compound Interest', description: 'Growth over time with compound interest.', category: 'Investment' },

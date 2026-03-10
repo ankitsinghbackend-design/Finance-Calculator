@@ -10,6 +10,7 @@ import * as collegeCost from './collegeCost'
 import * as studentLoan from './studentLoan'
 import * as incomeTax from './incomeTax'
 import * as pension from './pension'
+import * as houseAffordability from './houseAffordability'
 import { ZodTypeAny } from 'zod'
 
 export interface CalculatorModule {
@@ -27,6 +28,7 @@ export const calculatorRegistry = {
   currency,
   'college-cost': collegeCost,
   'student-loan': studentLoan,
+  'house-affordability': houseAffordability,
   'income-tax': incomeTax,
   pension,
   'compound-interest': compoundInterest

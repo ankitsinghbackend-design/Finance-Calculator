@@ -1,6 +1,7 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import AutoLoanPage from '../components/calculators/AutoLoanPage'
+import HouseAffordabilityPage from './HouseAffordabilityPage'
 import MortgageCalculatorPage from './MortgageCalculatorPage'
 import MortgagePayoffPage from './MortgagePayoffPage'
 import K401CalculatorPage from './K401CalculatorPage'
@@ -16,6 +17,10 @@ export default function CalculatorPlaceholder() {
 
 	if (calculatorId === 'auto-loan') {
 		return <AutoLoanPage />
+	}
+
+	if (calculatorId === 'house-affordability') {
+		return <HouseAffordabilityPage />
 	}
 
 	if (calculatorId === 'mortgage') {
