@@ -25,6 +25,9 @@ import * as debtToIncome from './debtToIncome'
 import * as fhaLoan from './fhaLoan'
 import * as vaMortgage from './vaMortgage'
 import * as refinance from './refinance'
+import * as rentalProperty from './rentalProperty'
+import * as downPayment from './downPayment'
+import * as cashBackComparison from './cashBackComparison'
 import { generalAprSchema, mortgageAprSchema, calculateGeneralApr, calculateMortgageApr } from './aprLogic'
 import { ZodTypeAny } from 'zod'
 
@@ -48,6 +51,10 @@ export const calculatorRegistry = {
   'fha-loan': fhaLoan,
   'va-mortgage': vaMortgage,
   refinance,
+  'rental-property': rentalProperty,
+  'down-payment': downPayment,
+  'cashback-vs-low-interest': cashBackComparison,
+  'cash-back-or-low-interest': cashBackComparison,
   'general-apr': {
     schema: generalAprSchema,
     calculate: calculateGeneralApr

@@ -26,6 +26,9 @@ import DebtToIncomeCalculatorPage from './DebtToIncomeCalculatorPage'
 import FHALoanPage from './FHALoanPage'
 import VAMortgagePage from './VAMortgagePage'
 import RefinancePage from './RefinancePage'
+import RentalPropertyPage from './RentalPropertyPage'
+import DownPaymentPage from './DownPaymentPage'
+import CashBackComparisonPage from './CashBackComparisonPage'
 
 export default function CalculatorPlaceholder() {
 	const { calculatorId } = useParams()
@@ -132,6 +135,18 @@ export default function CalculatorPlaceholder() {
 
 	if (calculatorId === 'refinance') {
 		return <RefinancePage />
+	}
+
+	if (calculatorId === 'rental-property') {
+		return <RentalPropertyPage />
+	}
+
+	if (calculatorId === 'down-payment') {
+		return <DownPaymentPage />
+	}
+
+	if (calculatorId === 'cash-back-or-low-interest' || calculatorId === 'cashback-vs-low-interest') {
+		return <CashBackComparisonPage />
 	}
 
 	return <div className="min-h-[60vh]" />

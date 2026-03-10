@@ -27,6 +27,9 @@ import DebtToIncomeCalculatorPage from './pages/DebtToIncomeCalculatorPage'
 import FHALoanPage from './pages/FHALoanPage'
 import VAMortgagePage from './pages/VAMortgagePage'
 import RefinancePage from './pages/RefinancePage'
+import RentalPropertyPage from './pages/RentalPropertyPage'
+import DownPaymentPage from './pages/DownPaymentPage'
+import CashBackComparisonPage from './pages/CashBackComparisonPage'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import CalculatorLayout from './layouts/CalculatorLayout'
@@ -67,6 +70,9 @@ export default function App(){
             <Route path="/calculators/fha-loan" element={<FHALoanPage/>} />
             <Route path="/calculators/va-mortgage" element={<VAMortgagePage/>} />
             <Route path="/calculators/refinance" element={<RefinancePage/>} />
+            <Route path="/calculators/rental-property" element={<RentalPropertyPage/>} />
+            <Route path="/calculators/down-payment" element={<DownPaymentPage/>} />
+            <Route path="/calculators/cash-back-or-low-interest" element={<CashBackComparisonPage/>} />
             <Route path="/calculators/:calculatorId" element={<CalculatorPlaceholder/>} />
             <Route path="/help/disable-adblock" element={<DisableAdblockHelp/>} />
             <Route path="/blogs" element={<BlogListPage/>} />
