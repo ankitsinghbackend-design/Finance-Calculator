@@ -36,11 +36,11 @@ export const calculators: CalculatorItem[] = [
   { id: 'apr', title: 'APR Calculator', description: 'Estimate annual percentage rate across loan costs.', category: 'Loan' },
   { id: 'fha-loan', title: 'FHA Loan Calculator', description: 'Estimate FHA mortgage affordability and payments.', category: 'Loan' },
   { id: 'va-mortgage', title: 'VA Mortgage Calculator', description: 'Estimate VA mortgage payments and affordability.', category: 'Loan' },
-  { id: 'home-equity-loan', title: 'Home Equity Loan Calculator', description: 'Estimate payments against your home equity.', category: 'Loan' },
   { id: 'heloc', title: 'Home Equity Line of Credit (HELOC) Calculator', description: 'Estimate borrowing and repayment for a HELOC.', category: 'Loan' },
   { id: 'down-payment', title: 'Down Payment Calculator', description: 'Plan required down payment and upfront home costs.', category: 'Loan' },
   { id: 'rent-vs-buy', title: 'Rent vs. Buy Calculator', description: 'Compare long-term rent and homeownership costs.', category: 'Loan' },
   { id: 'auto-loan', title: 'Auto Loan Calculator', description: 'Auto loan payments & amortization.', category: 'Loan' },
+  { id: 'auto-lease', title: 'Auto Lease Calculator', description: 'Estimate lease payments using depreciation, money factor, residual value, and taxes.', category: 'Loan' },
   { id: 'cash-back-or-low-interest', title: 'Cash Back or Low Interest Calculator', description: 'Compare dealer cash offers with low-interest financing.', category: 'Loan' },
   { id: 'loan', title: 'Loan Calculator', description: 'Estimate monthly loan payments or payoff time with fixed term and fixed payment modes.', category: 'Loan' },
   { id: 'repayment', title: 'Repayment Calculator', description: 'Estimate monthly repayment amount or payoff time for a loan.', category: 'Loan' },
@@ -53,6 +53,7 @@ export const calculators: CalculatorItem[] = [
   { id: 'savings', title: 'Savings Calculator', description: 'Plan savings goals.', category: 'Savings' },
   { id: 'income-tax', title: 'Income Tax Calculator', description: 'Estimate federal tax liability and credits.', category: 'Tax' },
   { id: 'estate-tax', title: 'Estate Tax Calculator', description: 'Estimate federal estate tax owed after deductions, gifts, and the current exemption.', category: 'Tax' },
+  { id: 'sales-tax', title: 'Sales Tax Calculator', description: 'Solve for before-tax price, sales tax rate, or final price when the other two are known.', category: 'Tax' },
   { id: 'currency', title: 'Currency Converter', description: 'Quick conversions.', category: 'Utility' },
   { id: 'college-cost', title: 'College Cost Calculator', description: 'Estimate future college cost and funding gap.', category: 'Education' },
   { id: 'inflation', title: 'Inflation Calculator', description: 'Adjust for inflation.', category: 'Investment' },
@@ -110,7 +111,7 @@ export const financeMenuColumns: FinanceMenuColumn[] = [
       { label: 'APR Calculator', calculatorId: 'apr' },
       { label: 'FHA Loan Calculator', calculatorId: 'fha-loan' },
       { label: 'VA Mortgage Calculator', calculatorId: 'va-mortgage' },
-      { label: 'Home Equity Loan Calculator', calculatorId: 'home-equity-loan' },
+      { label: 'Social Security Calculator', calculatorId: 'social-security' },
       { label: 'Home Equity Line of Credit (HELOC) Calculator', calculatorId: 'heloc' },
       { label: 'Down Payment Calculator', calculatorId: 'down-payment' },
       { label: 'Rent vs. Buy Calculator', calculatorId: 'rent-vs-buy' }
@@ -124,7 +125,7 @@ export const financeMenuColumns: FinanceMenuColumn[] = [
         items: [
           { label: 'Auto Loan Calculator', calculatorId: 'auto-loan' },
           { label: 'Cash Back or Low Interest Calculator', calculatorId: 'cash-back-or-low-interest' },
-          { label: 'Auto Lease Calculator' }
+          { label: 'Auto Lease Calculator', calculatorId: 'auto-lease' }
         ]
       },
       {
@@ -133,7 +134,8 @@ export const financeMenuColumns: FinanceMenuColumn[] = [
           { label: 'Income Tax Calculator', calculatorId: 'income-tax' },
           { label: 'Salary Calculator', calculatorId: 'salary' },
           { label: 'Marriage Tax Calculator' },
-          { label: 'Estate Tax Calculator' },
+          { label: 'Estate Tax Calculator', calculatorId: 'estate-tax' },
+          { label: 'Sales Tax Calculator', calculatorId: 'sales-tax' },
           { label: 'Take-Home-Paycheck Calculator' }
         ]
       }
@@ -165,7 +167,7 @@ export const financeMenuColumns: FinanceMenuColumn[] = [
       { label: 'Retirement Calculator' },
       { label: '401K Calculator', calculatorId: '401k' },
       { label: 'Pension Calculator', calculatorId: 'pension' },
-      { label: 'Social Security Calculator' },
+      { label: 'Social Security Calculator', calculatorId: 'social-security' },
       { label: 'Annuity Calculator' },
       { label: 'Annuity Payout Calculator' },
       { label: 'Roth IRA Calculator' },
@@ -180,7 +182,7 @@ export const financeMenuColumns: FinanceMenuColumn[] = [
       { label: 'Payment Calculator' },
       { label: 'Currency Calculator', calculatorId: 'currency' },
       { label: 'Inflation Calculator', calculatorId: 'inflation' },
-      { label: 'Sales Tax Calculator' },
+      { label: 'Sales Tax Calculator', calculatorId: 'sales-tax' },
       { label: 'Credit Card Calculator' },
       { label: 'Credit Cards Payoff Calculator' },
       { label: 'Debt Payoff Calculator' },

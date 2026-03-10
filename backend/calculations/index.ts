@@ -10,12 +10,18 @@ import * as collegeCost from './collegeCost'
 import * as studentLoan from './studentLoan'
 import * as incomeTax from './incomeTax'
 import * as pension from './pension'
+import * as socialSecurity from './socialSecurity'
 import * as houseAffordability from './houseAffordability'
 import * as repayment from './repayment'
 import * as investment from './investment'
 import * as interestRate from './interestRate'
 import * as estateTax from './estateTax'
 import * as loan from './loan'
+import * as heloc from './heloc'
+import * as autoLease from './autoLease'
+import * as salesTax from './salesTax'
+import * as debtToIncome from './debtToIncome'
+import { generalAprSchema, mortgageAprSchema, calculateGeneralApr, calculateMortgageApr } from './aprLogic'
 import { ZodTypeAny } from 'zod'
 
 export interface CalculatorModule {
@@ -32,6 +38,18 @@ export const calculatorRegistry = {
   salary,
   repayment,
   loan,
+  heloc,
+  'auto-lease': autoLease,
+  'general-apr': {
+    schema: generalAprSchema,
+    calculate: calculateGeneralApr
+  },
+  'mortgage-apr': {
+    schema: mortgageAprSchema,
+    calculate: calculateMortgageApr
+  },
+  'sales-tax': salesTax,
+  'debt-to-income': debtToIncome,
   investment,
   'interest-rate': interestRate,
   'estate-tax': estateTax,
@@ -41,6 +59,7 @@ export const calculatorRegistry = {
   'house-affordability': houseAffordability,
   'income-tax': incomeTax,
   pension,
+  'social-security': socialSecurity,
   'compound-interest': compoundInterest
 } satisfies Record<string, CalculatorModule>
 

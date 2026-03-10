@@ -12,10 +12,16 @@ import CompoundInterestCalculatorPage from './CompoundInterestCalculatorPage'
 import StudentLoanCalculatorPage from './StudentLoanCalculatorPage'
 import IncomeTaxCalculatorPage from './IncomeTaxCalculatorPage'
 import PensionCalculatorPage from './PensionCalculatorPage'
+import SocialSecurityCalculatorPage from './SocialSecurityCalculatorPage'
 import InvestmentCalculatorPage from './InvestmentCalculatorPage'
 import InterestRateCalculatorPage from './InterestRateCalculatorPage'
 import EstateTaxCalculatorPage from './EstateTaxCalculatorPage'
 import LoanCalculatorPage from './LoanCalculatorPage'
+import HelocCalculatorPage from './HelocCalculatorPage'
+import AutoLeaseCalculatorPage from './AutoLeaseCalculatorPage'
+import APRCalculatorPage from './APRCalculatorPage'
+import SalesTaxCalculatorPage from './SalesTaxCalculatorPage'
+import DebtToIncomeCalculatorPage from './DebtToIncomeCalculatorPage'
 
 export default function CalculatorPlaceholder() {
 	const { calculatorId } = useParams()
@@ -68,6 +74,10 @@ export default function CalculatorPlaceholder() {
 		return <PensionCalculatorPage />
 	}
 
+	if (calculatorId === 'social-security') {
+		return <SocialSecurityCalculatorPage />
+	}
+
 	if (calculatorId === 'investment') {
 		return <InvestmentCalculatorPage />
 	}
@@ -82,6 +92,26 @@ export default function CalculatorPlaceholder() {
 
 	if (calculatorId === 'loan') {
 		return <LoanCalculatorPage />
+	}
+
+	if (calculatorId === 'heloc') {
+		return <HelocCalculatorPage />
+	}
+
+	if (calculatorId === 'auto-lease') {
+		return <AutoLeaseCalculatorPage />
+	}
+
+	if (calculatorId === 'apr') {
+		return <APRCalculatorPage />
+	}
+
+	if (calculatorId === 'sales-tax') {
+		return <SalesTaxCalculatorPage />
+	}
+
+	if (calculatorId === 'dti-ratio') {
+		return <DebtToIncomeCalculatorPage />
 	}
 
 	return <div className="min-h-[60vh]" />

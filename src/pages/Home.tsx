@@ -232,7 +232,7 @@ export default function Home(){
       { label: 'VA Mortgage', calculatorId: 'va-mortgage' }
     ],
     [
-      { label: 'Home Equity Loan', calculatorId: 'home-equity-loan' },
+      { label: 'Social Security', calculatorId: 'social-security' },
       { label: 'HELOC', calculatorId: 'heloc' },
       { label: 'Down Payment', calculatorId: 'down-payment' }
     ],

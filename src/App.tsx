@@ -13,10 +13,16 @@ import RepaymentCalculatorPage from './pages/RepaymentCalculatorPage'
 import StudentLoanCalculatorPage from './pages/StudentLoanCalculatorPage'
 import IncomeTaxCalculatorPage from './pages/IncomeTaxCalculatorPage'
 import PensionCalculatorPage from './pages/PensionCalculatorPage'
+import SocialSecurityCalculatorPage from './pages/SocialSecurityCalculatorPage'
 import InvestmentCalculatorPage from './pages/InvestmentCalculatorPage'
 import InterestRateCalculatorPage from './pages/InterestRateCalculatorPage'
 import EstateTaxCalculatorPage from './pages/EstateTaxCalculatorPage'
 import LoanCalculatorPage from './pages/LoanCalculatorPage'
+import HelocCalculatorPage from './pages/HelocCalculatorPage'
+import AutoLeaseCalculatorPage from './pages/AutoLeaseCalculatorPage'
+import APRCalculatorPage from './pages/APRCalculatorPage'
+import SalesTaxCalculatorPage from './pages/SalesTaxCalculatorPage'
+import DebtToIncomeCalculatorPage from './pages/DebtToIncomeCalculatorPage'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import CalculatorLayout from './layouts/CalculatorLayout'
@@ -43,10 +49,16 @@ export default function App(){
             <Route path="/calculators/student-loan" element={<StudentLoanCalculatorPage/>} />
             <Route path="/calculators/income-tax" element={<IncomeTaxCalculatorPage/>} />
             <Route path="/calculators/pension" element={<PensionCalculatorPage/>} />
+            <Route path="/calculators/social-security" element={<SocialSecurityCalculatorPage/>} />
             <Route path="/calculators/investment" element={<InvestmentCalculatorPage/>} />
             <Route path="/calculators/interest-rate" element={<InterestRateCalculatorPage/>} />
             <Route path="/calculators/estate-tax" element={<EstateTaxCalculatorPage/>} />
             <Route path="/calculators/loan" element={<LoanCalculatorPage/>} />
+            <Route path="/calculators/heloc" element={<HelocCalculatorPage/>} />
+            <Route path="/calculators/auto-lease" element={<AutoLeaseCalculatorPage/>} />
+            <Route path="/calculators/apr" element={<APRCalculatorPage/>} />
+            <Route path="/calculators/sales-tax" element={<SalesTaxCalculatorPage/>} />
+            <Route path="/calculators/dti-ratio" element={<DebtToIncomeCalculatorPage/>} />
             <Route path="/calculators/:calculatorId" element={<CalculatorPlaceholder/>} />
             <Route path="/help/disable-adblock" element={<DisableAdblockHelp/>} />
             <Route path="/blogs" element={<BlogListPage/>} />
