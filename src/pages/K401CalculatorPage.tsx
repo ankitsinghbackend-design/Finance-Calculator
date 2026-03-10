@@ -1,7 +1,7 @@
 import React, { FormEvent, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
-import ellipseBg from '../assets/Ellipse 1.svg'
+import heroGraphicSvg from '../assets/hero-graphic.svg'
 
 type K401FormState = {
   currentAge: string
@@ -179,13 +179,21 @@ export default function K401CalculatorPage() {
   }
 
   return (
-    <section className="bg-[#f5f7fa] py-12">
-      <div className="max-w-[1360px] mx-auto px-6 xl:px-0">
+    <section className="bg-[#f5f7fa] relative overflow-hidden">
+      {/* Hero graphic — page-level background decoration */}
+      <img
+        src={heroGraphicSvg}
+        alt=""
+        aria-hidden
+        className="hidden xl:block absolute right-0 top-[42px] w-[868px] h-[883px] object-contain pointer-events-none select-none"
+      />
+
+      <div className="max-w-[1360px] mx-auto px-6 xl:px-0 pt-12 pb-12 relative z-10">
         <p className="text-[19px] text-sub font-semibold">Home / Finance / 401K Calculator</p>
 
         <h1 className="text-[48px] leading-[1.1] font-semibold text-heading mt-2">401K Calculator</h1>
-        <p className="text-[16px] leading-[25.6px] text-body mt-2 max-w-[586px]">
-          Estimate your projected retirement savings, employer match, and inflation-adjusted value at retirement.
+        <p className="text-[16px] leading-[25.6px] text-body mt-3 max-w-[586px]">
+          The 401(k) Calculator can estimate a 401(k) balance at retirement as well as distributions in retirement based on income, contribution percentage, age, salary increase, and investment return. It is mainly intended for use by U.S. residents.
         </p>
 
         <div className="mt-8 grid grid-cols-1 xl:grid-cols-[516px_516px] justify-between gap-8 items-start">
@@ -244,33 +252,30 @@ export default function K401CalculatorPage() {
             ) : null}
           </form>
 
-          <div className="relative">
-            <img
-              src={ellipseBg}
-              alt=""
-              aria-hidden
-              className="absolute -right-[210px] -top-[260px] w-[655px] max-w-none opacity-90 pointer-events-none select-none z-0"
-            />
-            <div className="relative z-10 bg-[#f9fafb] border border-cardBorder rounded-2xl px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)]">
-            <div className="text-center">
+          {/* Right column — Result card (starts 81px higher than form per Figma) */}
+          <div className="xl:-mt-[81px]">
+            <div className="bg-[#f9fafb] border border-cardBorder rounded-[16px] px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)] flex flex-col gap-10 items-center">
+            <div className="text-center flex flex-col gap-[10px]">
               <p className="text-[16px] font-medium text-sub">Projected Retirement Balance</p>
-              <p className="text-[40px] leading-none font-semibold text-heading mt-3">
+              <p className="text-[40px] leading-none font-semibold text-heading">
                 {formatCurrency(currentResult.retirementBalance)}
               </p>
             </div>
 
-            <div className="h-px bg-[#a7f3d0] my-8" />
+            <div className="h-px bg-[#a7f3d0] w-full" />
 
-            <h3 className="text-[19px] font-semibold text-heading text-center">Retirement Projection</h3>
+            <div className="w-full">
+              <h3 className="text-[19px] font-semibold text-heading">Retirement Projection</h3>
+            </div>
 
-            <div className="space-y-3 mt-4 text-[19px]">
+            <div className="flex flex-col gap-4 w-full text-[19px]">
               <div className="flex items-center justify-between"><p className="text-body font-medium">Employee Contributions</p><p className="text-sub font-semibold">{formatCurrency(currentResult.totalEmployeeContribution)}</p></div>
               <div className="flex items-center justify-between"><p className="text-body font-medium">Employer Match</p><p className="text-sub font-semibold">{formatCurrency(currentResult.totalEmployerContribution)}</p></div>
               <div className="flex items-center justify-between"><p className="text-body font-medium">Investment Growth</p><p className="text-sub font-semibold">{formatCurrency(currentResult.investmentGrowth)}</p></div>
               <div className="flex items-center justify-between"><p className="text-heading font-semibold">Total Balance</p><p className="text-heading font-semibold">{formatCurrency(currentResult.retirementBalance)}</p></div>
             </div>
 
-            <div className="space-y-3 mt-8 text-[19px]">
+            <div className="flex flex-col gap-4 w-full text-[19px]">
               <div className="flex items-center justify-between"><p className="text-heading font-semibold">Estimated Monthly Income</p><p className="text-heading font-semibold">{formatCurrency(currentResult.monthlyIncome)}</p></div>
               <div className="flex items-center justify-between"><p className="text-heading font-semibold">Inflation Adjusted Value</p><p className="text-heading font-semibold">{formatCurrency(currentResult.inflationAdjustedBalance)}</p></div>
             </div>

@@ -1,8 +1,7 @@
 import React, { FormEvent, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
-import heroGraphicImg from '../assets/hero-graphic.png'
-import ellipseBg from '../assets/Ellipse 1.svg'
+import heroGraphicSvg from '../assets/hero-graphic.svg'
 
 type CollegeCostResults = {
   futureAnnualCost: number
@@ -14,8 +13,6 @@ type CollegeCostResults = {
 
 const formatCurrency = (value: number): string =>
   new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value)
-
-const heroGraphic = heroGraphicImg
 
 export default function CollegeCostCalculatorPage() {
   const [currentAnnualCost, setCurrentAnnualCost] = useState<string>('25000')
@@ -74,59 +71,71 @@ export default function CollegeCostCalculatorPage() {
   }
 
   return (
-    <section className="bg-[#f5f7fa] py-12 min-h-[calc(100vh-82px)] overflow-hidden">
-      <div className="max-w-[1360px] mx-auto px-6 xl:px-0 relative">
-        <img src={heroGraphic} alt="" aria-hidden className="hidden xl:block absolute right-[-80px] top-[-20px] w-[868px] h-[883px] object-contain pointer-events-none" />
+    <section className="bg-[#f5f7fa] relative overflow-hidden">
+      {/* Hero graphic — page-level background decoration */}
+      <img
+        src={heroGraphicSvg}
+        alt=""
+        aria-hidden
+        className="hidden xl:block absolute right-0 top-[42px] w-[868px] h-[883px] object-contain pointer-events-none select-none"
+      />
 
+      <div className="max-w-[1360px] mx-auto px-6 xl:px-0 pt-12 pb-24 relative z-10">
         <p className="text-[19px] text-sub font-semibold">Home / Finance / College Cost Calculator</p>
         <h1 className="text-[48px] leading-[1.1] font-semibold text-heading mt-2 max-w-[586px]">College Cost Calculator</h1>
-        <p className="text-[16px] leading-[25.6px] text-body mt-2 max-w-[586px]">
-          Estimate future college costs, projected savings, and your funding gap.
+        <p className="text-[16px] leading-[25.6px] text-body mt-3 max-w-[586px]">
+          The College Cost Calculator can help determine rough estimates of what to expect from college costs, and in turn, how much to begin budgeting for it. To estimate the costs of more specific colleges, the{' '}
+          <a href="https://nces.ed.gov/collegenavigator/" className="underline" target="_blank" rel="noopener noreferrer">College Navigator</a>{' '}
+          can be used to get more precise annual college costs data. This calculator is mainly intended for use in the U.S.
         </p>
 
-        <div className="relative z-10 mt-8 grid grid-cols-1 xl:grid-cols-[565px_516px] justify-between gap-8 items-start">
+        <div className="mt-8 grid grid-cols-1 xl:grid-cols-[565px_516px] justify-between gap-8 items-start">
           <form onSubmit={handleCalculate} className="bg-[#f9fafb] border border-cardBorder rounded-[28px] p-5 backdrop-blur-[10.5px]">
             <p className="text-[19px] font-semibold text-sub">Basic</p>
 
-            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div className="mt-5 flex flex-col gap-5">
+              {/* First row: two fields side by side */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div>
+                  <label className="text-[16px] text-sub font-medium block">Today's annual college costs:</label>
+                  <input type="number" min="0" step="any" value={currentAnnualCost} onChange={(e) => setCurrentAnnualCost(e.target.value)} className="h-[42px] mt-1.5 w-full rounded-md border border-cardBorder bg-alt px-2 text-[16px] text-sub font-medium" placeholder="$" />
+                </div>
+
+                <div>
+                  <label className="text-[16px] text-sub font-medium block">Interest rate</label>
+                  <input type="number" min="0" step="any" value={inflationRate} onChange={(e) => setInflationRate(e.target.value)} className="h-[42px] mt-1.5 w-full rounded-md border border-cardBorder bg-alt px-2 text-[16px] text-sub font-medium" placeholder="Year" />
+                </div>
+              </div>
+
+              {/* Remaining fields: single column full width */}
               <div>
-                <label className="text-[16px] text-sub font-medium block">Current Annual Cost</label>
-                <input type="number" min="0" step="any" value={currentAnnualCost} onChange={(e) => setCurrentAnnualCost(e.target.value)} className="h-[42px] mt-1.5 w-full rounded-md border border-cardBorder bg-alt px-2 text-[16px] text-sub font-medium" />
+                <label className="text-[16px] text-sub font-medium block">Expected college attendance duration:</label>
+                <input type="number" min="1" step="1" value={collegeDuration} onChange={(e) => setCollegeDuration(e.target.value)} className="h-[42px] mt-1.5 w-full rounded-md border border-cardBorder bg-alt px-2 text-[16px] text-sub font-medium" placeholder="Months" />
               </div>
 
               <div>
-                <label className="text-[16px] text-sub font-medium block">Inflation Rate (%)</label>
-                <input type="number" min="0" step="any" value={inflationRate} onChange={(e) => setInflationRate(e.target.value)} className="h-[42px] mt-1.5 w-full rounded-md border border-cardBorder bg-alt px-2 text-[16px] text-sub font-medium" />
+                <label className="text-[16px] text-sub font-medium block">Percent of costs from savings:</label>
+                <input type="number" min="0" max="100" step="any" value={savingsPercent} onChange={(e) => setSavingsPercent(e.target.value)} className="h-[42px] mt-1.5 w-full rounded-md border border-cardBorder bg-alt px-2 text-[16px] text-sub font-medium" placeholder="%" />
               </div>
 
               <div>
-                <label className="text-[16px] text-sub font-medium block">College Duration (Years)</label>
-                <input type="number" min="1" step="1" value={collegeDuration} onChange={(e) => setCollegeDuration(e.target.value)} className="h-[42px] mt-1.5 w-full rounded-md border border-cardBorder bg-alt px-2 text-[16px] text-sub font-medium" />
+                <label className="text-[16px] text-sub font-medium block">College savings balance now:</label>
+                <input type="number" min="0" step="any" value={currentSavings} onChange={(e) => setCurrentSavings(e.target.value)} className="h-[42px] mt-1.5 w-full rounded-md border border-cardBorder bg-alt px-2 text-[16px] text-sub font-medium" placeholder="$" />
               </div>
 
               <div>
-                <label className="text-[16px] text-sub font-medium block">Savings Percent (%)</label>
-                <input type="number" min="0" max="100" step="any" value={savingsPercent} onChange={(e) => setSavingsPercent(e.target.value)} className="h-[42px] mt-1.5 w-full rounded-md border border-cardBorder bg-alt px-2 text-[16px] text-sub font-medium" />
+                <label className="text-[16px] text-sub font-medium block">Interest or investment return rate</label>
+                <input type="number" min="0" step="any" value={investmentReturn} onChange={(e) => setInvestmentReturn(e.target.value)} className="h-[42px] mt-1.5 w-full rounded-md border border-cardBorder bg-alt px-2 text-[16px] text-sub font-medium" placeholder="%" />
               </div>
 
               <div>
-                <label className="text-[16px] text-sub font-medium block">Current Savings</label>
-                <input type="number" min="0" step="any" value={currentSavings} onChange={(e) => setCurrentSavings(e.target.value)} className="h-[42px] mt-1.5 w-full rounded-md border border-cardBorder bg-alt px-2 text-[16px] text-sub font-medium" />
+                <label className="text-[16px] text-sub font-medium block">Tax rate on interest or investment return:</label>
+                <input type="number" min="0" max="100" step="any" value={taxRate} onChange={(e) => setTaxRate(e.target.value)} className="h-[42px] mt-1.5 w-full rounded-md border border-cardBorder bg-alt px-2 text-[16px] text-sub font-medium" placeholder="%" />
               </div>
 
               <div>
-                <label className="text-[16px] text-sub font-medium block">Investment Return (%)</label>
-                <input type="number" min="0" step="any" value={investmentReturn} onChange={(e) => setInvestmentReturn(e.target.value)} className="h-[42px] mt-1.5 w-full rounded-md border border-cardBorder bg-alt px-2 text-[16px] text-sub font-medium" />
-              </div>
-
-              <div>
-                <label className="text-[16px] text-sub font-medium block">Tax Rate (%)</label>
-                <input type="number" min="0" max="100" step="any" value={taxRate} onChange={(e) => setTaxRate(e.target.value)} className="h-[42px] mt-1.5 w-full rounded-md border border-cardBorder bg-alt px-2 text-[16px] text-sub font-medium" />
-              </div>
-
-              <div>
-                <label className="text-[16px] text-sub font-medium block">Years Until College</label>
-                <input type="number" min="0" step="1" value={yearsUntilCollege} onChange={(e) => setYearsUntilCollege(e.target.value)} className="h-[42px] mt-1.5 w-full rounded-md border border-cardBorder bg-alt px-2 text-[16px] text-sub font-medium" />
+                <label className="text-[16px] text-sub font-medium block">College will start in:</label>
+                <input type="number" min="0" step="1" value={yearsUntilCollege} onChange={(e) => setYearsUntilCollege(e.target.value)} className="h-[42px] mt-1.5 w-full rounded-md border border-cardBorder bg-alt px-2 text-[16px] text-sub font-medium" placeholder="Years" />
               </div>
             </div>
 
@@ -142,23 +151,20 @@ export default function CollegeCostCalculatorPage() {
             {calculateError ? <p className="mt-3 text-sm text-red-600">{calculateError}</p> : null}
           </form>
 
-          <div className="relative">
-            <img
-              src={ellipseBg}
-              alt=""
-              aria-hidden
-              className="absolute -right-[210px] -top-[260px] w-[655px] max-w-none opacity-90 pointer-events-none select-none z-0"
-            />
-            <div className="relative z-10 bg-white border border-cardBorder rounded-2xl px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)]">
-            <div className="text-center">
+          {/* Right column — Result card (starts 153px higher than form per Figma) */}
+          <div className="xl:-mt-[153px]">
+            <div className="bg-[#f9fafb] border border-cardBorder rounded-[16px] px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)] flex flex-col gap-10 items-center">
+            <div className="text-center flex flex-col gap-[10px]">
               <p className="text-[16px] font-medium text-sub">Estimated Total College Cost</p>
-              <p className="text-[40px] leading-none font-semibold text-heading mt-3">{result ? formatCurrency(result.totalCollegeCost) : '$0.00'}</p>
+              <p className="text-[40px] leading-none font-semibold text-heading">{result ? formatCurrency(result.totalCollegeCost) : '$0.00'}</p>
             </div>
 
-            <div className="h-px bg-[#a7f3d0] my-10" />
+            <div className="h-px bg-[#a7f3d0] w-full" />
 
-            <p className="text-[19px] text-heading font-semibold text-center">Cost Summary</p>
-            <div className="mt-8 space-y-4 text-[19px]">
+            <div className="w-full">
+              <h3 className="text-[19px] text-heading font-semibold">Cost Summary</h3>
+            </div>
+            <div className="flex flex-col gap-4 w-full text-[19px]">
               <div className="flex items-center justify-between gap-4"><span className="text-body font-medium">Future Annual Cost</span><span className="text-heading font-semibold whitespace-nowrap">{result ? formatCurrency(result.futureAnnualCost) : '-'}</span></div>
               <div className="flex items-center justify-between gap-4"><span className="text-body font-medium">Total College Cost</span><span className="text-heading font-semibold whitespace-nowrap">{result ? formatCurrency(result.totalCollegeCost) : '-'}</span></div>
               <div className="flex items-center justify-between gap-4"><span className="text-body font-medium">Projected Savings</span><span className="text-heading font-semibold whitespace-nowrap">{result ? formatCurrency(result.futureSavings) : '-'}</span></div>
