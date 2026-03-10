@@ -27,6 +27,7 @@ export const calculators: CalculatorItem[] = [
   { id: 'auto-loan', title: 'Auto Loan Calculator', description: 'Auto loan payments & amortization.', category: 'Loan' },
   { id: 'personal-loan', title: 'Personal Loan', description: 'Personal loan planner.', category: 'Loan' },
   { id: 'compound-interest', title: 'Compound Interest', description: 'Growth over time with compound interest.', category: 'Investment' },
+  { id: 'pension', title: 'Pension Calculator', description: 'Compare lump sum versus monthly pension lifetime value.', category: 'Retirement' },
   { id: 'retirement', title: 'Retirement Calculator', description: 'Estimate retirement savings.', category: 'Retirement' },
   { id: 'savings', title: 'Savings Calculator', description: 'Plan savings goals.', category: 'Savings' },
   { id: 'income-tax', title: 'Income Tax Calculator', description: 'Estimate federal tax liability and credits.', category: 'Tax' },

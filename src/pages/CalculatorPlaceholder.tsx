@@ -8,6 +8,7 @@ import CurrencyCalculatorPage from './CurrencyCalculatorPage'
 import CompoundInterestCalculatorPage from './CompoundInterestCalculatorPage'
 import StudentLoanCalculatorPage from './StudentLoanCalculatorPage'
 import IncomeTaxCalculatorPage from './IncomeTaxCalculatorPage'
+import PensionCalculatorPage from './PensionCalculatorPage'
 
 export default function CalculatorPlaceholder() {
 	const { calculatorId } = useParams()
@@ -42,6 +43,10 @@ export default function CalculatorPlaceholder() {
 
 	if (calculatorId === 'income-tax') {
 		return <IncomeTaxCalculatorPage />
+	}
+
+	if (calculatorId === 'pension') {
+		return <PensionCalculatorPage />
 	}
 
 	return <div className="min-h-[60vh]" />
