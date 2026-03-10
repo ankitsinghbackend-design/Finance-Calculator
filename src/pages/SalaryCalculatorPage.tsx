@@ -1,7 +1,8 @@
 import React, { FormEvent, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
-import heroGraphicSvg from '../assets/hero-graphic.svg'
+
+const figmaSalaryGraphic = 'https://www.figma.com/api/mcp/asset/c8850118-8766-4096-bf1a-d6eaf9ae404c'
 
 type SalaryFormState = {
   salaryAmount: string
@@ -141,25 +142,25 @@ export default function SalaryCalculatorPage() {
   }
 
   return (
-    <section className="bg-[#f5f7fa] relative overflow-hidden">
+    <section className="bg-[#f5f7fa] relative overflow-hidden min-h-[calc(100vh-82px)]">
       {/* Hero graphic — page-level background decoration */}
       <img
-        src={heroGraphicSvg}
+        src={figmaSalaryGraphic}
         alt=""
         aria-hidden
-        className="hidden xl:block absolute right-0 top-[42px] w-[868px] h-[883px] object-contain pointer-events-none select-none"
+        className="hidden xl:block absolute left-[calc(37.5%+32px)] top-[42px] w-[868px] h-[883px] object-contain pointer-events-none select-none"
       />
 
-      <div className="max-w-[1360px] mx-auto px-6 xl:px-0 pt-12 pb-12 relative z-10">
+      <div className="max-w-[1360px] mx-auto px-6 xl:px-0 pt-[131px] pb-12 relative z-10 xl:min-h-[1014px]">
         <p className="text-[19px] text-sub font-semibold">Home / Finance / Salary Calculator</p>
 
-        <h1 className="text-[48px] leading-[1.1] font-semibold text-heading mt-2">Salary Calculator</h1>
-        <p className="text-[16px] leading-[25.6px] text-body mt-2 max-w-[586px]">
-          The Salary Calculator converts salary amounts to their corresponding values based on payment frequency and adjusted values that account for vacation days and holidays.
+        <h1 className="text-[48px] leading-[1.1] font-semibold text-heading mt-[8px]">Salary Calculator</h1>
+        <p className="text-[16px] leading-[25.6px] text-body mt-[12px] max-w-[586px]">
+          The Salary Calculator converts salary amounts to their corresponding values based on payment frequency. Examples of payment frequencies include biweekly, semi-monthly, or monthly payments. Results include unadjusted figures and adjusted figures that account for vacation days and holidays per year.
         </p>
 
-        <div className="mt-8 grid grid-cols-1 xl:grid-cols-[516px_516px] justify-between gap-8 items-start">
-          <form onSubmit={handleCalculate} className="bg-[#f9fafb] border border-cardBorder rounded-[28px] p-5">
+        <div className="mt-8 xl:mt-0 xl:relative xl:min-h-[760px]">
+          <form onSubmit={handleCalculate} className="bg-[#f9fafb] border border-cardBorder rounded-[28px] p-5 xl:absolute xl:left-0 xl:top-[249px] xl:w-[516px]">
             <h2 className="text-[19px] font-semibold text-heading">Basic info</h2>
 
             <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-[10px]">
@@ -262,8 +263,8 @@ export default function SalaryCalculatorPage() {
             ) : null}
           </form>
 
-          {/* Right column — Result card (starts 51px higher than form per Figma) */}
-          <div className="xl:-mt-[51px]">
+          {/* Right column — Result card */}
+          <div className="mt-8 xl:mt-0 xl:absolute xl:left-[758px] xl:top-[145px] xl:w-[516px]">
             <div className="bg-[#f9fafb] border border-cardBorder rounded-[16px] px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)] flex flex-col gap-10 items-center">
             <div className="text-center flex flex-col gap-[10px]">
               <p className="text-[16px] font-medium text-sub">Annual Salary</p>

@@ -7,6 +7,7 @@ type ExchangeApiResponse = {
   time_last_update_utc: string
   base_code: string
   rates: Record<string, number>
+  provider?: string
 }
 
 type CurrencyApiResults = {
@@ -20,9 +21,7 @@ type CurrencyApiResults = {
 }
 
 const RATES_API_URL = 'https://open.er-api.com/v6/latest/USD'
-import currencyHeroImg from '../assets/currency-hero.png'
-import ellipseBg from '../assets/Ellipse 1.svg'
-const heroGraphic = currencyHeroImg
+const heroGraphic = 'https://www.figma.com/api/mcp/asset/fd9806b6-e9c1-47df-a9ff-12d8e2e99a24'
 
 const usdFormatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
@@ -144,19 +143,20 @@ export default function CurrencyCalculatorPage() {
 
   return (
     <section className="bg-[#f5f7fa] py-12 min-h-[calc(100vh-82px)] overflow-hidden">
-      <div className="max-w-[1360px] mx-auto px-6 xl:px-0 relative">
+      <div className="max-w-[1440px] mx-auto px-6 xl:px-10 relative isolate">
         <img
           src={heroGraphic}
           alt=""
           aria-hidden
-          className="hidden xl:block absolute right-[-80px] top-[-20px] w-[868px] h-[883px] object-contain pointer-events-none"
+          className="hidden xl:block absolute right-[-80px] top-[-20px] z-0 w-[868px] h-[883px] object-contain pointer-events-none"
         />
 
+        <div className="relative z-10">
         <p className="text-[19px] text-sub font-semibold">Home / Finance / Currency Calculator</p>
 
-        <h1 className="text-[48px] leading-[1.1] font-semibold text-heading mt-2">Currency Calculator</h1>
-        <p className="text-[16px] leading-[25.6px] text-body mt-2 max-w-[586px]">
-          Convert from USD to global currencies using live exchange rates. Select a target currency and calculate instantly.
+        <h1 className="text-[48px] leading-none font-semibold text-heading mt-3">Currency Calculator</h1>
+        <p className="text-[16px] leading-[25.6px] text-body mt-3 max-w-[586px]">
+          Convert from USD to global currencies using live exchange rates. Select a target currency, enter your amount, and get instant conversion results powered by real-time exchange data.
         </p>
 
         <div className="mt-8 grid grid-cols-1 xl:grid-cols-[565px_516px] justify-between gap-8 items-start">
@@ -188,7 +188,7 @@ export default function CurrencyCalculatorPage() {
               </div>
             </div>
 
-            <div className="mt-4">
+            <div className="mt-5">
               <label className="text-[16px] text-sub font-medium block">To</label>
               <select
                 value={toCurrency}
@@ -227,14 +227,8 @@ export default function CurrencyCalculatorPage() {
             ) : null}
           </form>
 
-          <div className="relative">
-            <img
-              src={ellipseBg}
-              alt=""
-              aria-hidden
-              className="absolute -right-[210px] -top-[260px] w-[655px] max-w-none opacity-90 pointer-events-none select-none z-0"
-            />
-            <div className="relative z-10 bg-[#f9fafb] border border-cardBorder rounded-2xl px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)]">
+          <div className="xl:-mt-[89px] relative z-20">
+            <div className="bg-white border border-cardBorder rounded-[16px] px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)] overflow-hidden">
             <div className="text-center">
               <p className="text-[16px] font-medium text-sub">Converted Amount</p>
               <p className="text-[40px] leading-none font-semibold text-heading mt-3">
@@ -268,6 +262,7 @@ export default function CurrencyCalculatorPage() {
             </div>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </section>

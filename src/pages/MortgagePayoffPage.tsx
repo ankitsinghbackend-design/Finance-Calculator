@@ -1,7 +1,6 @@
 import React, { FormEvent, useMemo, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
-import ellipseBg from '../assets/Ellipse 1.svg'
 
 type RepaymentOption = 'original' | 'extra' | 'biweekly' | 'normal'
 
@@ -23,6 +22,8 @@ type MortgagePayoffResult = {
   totalInterest: number
   totalPayments: number
 }
+
+const heroGraphic = 'https://www.figma.com/api/mcp/asset/f42f351a-2bfe-46f9-9af8-473d74d33d7d'
 
 const toNumber = (value: string): number => {
   const parsed = Number(value)
@@ -208,20 +209,28 @@ export default function MortgagePayoffPage() {
   const remainingPaymentsPayoff = Math.max(0, payoff.totalPayments - Math.max(0, toNumber(form.loanAmount)))
 
   return (
-    <section className="bg-[#f5f7fa] py-12">
-      <div className="max-w-[1360px] mx-auto px-6 xl:px-0">
+    <section className="bg-[#f5f7fa] py-12 min-h-[calc(100vh-82px)] overflow-hidden">
+      <div className="max-w-[1440px] mx-auto px-6 xl:px-10 relative isolate">
+        <img
+          src={heroGraphic}
+          alt=""
+          aria-hidden
+          className="hidden xl:block absolute right-[-78px] top-[-28px] z-0 w-[868px] h-[883px] object-contain pointer-events-none"
+        />
+
+        <div className="relative z-10">
         <p className="text-[19px] text-sub font-semibold">Home / Finance / Mortgage Payoff Calculator</p>
 
-        <h1 className="text-[48px] leading-[1.1] font-semibold text-heading mt-2 max-w-[586px]">Mortgage Payoff Calculator</h1>
-        <p className="text-[16px] leading-[25.6px] text-body mt-2 max-w-[586px]">
+        <h1 className="text-[48px] leading-none font-semibold text-heading mt-3 max-w-[586px]">Mortgage Payoff Calculator</h1>
+        <p className="text-[16px] leading-[25.6px] text-body mt-3 max-w-[586px]">
           This mortgage payoff calculator helps evaluate how adding extra payments or bi-weekly payments can save on interest and shorten mortgage term.
         </p>
 
         <div className="mt-8 grid grid-cols-1 xl:grid-cols-[516px_516px] justify-between gap-8 items-start">
-          <form onSubmit={handleCalculate} className="border border-cardBorder rounded-[28px] p-5 bg-[#f9fafb]">
+          <form onSubmit={handleCalculate} className="border border-cardBorder rounded-[28px] p-5 bg-[#f9fafb] backdrop-blur-[10.5px]">
             <h2 className="text-[19px] font-semibold text-heading">Payoff Calculator</h2>
 
-            <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-[10px]">
+            <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-[10px]">
               <div>
                 <p className="text-[16px] text-sub font-medium">Original loan amount</p>
                 <input
@@ -259,7 +268,7 @@ export default function MortgagePayoffPage() {
               </div>
             </div>
 
-            <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-[10px]">
+            <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-[8px]">
               <div>
                 <p className="text-[16px] text-sub font-medium">Interest Rate</p>
                 <input
@@ -297,29 +306,30 @@ export default function MortgagePayoffPage() {
               </div>
             </div>
 
-            <div className="mt-4">
+            <div className="mt-5">
               <p className="text-[19px] font-semibold text-heading">Repayment options:</p>
 
-              <div className="mt-2 space-y-2 text-[16px] text-sub">
+              <div className="mt-2.5 space-y-2.5 text-[16px] text-sub">
                 {[
                   { key: 'original', label: 'Original loan amount' },
                   { key: 'extra', label: 'Repayment with extra payments' },
                   { key: 'biweekly', label: 'Biweekly Repayment' },
                   { key: 'normal', label: 'Normal Repayment' }
                 ].map((option) => (
-                  <label key={option.key} className="flex items-center gap-2 cursor-pointer">
+                  <label key={option.key} className="flex items-center gap-[10px] cursor-pointer text-[16px] font-medium text-sub">
                     <input
                       type="radio"
                       name="repaymentOption"
                       checked={repaymentOption === option.key}
                       onChange={() => setRepaymentOption(option.key as RepaymentOption)}
+                      className="size-5 accent-primary"
                     />
                     {option.label}
                   </label>
                 ))}
               </div>
 
-              <div className="mt-2 space-y-2">
+              <div className="mt-2.5 space-y-2.5">
                 <div className="flex items-center gap-[10px]">
                   <input
                     type="number"
@@ -363,14 +373,14 @@ export default function MortgagePayoffPage() {
               <button
                 type="submit"
                 disabled={isCalculating}
-                className="h-[42px] rounded-lg bg-primary text-white text-[16px] font-medium shadow-card"
+                className="h-[37px] rounded-lg bg-primary text-white text-[16px] font-medium shadow-card disabled:opacity-60"
               >
                 {isCalculating ? 'Calculating...' : 'Calculate'}
               </button>
               <button
                 type="button"
                 onClick={handleClear}
-                className="h-[42px] rounded-lg bg-white border border-[#e1e6ef] text-[#1d2433] text-[16px] font-medium shadow-card"
+                className="h-[37px] rounded-lg bg-white border border-[#e1e6ef] text-[#1d2433] text-[16px] font-medium shadow-card"
               >
                 Clear
               </button>
@@ -383,14 +393,8 @@ export default function MortgagePayoffPage() {
             ) : null}
           </form>
 
-          <div className="relative">
-            <img
-              src={ellipseBg}
-              alt=""
-              aria-hidden
-              className="absolute -right-[210px] -top-[260px] w-[655px] max-w-none opacity-90 pointer-events-none select-none z-0"
-            />
-            <div className="relative z-10 bg-[#f9fafb] border border-cardBorder rounded-2xl px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)]">
+          <div className="xl:-mt-[105px] relative z-20">
+            <div className="bg-white border border-cardBorder rounded-[16px] px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)] overflow-hidden">
             <div className="text-center">
               <p className="text-[16px] font-medium text-sub">Total Monthly Payment</p>
               <p className="text-[40px] leading-none font-semibold text-heading mt-3">
@@ -398,7 +402,7 @@ export default function MortgagePayoffPage() {
               </p>
             </div>
 
-            <div className="h-px bg-[#a7f3d0] my-8" />
+            <div className="h-px bg-[#a7f3d0] my-10" />
 
             <div className="flex items-center justify-between">
               <p className="text-[19px] text-sub font-semibold">Mortgage Payoff Calculator</p>
@@ -406,29 +410,30 @@ export default function MortgagePayoffPage() {
 
             <div className="mt-4">
               <p className="text-[19px] text-heading font-semibold">Original</p>
-              <div className="space-y-1.5 mt-2 text-[19px]">
-                <div className="flex items-center justify-between"><p className="text-body font-semibold">Monthly pay</p><p className="text-sub font-semibold">{formatCurrency(base.monthlyPayment)}</p></div>
-                <div className="flex items-center justify-between"><p className="text-body font-semibold">Total payments</p><p className="text-sub font-semibold">{formatCurrency(base.totalPayments)}</p></div>
-                <div className="flex items-center justify-between"><p className="text-body font-semibold">Total interest</p><p className="text-sub font-semibold">{formatCurrency(base.totalInterest)}</p></div>
-                <div className="flex items-center justify-between"><p className="text-body font-semibold">Remaining payments</p><p className="text-sub font-semibold">{formatCurrency(remainingPaymentsBase)}</p></div>
-                <div className="flex items-center justify-between"><p className="text-body font-semibold">Remaining interest</p><p className="text-sub font-semibold">{formatCurrency(base.totalInterest)}</p></div>
-                <div className="flex items-center justify-between"><p className="text-body font-semibold">Payoff in</p><p className="text-sub font-semibold">{base.payoffTime}</p></div>
+              <div className="space-y-[10px] mt-2 text-[19px]">
+                <div className="flex items-center justify-between gap-4"><p className="text-body font-semibold">Monthly pay</p><p className="text-sub font-semibold whitespace-nowrap">{formatCurrency(base.monthlyPayment)}</p></div>
+                <div className="flex items-center justify-between gap-4"><p className="text-body font-semibold">Total payments</p><p className="text-sub font-semibold whitespace-nowrap">{formatCurrency(base.totalPayments)}</p></div>
+                <div className="flex items-center justify-between gap-4"><p className="text-body font-semibold">Total interest</p><p className="text-sub font-semibold whitespace-nowrap">{formatCurrency(base.totalInterest)}</p></div>
+                <div className="flex items-center justify-between gap-4"><p className="text-body font-semibold">Remaining payments</p><p className="text-sub font-semibold whitespace-nowrap">{formatCurrency(remainingPaymentsBase)}</p></div>
+                <div className="flex items-center justify-between gap-4"><p className="text-body font-semibold">Remaining interest</p><p className="text-sub font-semibold whitespace-nowrap">{formatCurrency(base.totalInterest)}</p></div>
+                <div className="flex items-center justify-between gap-4"><p className="text-body font-semibold">Payoff in</p><p className="text-sub font-semibold whitespace-nowrap">{base.payoffTime}</p></div>
               </div>
             </div>
 
             <div className="mt-4">
               <p className="text-[19px] text-heading font-semibold">With Payoff</p>
-              <div className="space-y-1.5 mt-2 text-[19px]">
-                <div className="flex items-center justify-between"><p className="text-body font-semibold">Monthly pay</p><p className="text-sub font-semibold">{formatCurrency(payoff.monthlyPayment + Math.max(0, extraMonthlyPayment))}</p></div>
-                <div className="flex items-center justify-between"><p className="text-body font-semibold">Total payments</p><p className="text-sub font-semibold">{formatCurrency(payoff.totalPayments)}</p></div>
-                <div className="flex items-center justify-between"><p className="text-body font-semibold">Total interest</p><p className="text-sub font-semibold">{formatCurrency(payoff.totalInterest)}</p></div>
-                <div className="flex items-center justify-between"><p className="text-body font-semibold">Remaining payments</p><p className="text-sub font-semibold">{formatCurrency(remainingPaymentsPayoff)}</p></div>
-                <div className="flex items-center justify-between"><p className="text-body font-semibold">Remaining interest</p><p className="text-sub font-semibold">{formatCurrency(payoff.totalInterest)}</p></div>
-                <div className="flex items-center justify-between"><p className="text-body font-semibold">Payoff in</p><p className="text-sub font-semibold">{parsePayoffYears(payoff.payoffTime) > 0 ? payoff.payoffTime : `${parsePayoffMonths(payoff.payoffTime)} months`}</p></div>
+              <div className="space-y-[10px] mt-2 text-[19px]">
+                <div className="flex items-center justify-between gap-4"><p className="text-body font-semibold">Monthly pay</p><p className="text-sub font-semibold whitespace-nowrap">{formatCurrency(payoff.monthlyPayment + Math.max(0, extraMonthlyPayment))}</p></div>
+                <div className="flex items-center justify-between gap-4"><p className="text-body font-semibold">Total payments</p><p className="text-sub font-semibold whitespace-nowrap">{formatCurrency(payoff.totalPayments)}</p></div>
+                <div className="flex items-center justify-between gap-4"><p className="text-body font-semibold">Total interest</p><p className="text-sub font-semibold whitespace-nowrap">{formatCurrency(payoff.totalInterest)}</p></div>
+                <div className="flex items-center justify-between gap-4"><p className="text-body font-semibold">Remaining payments</p><p className="text-sub font-semibold whitespace-nowrap">{formatCurrency(remainingPaymentsPayoff)}</p></div>
+                <div className="flex items-center justify-between gap-4"><p className="text-body font-semibold">Remaining interest</p><p className="text-sub font-semibold whitespace-nowrap">{formatCurrency(payoff.totalInterest)}</p></div>
+                <div className="flex items-center justify-between gap-4"><p className="text-body font-semibold">Payoff in</p><p className="text-sub font-semibold whitespace-nowrap">{parsePayoffYears(payoff.payoffTime) > 0 ? payoff.payoffTime : `${parsePayoffMonths(payoff.payoffTime)} months`}</p></div>
               </div>
             </div>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </section>

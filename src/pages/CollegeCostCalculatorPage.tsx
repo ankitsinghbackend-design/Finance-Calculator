@@ -1,7 +1,6 @@
 import React, { FormEvent, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
-import heroGraphicSvg from '../assets/hero-graphic.svg'
 
 type CollegeCostResults = {
   futureAnnualCost: number
@@ -10,6 +9,8 @@ type CollegeCostResults = {
   savingsContribution: number
   fundingGap: number
 }
+
+const heroGraphic = 'https://www.figma.com/api/mcp/asset/77f24824-ecce-43d4-a66d-ee214c4cb278'
 
 const formatCurrency = (value: number): string =>
   new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value)
@@ -71,18 +72,18 @@ export default function CollegeCostCalculatorPage() {
   }
 
   return (
-    <section className="bg-[#f5f7fa] relative overflow-hidden">
-      {/* Hero graphic — page-level background decoration */}
-      <img
-        src={heroGraphicSvg}
-        alt=""
-        aria-hidden
-        className="hidden xl:block absolute right-0 top-[42px] w-[868px] h-[883px] object-contain pointer-events-none select-none"
-      />
+    <section className="bg-[#f5f7fa] relative overflow-hidden min-h-[calc(100vh-82px)] py-12">
+      <div className="max-w-[1440px] mx-auto px-6 xl:px-10 relative isolate">
+        <img
+          src={heroGraphic}
+          alt=""
+          aria-hidden
+          className="hidden xl:block absolute right-[-78px] top-[-28px] z-0 w-[868px] h-[883px] object-contain pointer-events-none select-none"
+        />
 
-      <div className="max-w-[1360px] mx-auto px-6 xl:px-0 pt-12 pb-24 relative z-10">
+        <div className="relative z-10">
         <p className="text-[19px] text-sub font-semibold">Home / Finance / College Cost Calculator</p>
-        <h1 className="text-[48px] leading-[1.1] font-semibold text-heading mt-2 max-w-[586px]">College Cost Calculator</h1>
+        <h1 className="text-[48px] leading-none font-semibold text-heading mt-3 max-w-[586px]">College Cost Calculator</h1>
         <p className="text-[16px] leading-[25.6px] text-body mt-3 max-w-[586px]">
           The College Cost Calculator can help determine rough estimates of what to expect from college costs, and in turn, how much to begin budgeting for it. To estimate the costs of more specific colleges, the{' '}
           <a href="https://nces.ed.gov/collegenavigator/" className="underline" target="_blank" rel="noopener noreferrer">College Navigator</a>{' '}
@@ -152,8 +153,8 @@ export default function CollegeCostCalculatorPage() {
           </form>
 
           {/* Right column — Result card (starts 153px higher than form per Figma) */}
-          <div className="xl:-mt-[153px]">
-            <div className="bg-[#f9fafb] border border-cardBorder rounded-[16px] px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)] flex flex-col gap-10 items-center">
+          <div className="xl:-mt-[153px] relative z-20">
+            <div className="bg-white border border-cardBorder rounded-[16px] px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)] flex flex-col gap-10 items-center overflow-hidden">
             <div className="text-center flex flex-col gap-[10px]">
               <p className="text-[16px] font-medium text-sub">Estimated Total College Cost</p>
               <p className="text-[40px] leading-none font-semibold text-heading">{result ? formatCurrency(result.totalCollegeCost) : '$0.00'}</p>
@@ -173,6 +174,7 @@ export default function CollegeCostCalculatorPage() {
             </div>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </section>
