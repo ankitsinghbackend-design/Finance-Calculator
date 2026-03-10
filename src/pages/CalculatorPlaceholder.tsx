@@ -29,6 +29,8 @@ import RefinancePage from './RefinancePage'
 import RentalPropertyPage from './RentalPropertyPage'
 import DownPaymentPage from './DownPaymentPage'
 import CashBackComparisonPage from './CashBackComparisonPage'
+import AnnuityPage from './AnnuityPage'
+import RothIraPage from './RothIraPage'
 
 export default function CalculatorPlaceholder() {
 	const { calculatorId } = useParams()
@@ -147,6 +149,14 @@ export default function CalculatorPlaceholder() {
 
 	if (calculatorId === 'cash-back-or-low-interest' || calculatorId === 'cashback-vs-low-interest') {
 		return <CashBackComparisonPage />
+	}
+
+	if (calculatorId === 'annuity') {
+		return <AnnuityPage />
+	}
+
+	if (calculatorId === 'roth-ira') {
+		return <RothIraPage />
 	}
 
 	return <div className="min-h-[60vh]" />

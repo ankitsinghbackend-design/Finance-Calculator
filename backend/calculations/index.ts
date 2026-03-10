@@ -28,6 +28,8 @@ import * as refinance from './refinance'
 import * as rentalProperty from './rentalProperty'
 import * as downPayment from './downPayment'
 import * as cashBackComparison from './cashBackComparison'
+import * as annuityCalc from './annuityCalc'
+import * as rothIraCalc from './rothIraCalc'
 import { generalAprSchema, mortgageAprSchema, calculateGeneralApr, calculateMortgageApr } from './aprLogic'
 import { ZodTypeAny } from 'zod'
 
@@ -55,6 +57,8 @@ export const calculatorRegistry = {
   'down-payment': downPayment,
   'cashback-vs-low-interest': cashBackComparison,
   'cash-back-or-low-interest': cashBackComparison,
+  annuity: annuityCalc,
+  'roth-ira': rothIraCalc,
   'general-apr': {
     schema: generalAprSchema,
     calculate: calculateGeneralApr

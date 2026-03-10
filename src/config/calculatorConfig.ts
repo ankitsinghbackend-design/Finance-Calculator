@@ -49,6 +49,8 @@ export const calculators: CalculatorItem[] = [
   { id: 'investment', title: 'Investment Calculator', description: 'Project investment growth and solve for contribution, rate, starting amount, or length.', category: 'Investment' },
   { id: 'compound-interest', title: 'Compound Interest', description: 'Growth over time with compound interest.', category: 'Investment' },
   { id: 'pension', title: 'Pension Calculator', description: 'Compare lump sum versus monthly pension lifetime value.', category: 'Retirement' },
+  { id: 'annuity', title: 'Annuity Calculator', description: 'Project annuity accumulation with principal and recurring additions.', category: 'Retirement' },
+  { id: 'roth-ira', title: 'Roth IRA Calculator', description: 'Compare Roth IRA growth with a taxable investment account.', category: 'Retirement' },
   { id: 'retirement', title: 'Retirement Calculator', description: 'Estimate retirement savings.', category: 'Retirement' },
   { id: 'savings', title: 'Savings Calculator', description: 'Plan savings goals.', category: 'Savings' },
   { id: 'income-tax', title: 'Income Tax Calculator', description: 'Estimate federal tax liability and credits.', category: 'Tax' },
@@ -85,13 +87,15 @@ export const landingCalculatorColumns: LandingCalculatorLink[][] = [
     { label: 'Estate Tax', calculatorId: 'estate-tax' },
     { label: 'Pension', calculatorId: 'pension' },
     { label: 'Investment', calculatorId: 'investment' },
-    { label: 'Inflation', calculatorId: 'inflation' }
+    { label: 'Inflation', calculatorId: 'inflation' },
+    { label: 'Roth IRA', calculatorId: 'roth-ira' }
   ],
   [
     { label: 'Mortgage Payoff', calculatorId: 'mortgage-payoff' },
     { label: 'Compound Interest', calculatorId: 'compound-interest' },
     { label: '401K', calculatorId: '401k' },
-    { label: 'Sales Tax', calculatorId: 'sales-tax' }
+    { label: 'Sales Tax', calculatorId: 'sales-tax' },
+    { label: 'Annuity', calculatorId: 'annuity' }
   ]
 ]
 
@@ -168,9 +172,9 @@ export const financeMenuColumns: FinanceMenuColumn[] = [
       { label: '401K Calculator', calculatorId: '401k' },
       { label: 'Pension Calculator', calculatorId: 'pension' },
       { label: 'Social Security Calculator', calculatorId: 'social-security' },
-      { label: 'Annuity Calculator' },
+      { label: 'Annuity Calculator', calculatorId: 'annuity' },
       { label: 'Annuity Payout Calculator' },
-      { label: 'Roth IRA Calculator' },
+      { label: 'Roth IRA Calculator', calculatorId: 'roth-ira' },
       { label: 'IRA Calculator' },
       { label: 'RMD Calculator' }
     ]

@@ -30,6 +30,8 @@ import RefinancePage from './pages/RefinancePage'
 import RentalPropertyPage from './pages/RentalPropertyPage'
 import DownPaymentPage from './pages/DownPaymentPage'
 import CashBackComparisonPage from './pages/CashBackComparisonPage'
+import AnnuityPage from './pages/AnnuityPage'
+import RothIraPage from './pages/RothIraPage'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import CalculatorLayout from './layouts/CalculatorLayout'
@@ -73,6 +75,8 @@ export default function App(){
             <Route path="/calculators/rental-property" element={<RentalPropertyPage/>} />
             <Route path="/calculators/down-payment" element={<DownPaymentPage/>} />
             <Route path="/calculators/cash-back-or-low-interest" element={<CashBackComparisonPage/>} />
+            <Route path="/calculators/annuity" element={<AnnuityPage/>} />
+            <Route path="/calculators/roth-ira" element={<RothIraPage/>} />
             <Route path="/calculators/:calculatorId" element={<CalculatorPlaceholder/>} />
             <Route path="/help/disable-adblock" element={<DisableAdblockHelp/>} />
             <Route path="/blogs" element={<BlogListPage/>} />
