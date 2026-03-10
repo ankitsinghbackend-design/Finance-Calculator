@@ -18,9 +18,13 @@ import * as interestRate from './interestRate'
 import * as estateTax from './estateTax'
 import * as loan from './loan'
 import * as heloc from './heloc'
+import * as rentVsBuy from './rentVsBuy'
 import * as autoLease from './autoLease'
 import * as salesTax from './salesTax'
 import * as debtToIncome from './debtToIncome'
+import * as fhaLoan from './fhaLoan'
+import * as vaMortgage from './vaMortgage'
+import * as refinance from './refinance'
 import { generalAprSchema, mortgageAprSchema, calculateGeneralApr, calculateMortgageApr } from './aprLogic'
 import { ZodTypeAny } from 'zod'
 
@@ -39,7 +43,11 @@ export const calculatorRegistry = {
   repayment,
   loan,
   heloc,
+  'rent-vs-buy': rentVsBuy,
   'auto-lease': autoLease,
+  'fha-loan': fhaLoan,
+  'va-mortgage': vaMortgage,
+  refinance,
   'general-apr': {
     schema: generalAprSchema,
     calculate: calculateGeneralApr

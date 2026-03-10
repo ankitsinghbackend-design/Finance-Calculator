@@ -19,10 +19,14 @@ import InterestRateCalculatorPage from './pages/InterestRateCalculatorPage'
 import EstateTaxCalculatorPage from './pages/EstateTaxCalculatorPage'
 import LoanCalculatorPage from './pages/LoanCalculatorPage'
 import HelocCalculatorPage from './pages/HelocCalculatorPage'
+import RentVsBuyCalculatorPage from './pages/RentVsBuyCalculatorPage'
 import AutoLeaseCalculatorPage from './pages/AutoLeaseCalculatorPage'
 import APRCalculatorPage from './pages/APRCalculatorPage'
 import SalesTaxCalculatorPage from './pages/SalesTaxCalculatorPage'
 import DebtToIncomeCalculatorPage from './pages/DebtToIncomeCalculatorPage'
+import FHALoanPage from './pages/FHALoanPage'
+import VAMortgagePage from './pages/VAMortgagePage'
+import RefinancePage from './pages/RefinancePage'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import CalculatorLayout from './layouts/CalculatorLayout'
@@ -55,10 +59,14 @@ export default function App(){
             <Route path="/calculators/estate-tax" element={<EstateTaxCalculatorPage/>} />
             <Route path="/calculators/loan" element={<LoanCalculatorPage/>} />
             <Route path="/calculators/heloc" element={<HelocCalculatorPage/>} />
+            <Route path="/calculators/rent-vs-buy" element={<RentVsBuyCalculatorPage/>} />
             <Route path="/calculators/auto-lease" element={<AutoLeaseCalculatorPage/>} />
             <Route path="/calculators/apr" element={<APRCalculatorPage/>} />
             <Route path="/calculators/sales-tax" element={<SalesTaxCalculatorPage/>} />
             <Route path="/calculators/dti-ratio" element={<DebtToIncomeCalculatorPage/>} />
+            <Route path="/calculators/fha-loan" element={<FHALoanPage/>} />
+            <Route path="/calculators/va-mortgage" element={<VAMortgagePage/>} />
+            <Route path="/calculators/refinance" element={<RefinancePage/>} />
             <Route path="/calculators/:calculatorId" element={<CalculatorPlaceholder/>} />
             <Route path="/help/disable-adblock" element={<DisableAdblockHelp/>} />
             <Route path="/blogs" element={<BlogListPage/>} />

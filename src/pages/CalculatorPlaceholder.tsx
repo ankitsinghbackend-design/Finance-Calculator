@@ -18,10 +18,14 @@ import InterestRateCalculatorPage from './InterestRateCalculatorPage'
 import EstateTaxCalculatorPage from './EstateTaxCalculatorPage'
 import LoanCalculatorPage from './LoanCalculatorPage'
 import HelocCalculatorPage from './HelocCalculatorPage'
+import RentVsBuyCalculatorPage from './RentVsBuyCalculatorPage'
 import AutoLeaseCalculatorPage from './AutoLeaseCalculatorPage'
 import APRCalculatorPage from './APRCalculatorPage'
 import SalesTaxCalculatorPage from './SalesTaxCalculatorPage'
 import DebtToIncomeCalculatorPage from './DebtToIncomeCalculatorPage'
+import FHALoanPage from './FHALoanPage'
+import VAMortgagePage from './VAMortgagePage'
+import RefinancePage from './RefinancePage'
 
 export default function CalculatorPlaceholder() {
 	const { calculatorId } = useParams()
@@ -98,6 +102,10 @@ export default function CalculatorPlaceholder() {
 		return <HelocCalculatorPage />
 	}
 
+	if (calculatorId === 'rent-vs-buy') {
+		return <RentVsBuyCalculatorPage />
+	}
+
 	if (calculatorId === 'auto-lease') {
 		return <AutoLeaseCalculatorPage />
 	}
@@ -112,6 +120,18 @@ export default function CalculatorPlaceholder() {
 
 	if (calculatorId === 'dti-ratio') {
 		return <DebtToIncomeCalculatorPage />
+	}
+
+	if (calculatorId === 'fha-loan') {
+		return <FHALoanPage />
+	}
+
+	if (calculatorId === 'va-mortgage') {
+		return <VAMortgagePage />
+	}
+
+	if (calculatorId === 'refinance') {
+		return <RefinancePage />
 	}
 
 	return <div className="min-h-[60vh]" />
