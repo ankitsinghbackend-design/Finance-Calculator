@@ -6,6 +6,9 @@ import DisableAdblockHelp from './pages/DisableAdblockHelp'
 import CalculatorPlaceholder from './pages/CalculatorPlaceholder'
 import Amortization from './pages/Amortization'
 import CollegeCostCalculatorPage from './pages/CollegeCostCalculatorPage'
+import CompoundInterestCalculatorPage from './pages/CompoundInterestCalculatorPage'
+import StudentLoanCalculatorPage from './pages/StudentLoanCalculatorPage'
+import IncomeTaxCalculatorPage from './pages/IncomeTaxCalculatorPage'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import CalculatorLayout from './layouts/CalculatorLayout'
@@ -23,7 +26,11 @@ export default function App(){
             <Route path="/" element={<Home/>} />
             <Route path="/finance" element={<Finance/>} />
             <Route path="/finance/amortization" element={<Amortization/>} />
+            <Route path="/calculators/amortization" element={<Amortization/>} />
             <Route path="/calculators/college-cost" element={<CollegeCostCalculatorPage/>} />
+            <Route path="/calculators/compound-interest" element={<CompoundInterestCalculatorPage/>} />
+            <Route path="/calculators/student-loan" element={<StudentLoanCalculatorPage/>} />
+            <Route path="/calculators/income-tax" element={<IncomeTaxCalculatorPage/>} />
             <Route path="/calculators/:calculatorId" element={<CalculatorPlaceholder/>} />
             <Route path="/help/disable-adblock" element={<DisableAdblockHelp/>} />
             <Route path="/blogs" element={<BlogListPage/>} />

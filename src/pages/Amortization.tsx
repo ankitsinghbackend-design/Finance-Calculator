@@ -1,12 +1,9 @@
 import React, { FormEvent, useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { calculateAmortization } from '../utils/amortization'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
-import heroGraphicImg from '../assets/hero-graphic.png'
-import ellipseBg from '../assets/Ellipse 1.svg'
 
-const heroGraphic = heroGraphicImg
+const heroGraphic = 'https://www.figma.com/api/mcp/asset/99ee5331-e90e-486e-bd3b-e8c1939b6240'
 
 const currency = (v: number) =>
   new Intl.NumberFormat('en-US', {
@@ -57,11 +54,6 @@ export default function Amortization() {
     }
   }
 
-  const termLabel =
-    result
-      ? `${Math.floor(result.payoffMonths / 12)} years`
-      : `${Math.floor(parsedInputs.loanTermYears)} years`
-
   const clearAll = () => {
     setLoanAmount('0')
     setInterestRate('0')
@@ -75,35 +67,37 @@ export default function Amortization() {
 
   return (
     <div className="bg-alt min-h-full">
-      <section className="relative overflow-hidden">
-        <div className="max-w-[1360px] mx-auto px-6 xl:px-0 pt-12 pb-16 relative">
+      <section className="relative overflow-hidden bg-[#f5f7fa] py-12 min-h-[calc(100vh-82px)]">
+        <div className="max-w-[1440px] mx-auto px-6 xl:px-10 relative isolate">
           <img
             src={heroGraphic}
             alt=""
             aria-hidden
-            className="hidden xl:block absolute right-[-120px] top-[20px] w-[868px] h-[883px] object-contain pointer-events-none"
+            className="hidden xl:block absolute right-[-78px] top-[-28px] z-0 w-[868px] h-[883px] object-contain pointer-events-none"
           />
 
-          <p className="text-[19px] text-body font-semibold">Home / Finance / Amortization</p>
+          <div className="relative z-10">
+          <p className="text-[19px] text-sub font-semibold">Home / Finance / Amortization</p>
 
-          <div className="grid grid-cols-1 xl:grid-cols-[586px_516px] justify-between gap-8 mt-2">
+          <div className="grid grid-cols-1 xl:grid-cols-[586px_516px] justify-between gap-8 mt-3">
             <div>
-              <h1 className="text-[48px] leading-tight font-semibold text-heading">Amortization Calculator</h1>
+              <h1 className="text-[48px] leading-none font-semibold text-heading">Amortization Calculator</h1>
               <p className="text-[16px] leading-[25.6px] text-body mt-3">
                 There are two general definitions of amortization. The first is the systematic repayment of a loan over time. The second is used in the context of business accounting and is the act of spreading the cost of an expensive and long-lived item over many periods.
               </p>
 
-              <form onSubmit={handleCalculate} className="mt-6 border border-cardBorder rounded-[28px] p-5 bg-alt max-w-[516px]">
-                <h2 className="text-[19px] font-semibold text-heading">Mortgage Calculator</h2>
+              <form onSubmit={handleCalculate} className="mt-8 border border-cardBorder rounded-[28px] p-5 bg-[#f9fafb] backdrop-blur-[10.5px] max-w-[516px]">
+                <h2 className="text-[19px] font-semibold text-heading">Amortization Calculator</h2>
 
-                <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-x-[10px] gap-y-5">
+                <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-x-[10px] gap-y-5">
                   <div>
-                    <label className="block text-[16px] font-medium text-sub">Home Price</label>
+                    <label className="block text-[16px] font-medium text-sub">Loan Amount</label>
                     <input
                       type="number"
                       className="mt-1.5 h-[42px] w-full rounded-md border border-cardBorder bg-alt px-2 text-[16px] text-sub"
                       value={loanAmount}
                       onChange={(e) => setLoanAmount(e.target.value)}
+                      placeholder="$0"
                     />
                   </div>
 
@@ -135,6 +129,7 @@ export default function Amortization() {
                       className="mt-1.5 h-[42px] w-full rounded-md border border-cardBorder bg-alt px-2 text-[16px] text-sub"
                       value={interestRate}
                       onChange={(e) => setInterestRate(e.target.value)}
+                      placeholder="%"
                     />
                   </div>
 
@@ -147,13 +142,14 @@ export default function Amortization() {
                           className="mt-1.5 h-[42px] w-full rounded-md border border-cardBorder bg-alt px-2 text-[16px] text-sub"
                           value={extraMonthlyPayment}
                           onChange={(e) => setExtraMonthlyPayment(e.target.value)}
+                          placeholder="$"
                         />
                       </div>
                     )}
                   </div>
                 </div>
 
-                <label className="mt-5 flex items-center gap-2 text-[19px] text-sub">
+                <label className="mt-5 flex items-center gap-[10px] text-[19px] text-heading font-semibold">
                   <input
                     type="checkbox"
                     checked={withExtraPayment}
@@ -179,47 +175,30 @@ export default function Amortization() {
               </form>
             </div>
 
-            <div className="pt-20 xl:pt-[140px] relative z-10">
-              <div className="relative max-w-[516px] ml-auto">
-                <img
-                  src={ellipseBg}
-                  alt=""
-                  aria-hidden
-                  className="absolute -right-[210px] -top-[260px] w-[655px] max-w-none opacity-90 pointer-events-none select-none z-0"
-                />
-                <div className="relative z-10 bg-alt border border-cardBorder rounded-2xl px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)]">
+            <div className="xl:-mt-[57px] relative z-20">
+              <div className="max-w-[516px] ml-auto bg-white border border-cardBorder rounded-[16px] px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)] overflow-hidden">
                 <div className="text-center">
-                  <p className="text-[16px] font-medium text-sub">Monthly Payment</p>
-                  <p className="text-[48px] leading-none font-semibold text-heading mt-3">{result ? currency(result.monthlyPayment) : '$0.00'}</p>
+                  <p className="text-[16px] font-medium text-sub">Total Monthly Payment</p>
+                  <p className="text-[40px] leading-none font-semibold text-heading mt-3">{result ? currency(result.monthlyPayment) : '$0.00'}</p>
                 </div>
 
                 <div className="h-px bg-[#a7f3d0] my-10" />
 
-                <p className="text-[19px] text-heading font-semibold text-center">Loan Summary</p>
+                <p className="text-[19px] text-heading font-semibold text-center">Amortization</p>
 
                 <div className="mt-8 space-y-4 text-[19px]">
                   <div className="flex items-center justify-between gap-4">
-                    <span className="text-body font-medium">Total Payments</span>
+                    <span className="text-body font-medium">Total of {result ? result.payoffMonths : parsedInputs.loanTermYears * 12 + parsedInputs.loanTermMonths} monthly payments</span>
                     <span className="text-heading font-semibold whitespace-nowrap">{result ? currency(result.totalPayments) : '$0.00'}</span>
                   </div>
                   <div className="flex items-center justify-between gap-4">
                     <span className="text-body font-medium">Total Interest</span>
                     <span className="text-heading font-semibold whitespace-nowrap">{result ? currency(result.totalInterest) : '$0.00'}</span>
                   </div>
-                  <div className="flex items-center justify-between gap-4">
-                    <span className="text-body font-medium">Loan Term</span>
-                    <span className="text-heading font-semibold whitespace-nowrap">{termLabel}</span>
-                  </div>
-                </div>
                 </div>
               </div>
             </div>
           </div>
-
-          <div className="mt-10">
-            <Link to="/" className="text-primaryDark underline text-[19px] font-semibold">
-              Back to Home
-            </Link>
           </div>
         </div>
       </section>

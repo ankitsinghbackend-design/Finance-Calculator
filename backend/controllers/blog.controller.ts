@@ -1,6 +1,31 @@
 import { Request, Response } from 'express'
 import Blog from '../models/Blog'
 
+type BlogSummary = {
+  _id: string
+  title: string
+  slug: string
+  excerpt: string
+  coverImage: string
+  tags: string[]
+  keywords: string[]
+  author: string
+  createdAt: Date
+}
+
+const normalizeTerms = (values: string[] = []): string[] =>
+  values
+    .map((value) => value.trim().toLowerCase())
+    .filter(Boolean)
+
+const countMatches = (source: string[], candidates: string[]): number => {
+  const sourceSet = new Set(normalizeTerms(source))
+
+  return normalizeTerms(candidates).reduce((count, item) => {
+    return sourceSet.has(item) ? count + 1 : count
+  }, 0)
+}
+
 /**
  * POST /api/blogs
  * Create a new blog post
@@ -82,6 +107,89 @@ export async function getBlogBySlug(req: Request, res: Response): Promise<void> 
   } catch (error) {
     console.error('Error fetching blog:', error)
     res.status(500).json({ error: 'Failed to fetch blog' })
+  }
+}
+
+/**
+ * GET /api/blogs/:slug/suggestions
+ * Return up to 3 suggested published articles.
+ * Priority order:
+ * 1. Shared keywords / tags with the current article
+ * 2. Latest published articles as fallback
+ */
+export async function getSuggestedBlogs(req: Request, res: Response): Promise<void> {
+  try {
+    const { slug } = req.params
+
+    const currentBlog = await Blog.findOne({ slug, isPublished: true })
+      .select('slug tags keywords')
+      .lean<{ slug: string; tags: string[]; keywords: string[] } | null>()
+
+    if (!currentBlog) {
+      res.status(404).json({ error: 'Blog not found' })
+      return
+    }
+
+    const relatedCandidates = await Blog.find({
+      isPublished: true,
+      slug: { $ne: slug },
+      $or: [
+        { keywords: { $in: currentBlog.keywords ?? [] } },
+        { tags: { $in: currentBlog.tags ?? [] } }
+      ]
+    })
+      .sort({ createdAt: -1 })
+      .select('title slug excerpt coverImage tags keywords author createdAt')
+      .lean<BlogSummary[]>()
+
+    const scoredRelated = relatedCandidates
+      .map((candidate) => ({
+        ...candidate,
+        score:
+          countMatches(currentBlog.keywords ?? [], candidate.keywords ?? []) * 3 +
+          countMatches(currentBlog.tags ?? [], candidate.tags ?? [])
+      }))
+      .sort((left, right) => {
+        if (right.score !== left.score) {
+          return right.score - left.score
+        }
+
+        return new Date(right.createdAt).getTime() - new Date(left.createdAt).getTime()
+      })
+
+    const selected = scoredRelated.slice(0, 3)
+    const selectedIds = new Set(selected.map((blog) => String(blog._id)))
+
+    if (selected.length < 3) {
+      const latestFallback = await Blog.find({
+        isPublished: true,
+        slug: { $ne: slug }
+      })
+        .sort({ createdAt: -1 })
+        .select('title slug excerpt coverImage tags keywords author createdAt')
+        .lean<BlogSummary[]>()
+
+      for (const blog of latestFallback) {
+        if (selected.length >= 3) {
+          break
+        }
+
+        const blogId = String(blog._id)
+        if (selectedIds.has(blogId)) {
+          continue
+        }
+
+        selected.push({ ...blog, score: 0 })
+        selectedIds.add(blogId)
+      }
+    }
+
+    res.json(
+      selected.map(({ score: _score, ...blog }) => blog)
+    )
+  } catch (error) {
+    console.error('Error fetching suggested blogs:', error)
+    res.status(500).json({ error: 'Failed to fetch suggested blogs' })
   }
 }
 

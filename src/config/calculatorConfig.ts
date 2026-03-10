@@ -29,7 +29,7 @@ export const calculators: CalculatorItem[] = [
   { id: 'compound-interest', title: 'Compound Interest', description: 'Growth over time with compound interest.', category: 'Investment' },
   { id: 'retirement', title: 'Retirement Calculator', description: 'Estimate retirement savings.', category: 'Retirement' },
   { id: 'savings', title: 'Savings Calculator', description: 'Plan savings goals.', category: 'Savings' },
-  { id: 'tax', title: 'Income Tax Calculator', description: 'Estimate taxes.', category: 'Tax' },
+  { id: 'income-tax', title: 'Income Tax Calculator', description: 'Estimate federal tax liability and credits.', category: 'Tax' },
   { id: 'currency', title: 'Currency Converter', description: 'Quick conversions.', category: 'Utility' },
   { id: 'college-cost', title: 'College Cost Calculator', description: 'Estimate future college cost and funding gap.', category: 'Education' },
   { id: 'inflation', title: 'Inflation Calculator', description: 'Adjust for inflation.', category: 'Investment' },
@@ -59,7 +59,7 @@ export const landingCalculatorColumns: LandingCalculatorLink[][] = [
   ],
   [
     { label: 'Interest', calculatorId: 'interest' },
-    { label: 'Retirement', calculatorId: 'retirement' },
+    { label: 'Pension', calculatorId: 'pension' },
     { label: 'Investment', calculatorId: 'investment' },
     { label: 'Inflation', calculatorId: 'inflation' }
   ],

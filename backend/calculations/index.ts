@@ -7,6 +7,8 @@ import * as salary from './salary'
 import * as amortization from './amortization'
 import * as currency from './currency'
 import * as collegeCost from './collegeCost'
+import * as studentLoan from './studentLoan'
+import * as incomeTax from './incomeTax'
 import { ZodTypeAny } from 'zod'
 
 export interface CalculatorModule {
@@ -23,6 +25,8 @@ export const calculatorRegistry = {
   salary,
   currency,
   'college-cost': collegeCost,
+  'student-loan': studentLoan,
+  'income-tax': incomeTax,
   'compound-interest': compoundInterest
 } satisfies Record<string, CalculatorModule>
 

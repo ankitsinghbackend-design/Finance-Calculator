@@ -6,6 +6,8 @@ import K401CalculatorPage from './K401CalculatorPage'
 import SalaryCalculatorPage from './SalaryCalculatorPage'
 import CurrencyCalculatorPage from './CurrencyCalculatorPage'
 import CompoundInterestCalculatorPage from './CompoundInterestCalculatorPage'
+import StudentLoanCalculatorPage from './StudentLoanCalculatorPage'
+import IncomeTaxCalculatorPage from './IncomeTaxCalculatorPage'
 
 export default function CalculatorPlaceholder() {
 	const { calculatorId } = useParams()
@@ -32,6 +34,14 @@ export default function CalculatorPlaceholder() {
 
 	if (calculatorId === 'compound-interest') {
 		return <CompoundInterestCalculatorPage />
+	}
+
+	if (calculatorId === 'student-loan') {
+		return <StudentLoanCalculatorPage />
+	}
+
+	if (calculatorId === 'income-tax') {
+		return <IncomeTaxCalculatorPage />
 	}
 
 	return <div className="min-h-[60vh]" />

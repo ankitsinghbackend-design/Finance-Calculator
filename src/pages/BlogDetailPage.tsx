@@ -19,6 +19,18 @@ interface Blog {
   updatedAt: string
 }
 
+interface SuggestedBlog {
+  _id: string
+  title: string
+  slug: string
+  excerpt: string
+  coverImage: string
+  tags: string[]
+  keywords: string[]
+  author: string
+  createdAt: string
+}
+
 function formatDate(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString('en-US', {
     month: 'long',
@@ -30,16 +42,28 @@ function formatDate(dateStr: string): string {
 export default function BlogDetailPage() {
   const { slug } = useParams<{ slug: string }>()
   const [blog, setBlog] = useState<Blog | null>(null)
+  const [suggestedBlogs, setSuggestedBlogs] = useState<SuggestedBlog[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
   useEffect(() => {
     async function fetchBlog() {
       if (!slug) return
+
+      setLoading(true)
+      setError('')
+
       try {
-        const { data } = await axios.get<Blog>(apiUrl(`/api/blogs/${slug}`))
-        setBlog(data)
+        const [{ data: blogData }, { data: suggestionsData }] = await Promise.all([
+          axios.get<Blog>(apiUrl(`/api/blogs/${slug}`)),
+          axios.get<SuggestedBlog[]>(apiUrl(`/api/blogs/${slug}/suggestions`))
+        ])
+
+        setBlog(blogData)
+        setSuggestedBlogs(suggestionsData)
       } catch {
+        setBlog(null)
+        setSuggestedBlogs([])
         setError('Blog post not found')
       } finally {
         setLoading(false)
@@ -120,6 +144,71 @@ export default function BlogDetailPage() {
           __html: DOMPurify.sanitize(blog.content)
         }}
       />
+
+      {/* Suggested reading */}
+      {suggestedBlogs.length > 0 && (
+        <section className="mt-16 pt-10 border-t border-cardBorder">
+          <div className="mb-8">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sub mb-3">
+              Continue reading
+            </p>
+            <h2 className="text-2xl md:text-3xl font-bold font-figtree text-heading">
+              Suggested articles
+            </h2>
+            <p className="mt-2 text-sub max-w-2xl">
+              More stories picked from similar keywords and the latest posts on Finovo.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {suggestedBlogs.map((suggestedBlog) => (
+              <Link
+                key={suggestedBlog._id}
+                to={`/blogs/${suggestedBlog.slug}`}
+                className="group rounded-2xl border border-cardBorder bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div className="h-44 bg-alt overflow-hidden">
+                  {suggestedBlog.coverImage ? (
+                    <img
+                      src={suggestedBlog.coverImage}
+                      alt={suggestedBlog.title}
+                      className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-sub text-sm">
+                      No image available
+                    </div>
+                  )}
+                </div>
+
+                <div className="p-5">
+                  <div className="flex flex-wrap items-center gap-2 mb-3 text-xs text-sub uppercase tracking-wide">
+                    <span>{formatDate(suggestedBlog.createdAt)}</span>
+                    {suggestedBlog.tags[0] ? (
+                      <>
+                        <span>•</span>
+                        <span className="text-heading font-semibold">{suggestedBlog.tags[0]}</span>
+                      </>
+                    ) : null}
+                  </div>
+
+                  <h3 className="text-lg font-semibold font-figtree text-heading leading-snug group-hover:text-primary transition-colors">
+                    {suggestedBlog.title}
+                  </h3>
+
+                  <p className="mt-3 text-sm text-sub leading-6 line-clamp-3">
+                    {suggestedBlog.excerpt}
+                  </p>
+
+                  <div className="mt-5 text-sm font-medium text-heading group-hover:text-primary transition-colors">
+                    Read article →
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Keywords (for SEO visibility) */}
       {blog.keywords.length > 0 && (
