@@ -13,6 +13,8 @@ import StudentLoanCalculatorPage from './StudentLoanCalculatorPage'
 import IncomeTaxCalculatorPage from './IncomeTaxCalculatorPage'
 import PensionCalculatorPage from './PensionCalculatorPage'
 import InvestmentCalculatorPage from './InvestmentCalculatorPage'
+import InterestRateCalculatorPage from './InterestRateCalculatorPage'
+import EstateTaxCalculatorPage from './EstateTaxCalculatorPage'
 
 export default function CalculatorPlaceholder() {
 	const { calculatorId } = useParams()
@@ -67,6 +69,14 @@ export default function CalculatorPlaceholder() {
 
 	if (calculatorId === 'investment') {
 		return <InvestmentCalculatorPage />
+	}
+
+	if (calculatorId === 'interest-rate') {
+		return <InterestRateCalculatorPage />
+	}
+
+	if (calculatorId === 'estate-tax') {
+		return <EstateTaxCalculatorPage />
 	}
 
 	return <div className="min-h-[60vh]" />

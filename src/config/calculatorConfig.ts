@@ -43,6 +43,7 @@ export const calculators: CalculatorItem[] = [
   { id: 'auto-loan', title: 'Auto Loan Calculator', description: 'Auto loan payments & amortization.', category: 'Loan' },
   { id: 'cash-back-or-low-interest', title: 'Cash Back or Low Interest Calculator', description: 'Compare dealer cash offers with low-interest financing.', category: 'Loan' },
   { id: 'repayment', title: 'Repayment Calculator', description: 'Estimate monthly repayment amount or payoff time for a loan.', category: 'Loan' },
+  { id: 'interest-rate', title: 'Interest Rate Calculator', description: 'Solve for the implied loan interest rate from payment, amount, and term.', category: 'Loan' },
   { id: 'personal-loan', title: 'Personal Loan', description: 'Personal loan planner.', category: 'Loan' },
   { id: 'investment', title: 'Investment Calculator', description: 'Project investment growth and solve for contribution, rate, starting amount, or length.', category: 'Investment' },
   { id: 'compound-interest', title: 'Compound Interest', description: 'Growth over time with compound interest.', category: 'Investment' },
@@ -50,6 +51,7 @@ export const calculators: CalculatorItem[] = [
   { id: 'retirement', title: 'Retirement Calculator', description: 'Estimate retirement savings.', category: 'Retirement' },
   { id: 'savings', title: 'Savings Calculator', description: 'Plan savings goals.', category: 'Savings' },
   { id: 'income-tax', title: 'Income Tax Calculator', description: 'Estimate federal tax liability and credits.', category: 'Tax' },
+  { id: 'estate-tax', title: 'Estate Tax Calculator', description: 'Estimate federal estate tax owed after deductions, gifts, and the current exemption.', category: 'Tax' },
   { id: 'currency', title: 'Currency Converter', description: 'Quick conversions.', category: 'Utility' },
   { id: 'college-cost', title: 'College Cost Calculator', description: 'Estimate future college cost and funding gap.', category: 'Education' },
   { id: 'inflation', title: 'Inflation Calculator', description: 'Adjust for inflation.', category: 'Investment' },
@@ -75,10 +77,10 @@ export const landingCalculatorColumns: LandingCalculatorLink[][] = [
     { label: 'Interest Rate', calculatorId: 'interest-rate' },
     { label: 'College Cost', calculatorId: 'college-cost' },
     { label: 'Student Loan', calculatorId: 'student-loan' },
-    { label: 'Loan', calculatorId: 'loan' }
+    { label: 'Auto Lease', calculatorId: 'auto-lease' }
   ],
   [
-    { label: 'Interest', calculatorId: 'interest' },
+    { label: 'Estate Tax', calculatorId: 'estate-tax' },
     { label: 'Pension', calculatorId: 'pension' },
     { label: 'Investment', calculatorId: 'investment' },
     { label: 'Inflation', calculatorId: 'inflation' }
@@ -143,7 +145,7 @@ export const financeMenuColumns: FinanceMenuColumn[] = [
       { label: 'Investment Calculator', calculatorId: 'investment' },
       { label: 'Finance Calculator' },
       { label: 'Compound Interest Calculator', calculatorId: 'compound-interest' },
-      { label: 'Interest Rate Calculator' },
+      { label: 'Interest Rate Calculator', calculatorId: 'interest-rate' },
       { label: 'Savings Calculator' },
       { label: 'Simple Interest Calculator' },
       { label: 'CD Calculator' },

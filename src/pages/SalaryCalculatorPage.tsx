@@ -2,7 +2,7 @@ import React, { FormEvent, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
 
-const figmaSalaryGraphic = 'https://www.figma.com/api/mcp/asset/c8850118-8766-4096-bf1a-d6eaf9ae404c'
+const figmaSalaryGraphic = 'https://www.figma.com/api/mcp/asset/345dcc51-ceed-488c-9272-cfce2e451db3'
 
 type SalaryFormState = {
   salaryAmount: string
@@ -142,8 +142,7 @@ export default function SalaryCalculatorPage() {
   }
 
   return (
-    <section className="bg-[#f5f7fa] relative overflow-hidden min-h-[calc(100vh-82px)]">
-      {/* Hero graphic — page-level background decoration */}
+    <section className="relative min-h-[calc(100vh-82px)] overflow-hidden bg-[#f5f7fa]">
       <img
         src={figmaSalaryGraphic}
         alt=""
@@ -151,7 +150,7 @@ export default function SalaryCalculatorPage() {
         className="hidden xl:block absolute left-[calc(37.5%+32px)] top-[42px] w-[868px] h-[883px] object-contain pointer-events-none select-none"
       />
 
-      <div className="max-w-[1360px] mx-auto px-6 xl:px-0 pt-[131px] pb-12 relative z-10 xl:min-h-[1014px]">
+      <div className="relative z-10 mx-auto max-w-[1360px] px-6 pb-16 pt-[131px] xl:min-h-[1120px] xl:px-0 xl:pb-[140px]">
         <p className="text-[19px] text-sub font-semibold">Home / Finance / Salary Calculator</p>
 
         <h1 className="text-[48px] leading-[1.1] font-semibold text-heading mt-[8px]">Salary Calculator</h1>
@@ -159,11 +158,14 @@ export default function SalaryCalculatorPage() {
           The Salary Calculator converts salary amounts to their corresponding values based on payment frequency. Examples of payment frequencies include biweekly, semi-monthly, or monthly payments. Results include unadjusted figures and adjusted figures that account for vacation days and holidays per year.
         </p>
 
-        <div className="mt-8 xl:mt-0 xl:relative xl:min-h-[760px]">
-          <form onSubmit={handleCalculate} className="bg-[#f9fafb] border border-cardBorder rounded-[28px] p-5 xl:absolute xl:left-0 xl:top-[249px] xl:w-[516px]">
+        <div className="mt-8 grid grid-cols-1 gap-8 xl:mt-0 xl:block xl:min-h-[860px]">
+          <form
+            onSubmit={handleCalculate}
+            className="w-full rounded-[28px] border border-cardBorder bg-[#f9fafb] p-5 backdrop-blur-[10.5px] xl:absolute xl:left-0 xl:top-[380px] xl:w-[516px]"
+          >
             <h2 className="text-[19px] font-semibold text-heading">Basic info</h2>
 
-            <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-[10px]">
+            <div className="mt-5 grid grid-cols-1 gap-x-2 gap-y-5 sm:grid-cols-2">
               <div>
                 <p className="text-[16px] text-sub font-medium">Salary amount</p>
                 <input
@@ -177,7 +179,7 @@ export default function SalaryCalculatorPage() {
                 />
               </div>
               <div>
-                <p className="text-[16px] text-sub font-medium">Salary period</p>
+                <p className="text-[16px] text-sub font-medium">Hours</p>
                 <input
                   type="text"
                   value="Year"
@@ -239,7 +241,7 @@ export default function SalaryCalculatorPage() {
               </div>
             </div>
 
-            <div className="mt-4 grid grid-cols-2 gap-[15px]">
+            <div className="mt-5 grid grid-cols-2 gap-[15px]">
               <button
                 type="submit"
                 disabled={isCalculating}
@@ -263,32 +265,59 @@ export default function SalaryCalculatorPage() {
             ) : null}
           </form>
 
-          {/* Right column — Result card */}
-          <div className="mt-8 xl:mt-0 xl:absolute xl:left-[758px] xl:top-[145px] xl:w-[516px]">
-            <div className="bg-[#f9fafb] border border-cardBorder rounded-[16px] px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)] flex flex-col gap-10 items-center">
-            <div className="text-center flex flex-col gap-[10px]">
-              <p className="text-[16px] font-medium text-sub">Annual Salary</p>
-              <p className="text-[40px] leading-none font-semibold text-heading">
-                {formatCurrency(currentResult.yearlySalary)}
-              </p>
-            </div>
+          <div className="w-full xl:absolute xl:left-[758px] xl:top-[276px] xl:w-[516px]">
+            <div className="flex flex-col items-center gap-10 overflow-hidden rounded-[16px] border border-cardBorder bg-[#f9fafb] px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)]">
+              <div className="flex flex-col items-center gap-[10px] text-center">
+                <p className="text-[16px] font-medium text-sub">Annual Salary</p>
+                <p className="text-[40px] leading-none font-semibold text-heading">
+                  {formatCurrency(currentResult.yearlySalary)}
+                </p>
+              </div>
 
-            <div className="h-px bg-[#a7f3d0] w-full" />
+              <div className="h-px w-full bg-[#a7f3d0]" />
 
-            <div className="flex flex-col gap-4 w-full text-[19px]">
-              <div className="flex items-center justify-between"><p className="text-body font-medium">Monthly Salary</p><p className="text-heading font-semibold">{formatCurrency(currentResult.monthlySalary)}</p></div>
-              <div className="flex items-center justify-between"><p className="text-body font-medium">Weekly Salary</p><p className="text-heading font-semibold">{formatCurrency(currentResult.weeklySalary)}</p></div>
-              <div className="flex items-center justify-between"><p className="text-body font-medium">Daily Salary</p><p className="text-heading font-semibold">{formatCurrency(currentResult.dailySalary)}</p></div>
-              <div className="flex items-center justify-between"><p className="text-body font-medium">Hourly Wage</p><p className="text-heading font-semibold">{formatCurrency(currentResult.hourlySalary)}</p></div>
-            </div>
+              <div className="w-full text-center">
+                <h3 className="text-[19px] font-semibold text-heading">Salary Breakdown</h3>
+              </div>
 
-            <div className="flex flex-col gap-4 w-full text-[19px]">
-              <div className="flex items-center justify-between gap-4"><p className="text-heading font-semibold">Adjusted Annual Salary (after vacation & holidays)</p><p className="text-heading font-semibold whitespace-nowrap">{formatCurrency(currentResult.adjustedYearlySalary)}</p></div>
-              <div className="flex items-center justify-between"><p className="text-body font-medium">Adjusted Monthly Salary</p><p className="text-heading font-semibold">{formatCurrency(currentResult.adjustedMonthlySalary)}</p></div>
-              <div className="flex items-center justify-between"><p className="text-body font-medium">Adjusted Weekly Salary</p><p className="text-heading font-semibold">{formatCurrency(currentResult.adjustedWeeklySalary)}</p></div>
-              <div className="flex items-center justify-between"><p className="text-body font-medium">Adjusted Daily Salary</p><p className="text-heading font-semibold">{formatCurrency(currentResult.adjustedDailySalary)}</p></div>
-              <div className="flex items-center justify-between"><p className="text-body font-medium">Adjusted Hourly Salary</p><p className="text-heading font-semibold">{formatCurrency(currentResult.adjustedHourlySalary)}</p></div>
-            </div>
+              <div className="flex w-full flex-col gap-4 text-[19px]">
+                <div className="flex items-center justify-between gap-4">
+                  <p className="text-heading font-semibold">Monthly salary</p>
+                  <p className="text-heading font-semibold">{formatCurrency(currentResult.monthlySalary)}</p>
+                </div>
+                <div className="flex items-center justify-between gap-4">
+                  <p className="text-body font-medium">Weekly salary</p>
+                  <p className="text-heading font-semibold">{formatCurrency(currentResult.weeklySalary)}</p>
+                </div>
+                <div className="flex items-center justify-between gap-4">
+                  <p className="text-body font-medium">Daily salary</p>
+                  <p className="text-heading font-semibold">{formatCurrency(currentResult.dailySalary)}</p>
+                </div>
+                <div className="flex items-center justify-between gap-4">
+                  <p className="text-body font-medium">Hourly wage</p>
+                  <p className="text-heading font-semibold">{formatCurrency(currentResult.hourlySalary)}</p>
+                </div>
+                <div className="flex items-center justify-between gap-4 pt-2">
+                  <p className="text-heading font-semibold">Adjusted annual salary</p>
+                  <p className="text-heading font-semibold">{formatCurrency(currentResult.adjustedYearlySalary)}</p>
+                </div>
+                <div className="flex items-center justify-between gap-4">
+                  <p className="text-body font-medium">Adjusted monthly</p>
+                  <p className="text-heading font-semibold">{formatCurrency(currentResult.adjustedMonthlySalary)}</p>
+                </div>
+                <div className="flex items-center justify-between gap-4">
+                  <p className="text-body font-medium">Adjusted weekly</p>
+                  <p className="text-heading font-semibold">{formatCurrency(currentResult.adjustedWeeklySalary)}</p>
+                </div>
+                <div className="flex items-center justify-between gap-4">
+                  <p className="text-body font-medium">Adjusted daily</p>
+                  <p className="text-heading font-semibold">{formatCurrency(currentResult.adjustedDailySalary)}</p>
+                </div>
+                <div className="flex items-center justify-between gap-4">
+                  <p className="text-body font-medium">Adjusted hourly</p>
+                  <p className="text-heading font-semibold">{formatCurrency(currentResult.adjustedHourlySalary)}</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

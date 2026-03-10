@@ -13,6 +13,8 @@ import * as pension from './pension'
 import * as houseAffordability from './houseAffordability'
 import * as repayment from './repayment'
 import * as investment from './investment'
+import * as interestRate from './interestRate'
+import * as estateTax from './estateTax'
 import { ZodTypeAny } from 'zod'
 
 export interface CalculatorModule {
@@ -29,6 +31,8 @@ export const calculatorRegistry = {
   salary,
   repayment,
   investment,
+  'interest-rate': interestRate,
+  'estate-tax': estateTax,
   currency,
   'college-cost': collegeCost,
   'student-loan': studentLoan,
