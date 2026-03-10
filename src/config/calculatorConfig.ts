@@ -31,6 +31,7 @@ export const calculators: CalculatorItem[] = [
   { id: 'savings', title: 'Savings Calculator', description: 'Plan savings goals.', category: 'Savings' },
   { id: 'tax', title: 'Income Tax Calculator', description: 'Estimate taxes.', category: 'Tax' },
   { id: 'currency', title: 'Currency Converter', description: 'Quick conversions.', category: 'Utility' },
+  { id: 'college-cost', title: 'College Cost Calculator', description: 'Estimate future college cost and funding gap.', category: 'Education' },
   { id: 'inflation', title: 'Inflation Calculator', description: 'Adjust for inflation.', category: 'Investment' },
   { id: 'view-all', title: 'View All Calculators', description: 'Explore full list.', category: 'General' }
 ]

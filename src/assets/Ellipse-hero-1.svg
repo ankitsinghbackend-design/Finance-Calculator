@@ -1,0 +1,32 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 687.908 652.97" fill="none" xmlns="http://www.w3.org/2000/svg">
+<foreignObject x="-20" y="-20" width="727.908" height="692.97"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(12px);clip-path:url(#bgblur_0_0_4_clip_path);height:100%;width:100%"></div></foreignObject><g id="Ellipse 1" opacity="0.84" filter="url(#filter0_fn_0_4)" data-figma-bg-blur-radius="24">
+<path d="M676 344C680.418 344 684.01 340.417 683.906 336C682.538 277.884 666.289 221.039 636.652 170.926C605.657 118.515 561.155 75.3899 507.796 46.0558C454.438 16.7217 394.181 2.2552 333.32 4.16781C272.46 6.08041 213.23 24.3019 161.819 56.9285C110.408 89.5552 68.7015 135.39 41.0579 189.643C13.4143 243.897 0.847682 304.579 4.67101 365.349C8.49433 426.119 28.5673 484.747 62.7927 535.108C95.5179 583.262 140.034 622.168 192.036 648.15C195.989 650.125 200.76 648.4 202.641 644.403L240.706 563.511C242.587 559.513 240.864 554.76 236.933 552.743C202 534.826 172.082 508.406 149.967 475.865C126.351 441.116 112.501 400.662 109.863 358.731C107.225 316.799 115.896 274.929 134.97 237.494C154.044 200.059 182.821 168.433 218.295 145.921C253.769 123.408 294.638 110.835 336.631 109.516C378.625 108.196 420.202 118.178 457.02 138.418C493.837 158.659 524.543 188.415 545.93 224.579C565.958 258.444 577.125 296.765 578.464 336.001C578.614 340.417 582.182 344 586.6 344H676Z" fill="var(--fill-0, #F9FAFB)"/>
+</g>
+<defs>
+<filter id="filter0_fn_0_4" x="-20" y="-20" width="727.908" height="692.97" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="2" result="effect1_foregroundBlur_0_4"/>
+<feTurbulence type="fractalNoise" baseFrequency="2 2" stitchTiles="stitch" numOctaves="3" result="noise" seed="2547" />
+<feColorMatrix in="noise" type="luminanceToAlpha" result="alphaNoise" />
+<feComponentTransfer in="alphaNoise" result="coloredNoise1">
+<feFuncA type="discrete" tableValues="1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 "/>
+</feComponentTransfer>
+<feComposite operator="in" in2="effect1_foregroundBlur_0_4" in="coloredNoise1" result="noise1Clipped" />
+<feComponentTransfer in="alphaNoise" result="coloredNoise2">
+<feFuncA type="discrete" tableValues="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 "/>
+</feComponentTransfer>
+<feComposite operator="in" in2="effect1_foregroundBlur_0_4" in="coloredNoise2" result="noise2Clipped" />
+<feFlood flood-color="rgba(34, 197, 94, 0.32)" result="color1Flood" />
+<feComposite operator="in" in2="noise1Clipped" in="color1Flood" result="color1" />
+<feFlood flood-color="rgba(255, 255, 255, 0.24)" result="color2Flood" />
+<feComposite operator="in" in2="noise2Clipped" in="color2Flood" result="color2" />
+<feMerge result="effect2_noise_0_4">
+<feMergeNode in="effect1_foregroundBlur_0_4" />
+<feMergeNode in="color1" />
+<feMergeNode in="color2" />
+</feMerge>
+</filter>
+<clipPath id="bgblur_0_0_4_clip_path" transform="translate(20 20)"><path d="M676 344C680.418 344 684.01 340.417 683.906 336C682.538 277.884 666.289 221.039 636.652 170.926C605.657 118.515 561.155 75.3899 507.796 46.0558C454.438 16.7217 394.181 2.2552 333.32 4.16781C272.46 6.08041 213.23 24.3019 161.819 56.9285C110.408 89.5552 68.7015 135.39 41.0579 189.643C13.4143 243.897 0.847682 304.579 4.67101 365.349C8.49433 426.119 28.5673 484.747 62.7927 535.108C95.5179 583.262 140.034 622.168 192.036 648.15C195.989 650.125 200.76 648.4 202.641 644.403L240.706 563.511C242.587 559.513 240.864 554.76 236.933 552.743C202 534.826 172.082 508.406 149.967 475.865C126.351 441.116 112.501 400.662 109.863 358.731C107.225 316.799 115.896 274.929 134.97 237.494C154.044 200.059 182.821 168.433 218.295 145.921C253.769 123.408 294.638 110.835 336.631 109.516C378.625 108.196 420.202 118.178 457.02 138.418C493.837 158.659 524.543 188.415 545.93 224.579C565.958 258.444 577.125 296.765 578.464 336.001C578.614 340.417 582.182 344 586.6 344H676Z"/>
+</clipPath></defs>
+</svg>

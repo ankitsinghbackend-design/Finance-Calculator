@@ -1,8 +1,7 @@
 import React from 'react'
-
-const imgGroup = 'https://www.figma.com/api/mcp/asset/834b781c-6ccd-462c-a393-d629ddd06eb7'
-const imgGroup1 = 'https://www.figma.com/api/mcp/asset/ffa2635d-f60f-47ce-a31e-c1e6d50b4560'
-const imgGroup2 = 'https://www.figma.com/api/mcp/asset/2d766cae-83cf-496e-85e9-24f77101497b'
+import imgGroup from '../assets/how-step1.png'
+import imgGroup1 from '../assets/how-step2.png'
+import imgGroup2 from '../assets/how-step3.png'
 
 function StepCard({
   index,

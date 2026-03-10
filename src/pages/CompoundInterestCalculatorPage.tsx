@@ -23,7 +23,9 @@ const periodLabel: Record<CompoundFrequency, string> = {
 const formatCurrency = (value: number): string =>
   new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value)
 
-const heroGraphic = 'https://www.figma.com/api/mcp/asset/2f87dde2-71b1-4cbd-adfa-4a3592f9ec1a'
+import compoundHeroImg from '../assets/compound-hero.png'
+import ellipseBg from '../assets/Ellipse 1.svg'
+const heroGraphic = compoundHeroImg
 
 export default function CompoundInterestCalculatorPage() {
   const [principal, setPrincipal] = useState<string>('10000')
@@ -161,7 +163,14 @@ export default function CompoundInterestCalculatorPage() {
             {calculateError ? <p className="mt-3 text-sm text-red-600">{calculateError}</p> : null}
           </form>
 
-          <div className="relative z-20 bg-white border border-cardBorder rounded-2xl px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)]">
+          <div className="relative">
+            <img
+              src={ellipseBg}
+              alt=""
+              aria-hidden
+              className="absolute -right-[210px] -top-[260px] w-[655px] max-w-none opacity-90 pointer-events-none select-none z-0"
+            />
+            <div className="relative z-10 bg-white border border-cardBorder rounded-2xl px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)]">
             <div className="text-center">
               <p className="text-[16px] font-medium text-sub">Future Value</p>
               <p className="text-[40px] leading-none font-semibold text-heading mt-3">{result ? formatCurrency(result.totalValue) : '$0.00'}</p>
@@ -175,6 +184,7 @@ export default function CompoundInterestCalculatorPage() {
               <div className="flex items-center justify-between"><span className="text-body font-medium">Total Contributions</span><span className="text-heading font-semibold">{result ? formatCurrency(result.totalContribution) : '-'}</span></div>
               <div className="flex items-center justify-between"><span className="text-body font-medium">Interest Earned</span><span className="text-heading font-semibold">{result ? formatCurrency(result.interestEarned) : '-'}</span></div>
               <div className="flex items-center justify-between"><span className="text-body font-medium">Total Value</span><span className="text-heading font-semibold">{result ? formatCurrency(result.totalValue) : '-'}</span></div>
+            </div>
             </div>
           </div>
         </div>

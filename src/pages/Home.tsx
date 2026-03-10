@@ -4,6 +4,39 @@ import axios from 'axios'
 import { calculate, schema, type AutoLoanResults } from '../../backend/calculations/autoLoan'
 import { landingCalculatorColumns } from '../config/calculatorConfig'
 import { apiUrl } from '../config/api'
+import heroGraphicSvg from '../assets/hero-graphic.svg'
+import faqQuoteIconSvg from '../assets/Vector.svg'
+import expectBgImg from '../assets/expect-bg.png'
+import expectArrow1Img from '../assets/expect-arrow1.png'
+import expectArrow2Img from '../assets/expect-arrow2.png'
+import starIconImg from '../assets/star-icon.png'
+import financeVisualImg from '../assets/finance-visual.png'
+import ellipseBg from '../assets/Ellipse 1.svg'
+
+// How It Works icons (SVG)
+import iconSearch from '../assets/icon-search.svg'
+import iconEdit from '../assets/icon-edit.svg'
+import iconChartPie from '../assets/icon-chart-pie.svg'
+
+// Why Choose Us icons (SVG)
+import iconBarcode from '../assets/icon-barcode.svg'
+import iconTarget from '../assets/icon-target.svg'
+import iconShieldBlue from '../assets/icon-shield-blue.svg'
+import iconLaptop from '../assets/icon-laptop.svg'
+
+// Benefits icons (SVG)
+import iconAnalytics from '../assets/icon-analytics.svg'
+import iconTimer from '../assets/icon-timer.svg'
+import iconChartBar from '../assets/icon-chart-bar.svg'
+import iconSearch2 from '../assets/icon-search-2.svg'
+import iconShieldRed from '../assets/icon-shield-red.svg'
+import iconUserComment from '../assets/icon-user-comment.svg'
+import shieldCheckIcon from '../assets/shield-check.svg'
+
+// Additional section icons (SVG)
+import iconChartPie2 from '../assets/icon-chart-pie-2.svg'
+import iconArrowsSplit from '../assets/icon-arrows-split.svg'
+import iconGlobe from '../assets/icon-globe.svg'
 
 type AutoLoanFormState = {
   price: string
@@ -31,31 +64,31 @@ const currencyFormatter = new Intl.NumberFormat('en-US', {
 const formatCurrency = (value: number): string => currencyFormatter.format(value)
 
 export default function Home(){
-  const heroGraphic = 'https://www.figma.com/api/mcp/asset/0649dbdf-6b4c-4205-874b-dbbdef53ccaf'
-  const faqQuote = 'https://www.figma.com/api/mcp/asset/356fdbaa-9814-48bd-ad0a-31efaa340ffc'
-  const expectBg = 'https://www.figma.com/api/mcp/asset/7d59f827-f30c-42d3-af52-07977ce015fa'
-  const expectArrow1 = 'https://www.figma.com/api/mcp/asset/2cc6f657-5693-4f72-a953-11e20194f2e7'
-  const expectArrow2 = 'https://www.figma.com/api/mcp/asset/d2ac99ab-5342-4ceb-8314-231304738a90'
-  const starIcon = 'https://www.figma.com/api/mcp/asset/fdf505f2-8096-46bd-8021-41d9fb868408'
+  const heroGraphic = heroGraphicSvg
+  const faqQuote = faqQuoteIconSvg
+  const expectBg = expectBgImg
+  const expectArrow1 = expectArrow1Img
+  const expectArrow2 = expectArrow2Img
+  const starIcon = starIconImg
 
   const howItWorks = [
     {
       no: '01',
       title: 'Choose a Calculator',
       body: 'Select the financial calculator you need, such as loan, investment, tax, or savings calculators.',
-      icon: 'https://www.figma.com/api/mcp/asset/27afb7a0-a710-423f-a1c2-93cd4f91af11'
+      icon: iconSearch
     },
     {
       no: '02',
       title: 'Enter Financial Details',
       body: 'Fill in values like amount, interest rate, or time period to process accurate calculations.',
-      icon: 'https://www.figma.com/api/mcp/asset/a12f4eb8-b2cd-4c83-b949-d905b2c7c732'
+      icon: iconEdit
     },
     {
       no: '03',
       title: 'View Results Instantly',
       body: 'Get clear payment breakdowns and projections to make smarter financial decisions instantly.',
-      icon: 'https://www.figma.com/api/mcp/asset/3a650d92-cce7-4c6f-989d-f431ce08f77c'
+      icon: iconChartPie
     }
   ]
 
@@ -85,43 +118,51 @@ export default function Home(){
   const benefits = [
     {
       title: 'Make Smarter Financial Decisions',
-      body: 'Understand loan payments, savings growth, and investment returns clearly before making commitments. Our calculators help users compare options and choose financially better solutions. By visualizing financial outcomes in advance, users avoid costly mistakes and plan responsibly. Better decisions today lead to stronger financial security tomorrow.'
+      body: 'Understand loan payments, savings growth, and investment returns clearly before making commitments. Our calculators help users compare options and choose financially better solutions. By visualizing financial outcomes in advance, users avoid costly mistakes and plan responsibly. Better decisions today lead to stronger financial security tomorrow.',
+      icon: iconAnalytics
     },
     {
       title: 'Save Valuable Time Planning',
       body: 'Instead of manually calculating numbers or searching multiple sources, get instant financial estimates in seconds. Automated tools reduce calculation errors and provide quick results. Users spend less time figuring out finances and more time focusing on goals that matter. Efficient tools simplify complex financial planning.',
-      active: true
+      icon: iconTimer
     },
     {
       title: 'Plan Future Finances Confidently',
-      body: 'Whether saving for retirement, buying a home, or planning investments, our calculators provide clear future projections. Users can see how small financial changes impact long-term goals. This clarity builds confidence in planning major life decisions. Financial future planning becomes easier and less stressful.'
+      body: 'Whether saving for retirement, buying a home, or planning investments, our calculators provide clear future projections. Users can see how small financial changes impact long-term goals. This clarity builds confidence in planning major life decisions. Financial future planning becomes easier and less stressful.',
+      icon: iconChartBar
     },
     {
       title: 'Compare Financial Options Easily',
-      body: 'Compare loans, savings, or investment scenarios instantly to find the best financial path. Users can adjust inputs and immediately see outcome differences. This helps select affordable loans, smarter investments, and better savings strategies. Better comparisons lead to better financial choices.'
+      body: 'Compare loans, savings, or investment scenarios instantly to find the best financial path. Users can adjust inputs and immediately see outcome differences. This helps select affordable loans, smarter investments, and better savings strategies. Better comparisons lead to better financial choices.',
+      icon: iconSearch2
     },
     {
       title: 'Avoid Unexpected Financial Surprises',
-      body: 'Know future payments, interest costs, and savings growth before making commitments. Financial awareness prevents unexpected burdens later. Calculators help users prepare budgets realistically. Planning ahead protects users from risky financial decisions.'
+      body: 'Know future payments, interest costs, and savings growth before making commitments. Financial awareness prevents unexpected burdens later. Calculators help users prepare budgets realistically. Planning ahead protects users from risky financial decisions.',
+      icon: iconShieldRed
     },
     {
       title: 'Financial Tools Accessible Everyone',
-      body: 'Whether students, professionals, families, or business owners, anyone can use our tools easily. No financial expertise is required to understand results. Simple interfaces ensure accessibility for all users. Everyone deserves access to clear financial planning tools.'
+      body: 'Whether students, professionals, families, or business owners, anyone can use our tools easily. No financial expertise is required to understand results. Simple interfaces ensure accessibility for all users. Everyone deserves access to clear financial planning tools.',
+      icon: iconUserComment
     }
   ]
 
   const additional = [
     {
       title: 'Smart Financial Insights',
-      body: 'Get clearer understanding of loan payments, savings growth, and investment returns through easy-to-read breakdowns and projections. Our tools help users analyze numbers quickly and plan finances with better clarity and confidence.'
+      body: 'Get clearer understanding of loan payments, savings growth, and investment returns through easy-to-read breakdowns and projections. Our tools help users analyze numbers quickly and plan finances with better clarity and confidence.',
+      icon: iconChartPie2
     },
     {
       title: 'Compare Multiple Scenarios',
-      body: 'Adjust financial inputs and instantly compare multiple calculation scenarios to choose the best financial option. Users can explore different possibilities before making real financial commitments.'
+      body: 'Adjust financial inputs and instantly compare multiple calculation scenarios to choose the best financial option. Users can explore different possibilities before making real financial commitments.',
+      icon: iconArrowsSplit
     },
     {
       title: 'Works Anytime, Anywhere',
-      body: 'Access calculators from any device at any time without installation or downloads. Whether on mobile or desktop, users can plan finances wherever convenient.'
+      body: 'Access calculators from any device at any time without installation or downloads. Whether on mobile or desktop, users can plan finances wherever convenient.',
+      icon: iconGlobe
     }
   ]
 
@@ -251,10 +292,8 @@ export default function Home(){
           src={heroGraphic}
           alt=""
           aria-hidden
-          className="hidden xl:block absolute right-0 top-[42px] w-[868px] h-[883px] object-contain pointer-events-none"
+          className="hidden xl:block absolute right-0 top-[42px] w-[868px] h-[883px] object-contain pointer-events-none select-none"
         />
-        <div className="absolute -right-64 -top-44 h-[840px] w-[840px] rounded-full border border-cardBorder/40" />
-        <div className="absolute right-2 top-16 h-[686px] w-[686px] rounded-full border border-cardBorder/30" />
 
         <div className="max-w-[1360px] mx-auto px-6 xl:px-0 pt-16 pb-10 relative z-10">
           <div className="grid grid-cols-1 xl:grid-cols-[586px_1fr] gap-8 items-start">
@@ -270,7 +309,7 @@ export default function Home(){
                 className="mt-5 border border-cardBorder rounded-[28px] p-5 bg-alt w-full max-w-[516px]"
                 onSubmit={handleAutoLoanSubmit}
               >
-                <h3 className="text-[36px] leading-none font-semibold text-heading">Auto Loan Calculator</h3>
+                <h3 className="text-[19px] leading-none font-semibold text-heading">Auto Loan Calculator</h3>
                 <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-x-[10px] gap-y-5">
                   {[
                     { label: 'Auto Price', name: 'price', placeholder: '50000' },
@@ -315,11 +354,19 @@ export default function Home(){
             </div>
 
             <div className="pt-14 xl:pt-[147px] reveal-right">
-              <div className="max-w-[516px] ml-auto bg-alt border border-cardBorder rounded-2xl px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)]">
+              <div className="relative max-w-[516px] ml-auto">
+                <img
+                  src={ellipseBg}
+                  alt=""
+                  aria-hidden
+                  className="absolute -right-[210px] -top-[260px] w-[655px] max-w-none opacity-90 pointer-events-none select-none z-0"
+                />
+                <div className="relative z-10 bg-alt border border-cardBorder rounded-[16px] px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)]">
                 <div className="text-center">
                   <p className="text-[16px] font-medium text-sub">Total Monthly Payment</p>
-                  <p className="text-[56px] leading-none font-semibold text-heading mt-3">
-                    {formatCurrency(autoLoanResults?.monthlyPayment ?? 0)}
+                  <p className="text-[40px] leading-none font-semibold text-heading mt-3">
+                    <span className="text-sub">$</span>
+                    {' '}{(autoLoanResults?.monthlyPayment ?? 0).toFixed(2)}
                   </p>
                 </div>
                 <div className="h-px bg-[#a7f3d0] my-10" />
@@ -346,6 +393,7 @@ export default function Home(){
                       <span className="text-heading font-semibold whitespace-nowrap">{v}</span>
                     </div>
                   ))}
+                </div>
                 </div>
               </div>
             </div>
@@ -399,7 +447,7 @@ export default function Home(){
       <section className="max-w-[1360px] mx-auto px-6 xl:px-0 py-14">
         <div className="grid grid-cols-1 xl:grid-cols-[720px_586px] gap-12 items-center">
           <div className="h-[378px] rounded-2xl overflow-hidden reveal-left">
-            <img src="https://www.figma.com/api/mcp/asset/25ee04d3-7f81-448a-9e53-f5003e69dd51" alt="finance calculator visual" className="w-full h-full object-cover" />
+            <img src={financeVisualImg} alt="finance calculator visual" className="w-full h-full object-cover" />
           </div>
           <div className="relative reveal-right">
             <h2 className="text-[40px] leading-tight font-semibold text-heading">Your Complete Financial Calculator Platform</h2>
@@ -437,10 +485,10 @@ export default function Home(){
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-10">
           {[
-            ['Accurate Financial', 'Select the financial calculator you need, such as loan, investment, tax, or savings calculators.', 'https://www.figma.com/api/mcp/asset/9ec685f0-bc6c-4c3c-b083-0c1a22cacb1d'],
-            ['Easy to Use', 'Select the financial calculator you need, such as loan, investment, tax, or savings calculators.', 'https://www.figma.com/api/mcp/asset/a233a682-40e1-45b2-9a80-27899bda9a82'],
-            ['Secure & Private Usage', 'Fill in values like amount, interest rate, or time period to process accurate calculations.', 'https://www.figma.com/api/mcp/asset/6135251b-86eb-4fc1-9921-8e8d376e8f87'],
-            ['Free & Always Accessible', 'Get clear payment breakdowns and projections to make smarter financial decisions instantly.', 'https://www.figma.com/api/mcp/asset/58b01610-94ae-4b66-9792-cd79dfda45ea']
+            ['Accurate Financial', 'Select the financial calculator you need, such as loan, investment, tax, or savings calculators.', iconBarcode],
+            ['Easy to Use', 'Select the financial calculator you need, such as loan, investment, tax, or savings calculators.', iconTarget],
+            ['Secure & Private Usage', 'Fill in values like amount, interest rate, or time period to process accurate calculations.', iconShieldBlue],
+            ['Free & Always Accessible', 'Get clear payment breakdowns and projections to make smarter financial decisions instantly.', iconLaptop]
           ].map(([title, body, icon]) => (
             <article key={title} className="bg-alt border border-cardBorder rounded-[10px] p-5 min-h-[254px] reveal-right">
               <img src={icon} alt="icon" className="w-[42px] h-[42px]" />
@@ -458,9 +506,10 @@ export default function Home(){
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 mt-10">
           {benefits.map((item) => (
-            <article key={item.title} className={`rounded-[10px] border border-cardBorder p-5 ${item.active ? 'bg-primary text-white' : 'bg-alt'} ${item.active ? 'reveal-right' : 'reveal-left'}`}>
-              <h3 className={`text-[32px] leading-tight font-medium ${item.active ? 'text-white' : 'text-heading'}`}>{item.title}</h3>
-              <p className={`text-[16px] leading-[25.6px] mt-3 ${item.active ? 'text-[#f9fafb]' : 'text-body'}`}>{item.body}</p>
+            <article key={item.title} className="rounded-[10px] border border-cardBorder p-5 bg-alt reveal-left">
+              <img src={item.icon} alt="" className="w-[42px] h-[42px]" />
+              <h3 className="text-[23px] leading-tight font-medium text-heading mt-6">{item.title}</h3>
+              <p className="text-[16px] leading-[25.6px] mt-3 text-body">{item.body}</p>
             </article>
           ))}
         </div>
@@ -505,7 +554,8 @@ export default function Home(){
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-10">
           {additional.map((item) => (
             <article key={item.title} className="bg-alt border border-cardBorder rounded-[10px] p-5 min-h-[254px] reveal-right">
-              <h3 className="text-[32px] leading-tight font-medium text-heading">{item.title}</h3>
+              <img src={item.icon} alt="" className="w-[42px] h-[42px]" />
+              <h3 className="text-[23px] leading-tight font-medium text-heading mt-4">{item.title}</h3>
               <p className="text-[16px] leading-[25.6px] text-body mt-3">{item.body}</p>
             </article>
           ))}
@@ -530,7 +580,12 @@ export default function Home(){
             <p className="text-[19px] font-semibold text-sub mt-2">No signup required</p>
             <p className="text-[16px] leading-[25.6px] mt-5 text-body">Our platform does not collect or store personally identifiable information when users perform financial calculations. All calculations are processed instantly within the session without requiring account creation, personal details, or financial records to be submitted or saved. Users maintain full control over their privacy, allowing them to explore loan options, investment scenarios, savings plans, and other financial estimates securely and confidently. By avoiding unnecessary data collection, we ensure users can access tools freely without concerns about misuse of information or unwanted tracking.</p>
             <button className="mt-6 bg-white text-[#1d2433] border border-[#e1e6ef] rounded-lg px-4 py-2 font-medium">Privacy Policy ↗</button>
-            <div className="absolute right-5 bottom-5 text-[160px] leading-none text-primary/10">🛡️</div>
+            <img
+              src={shieldCheckIcon}
+              alt=""
+              aria-hidden
+              className="absolute right-[11px] top-1/2 -translate-y-1/2 w-[200px] h-[200px] pointer-events-none select-none"
+            />
           </article>
         </div>
       </section>
@@ -551,9 +606,12 @@ export default function Home(){
       <section className="max-w-[1360px] mx-auto px-6 xl:px-0 py-16">
         <div className="grid grid-cols-1 xl:grid-cols-[513px_670px] justify-between gap-10">
           <div className="flex flex-col justify-center gap-14 reveal-left">
-            <div>
-              <img src={faqQuote} alt="" aria-hidden className="w-[68px] h-[56px]" />
-              <h2 className="text-[40px] font-semibold text-heading mt-5">Frequently Asked Questions</h2>
+            <div className="flex flex-col items-start gap-5">
+              <div className="flex items-start gap-[6px]" aria-hidden>
+                <img src={faqQuote} alt="" className="w-[29px] h-[53px]" />
+                <img src={faqQuote} alt="" className="w-[29px] h-[53px]" />
+              </div>
+              <h2 className="text-[40px] font-semibold text-heading leading-none">Frequently Asked Questions</h2>
             </div>
             <div className="bg-[rgba(167,243,208,0.2)] border border-cardBorder rounded-2xl p-5 w-full max-w-[360px]">
               <p className="text-[19px] font-semibold text-heading">Still have questions?</p>

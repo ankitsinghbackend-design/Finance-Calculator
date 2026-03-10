@@ -1,6 +1,7 @@
 import React, { FormEvent, useMemo, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
+import heroGraphicSvg from '../assets/hero-graphic.svg'
 
 type MortgageFormState = {
   homePrice: string
@@ -178,16 +179,25 @@ export default function MortgageCalculatorPage() {
   const monthlyOtherCosts = toNumber(form.pmi) + toNumber(form.hoa) + toNumber(form.otherCosts)
 
   return (
-    <section className="bg-[#f5f7fa] py-12">
-      <div className="max-w-[1360px] mx-auto px-6 xl:px-0">
+    <section className="bg-[#f5f7fa] relative overflow-hidden">
+      {/* Hero graphic — page-level background decoration */}
+      <img
+        src={heroGraphicSvg}
+        alt=""
+        aria-hidden
+        className="hidden xl:block absolute right-0 top-[42px] w-[868px] h-[883px] object-contain pointer-events-none select-none"
+      />
+
+      <div className="max-w-[1360px] mx-auto px-6 xl:px-0 pt-12 pb-12 relative z-10">
         <p className="text-[19px] text-sub font-semibold">Home / Finance / Mortgage Calculator</p>
 
         <h1 className="text-[48px] leading-[1.1] font-semibold text-heading mt-2">Mortgage Calculator</h1>
-        <p className="text-[16px] leading-[25.6px] text-body mt-2 max-w-[586px]">
+        <p className="text-[16px] leading-[25.6px] text-body mt-3 max-w-[586px]">
           The Mortgage Calculator helps estimate the monthly payment due along with other financial costs associated with mortgages.
         </p>
 
         <div className="mt-8 grid grid-cols-1 xl:grid-cols-[516px_516px] justify-between gap-8 items-start">
+          {/* Left column — Form */}
           <form
             onSubmit={handleCalculate}
             className="border border-cardBorder rounded-[28px] p-5 bg-[#f9fafb]"
@@ -289,61 +299,67 @@ export default function MortgageCalculatorPage() {
             ) : null}
           </form>
 
-          <div className="bg-[#f9fafb] border border-cardBorder rounded-2xl px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)]">
-            <div className="text-center">
-              <p className="text-[16px] font-medium text-sub">Total Monthly Payment</p>
-              <p className="text-[40px] leading-none font-semibold text-heading mt-3">
-                {formatCurrency(cardResult.totalMonthlyPayment)}
-              </p>
-            </div>
+          {/* Right column — Result card (starts 51px higher than form per Figma) */}
+          <div className="xl:-mt-[51px]">
+            <div className="bg-[#f9fafb] border border-cardBorder rounded-[16px] px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)] flex flex-col gap-10 items-center">
+              <div className="text-center flex flex-col gap-[10px]">
+                <p className="text-[16px] font-medium text-sub">Total Monthly Payment</p>
+                <p className="text-[40px] leading-none font-semibold text-heading">
+                  <span className="text-sub">$</span>
+                  <span>{' '}{cardResult.totalMonthlyPayment.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                </p>
+              </div>
 
-            <div className="h-px bg-[#a7f3d0] my-8" />
+              <div className="h-px bg-[#a7f3d0] w-full" />
 
-            <h3 className="text-[19px] font-semibold text-heading text-center">Mortgage Payment</h3>
+              <div className="w-full">
+                <h3 className="text-[19px] font-semibold text-heading">Mortgage Payment</h3>
+              </div>
 
-            <div className="space-y-3 mt-4 text-[19px]">
-              <div className="flex items-center justify-between">
-                <p className="text-heading font-semibold">Monthly</p>
-                <p className="text-heading font-semibold">{formatCurrency(cardResult.monthlyMortgagePayment)}</p>
+              <div className="flex flex-col gap-4 w-full text-[19px]">
+                <div className="flex items-center justify-between">
+                  <p className="text-heading font-semibold">Monthly</p>
+                  <p className="text-heading font-semibold">{formatCurrency(cardResult.monthlyMortgagePayment)}</p>
+                </div>
+                <div className="flex items-center justify-between">
+                  <p className="text-body font-medium">Property Tax</p>
+                  <p className="text-sub font-semibold">{formatCurrency(cardResult.monthlyPropertyTax)}</p>
+                </div>
+                <div className="flex items-center justify-between">
+                  <p className="text-body font-medium">Home Insurance</p>
+                  <p className="text-sub font-semibold">{formatCurrency(cardResult.monthlyInsurance)}</p>
+                </div>
+                <div className="flex items-center justify-between">
+                  <p className="text-body font-medium">Other Costs</p>
+                  <p className="text-sub font-semibold">{formatCurrency(monthlyOtherCosts)}</p>
+                </div>
+                <div className="flex items-center justify-between">
+                  <p className="text-heading font-semibold">Total Out-of-Pocket</p>
+                  <p className="text-heading font-semibold">{formatCurrency(cardResult.totalMonthlyPayment)}</p>
+                </div>
               </div>
-              <div className="flex items-center justify-between">
-                <p className="text-body font-medium">Property Tax</p>
-                <p className="text-sub font-semibold">{formatCurrency(cardResult.monthlyPropertyTax)}</p>
-              </div>
-              <div className="flex items-center justify-between">
-                <p className="text-body font-medium">Home Insurance</p>
-                <p className="text-sub font-semibold">{formatCurrency(cardResult.monthlyInsurance)}</p>
-              </div>
-              <div className="flex items-center justify-between">
-                <p className="text-body font-medium">Other Costs</p>
-                <p className="text-sub font-semibold">{formatCurrency(monthlyOtherCosts)}</p>
-              </div>
-              <div className="flex items-center justify-between">
-                <p className="text-heading font-semibold">Total Out-of-Pocket</p>
-                <p className="text-heading font-semibold">{formatCurrency(cardResult.totalMonthlyPayment)}</p>
-              </div>
-            </div>
 
-            <div className="space-y-3 mt-8 text-[19px]">
-              <div className="flex items-center justify-between">
-                <p className="text-heading font-semibold">Total</p>
-                <p className="text-heading font-semibold">{formatCurrency(cardResult.totalCost)}</p>
-              </div>
-              <div className="flex items-center justify-between">
-                <p className="text-body font-medium">Property Tax</p>
-                <p className="text-sub font-semibold">{formatCurrency(cardResult.monthlyPropertyTax * totalMonths)}</p>
-              </div>
-              <div className="flex items-center justify-between">
-                <p className="text-body font-medium">Home Insurance</p>
-                <p className="text-sub font-semibold">{formatCurrency(cardResult.monthlyInsurance * totalMonths)}</p>
-              </div>
-              <div className="flex items-center justify-between">
-                <p className="text-body font-medium">Other Costs</p>
-                <p className="text-sub font-semibold">{formatCurrency(annualOtherCosts * (totalMonths / 12))}</p>
-              </div>
-              <div className="flex items-center justify-between">
-                <p className="text-heading font-semibold">Total Out-of-Pocket</p>
-                <p className="text-heading font-semibold">{formatCurrency(cardResult.totalCost + downPaymentAmount)}</p>
+              <div className="flex flex-col gap-4 w-full text-[19px]">
+                <div className="flex items-center justify-between">
+                  <p className="text-heading font-semibold">Total</p>
+                  <p className="text-heading font-semibold">{formatCurrency(cardResult.totalCost)}</p>
+                </div>
+                <div className="flex items-center justify-between">
+                  <p className="text-body font-medium">Property Tax</p>
+                  <p className="text-sub font-semibold">{formatCurrency(cardResult.monthlyPropertyTax * totalMonths)}</p>
+                </div>
+                <div className="flex items-center justify-between">
+                  <p className="text-body font-medium">Home Insurance</p>
+                  <p className="text-sub font-semibold">{formatCurrency(cardResult.monthlyInsurance * totalMonths)}</p>
+                </div>
+                <div className="flex items-center justify-between">
+                  <p className="text-body font-medium">Other Costs</p>
+                  <p className="text-sub font-semibold">{formatCurrency(annualOtherCosts * (totalMonths / 12))}</p>
+                </div>
+                <div className="flex items-center justify-between">
+                  <p className="text-heading font-semibold">Total Out-of-Pocket</p>
+                  <p className="text-heading font-semibold">{formatCurrency(cardResult.totalCost + downPaymentAmount)}</p>
+                </div>
               </div>
             </div>
           </div>

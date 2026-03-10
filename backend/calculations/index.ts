@@ -6,6 +6,7 @@ import * as k401 from './k401'
 import * as salary from './salary'
 import * as amortization from './amortization'
 import * as currency from './currency'
+import * as collegeCost from './collegeCost'
 import { ZodTypeAny } from 'zod'
 
 export interface CalculatorModule {
@@ -21,6 +22,7 @@ export const calculatorRegistry = {
   '401k': k401,
   salary,
   currency,
+  'college-cost': collegeCost,
   'compound-interest': compoundInterest
 } satisfies Record<string, CalculatorModule>
 

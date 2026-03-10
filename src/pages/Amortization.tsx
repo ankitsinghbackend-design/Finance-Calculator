@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom'
 import { calculateAmortization } from '../utils/amortization'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
+import heroGraphicImg from '../assets/hero-graphic.png'
+import ellipseBg from '../assets/Ellipse 1.svg'
 
-const heroGraphic = 'https://www.figma.com/api/mcp/asset/0649dbdf-6b4c-4205-874b-dbbdef53ccaf'
+const heroGraphic = heroGraphicImg
 
 const currency = (v: number) =>
   new Intl.NumberFormat('en-US', {
@@ -178,7 +180,14 @@ export default function Amortization() {
             </div>
 
             <div className="pt-20 xl:pt-[140px] relative z-10">
-              <div className="max-w-[516px] ml-auto bg-alt border border-cardBorder rounded-2xl px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)]">
+              <div className="relative max-w-[516px] ml-auto">
+                <img
+                  src={ellipseBg}
+                  alt=""
+                  aria-hidden
+                  className="absolute -right-[210px] -top-[260px] w-[655px] max-w-none opacity-90 pointer-events-none select-none z-0"
+                />
+                <div className="relative z-10 bg-alt border border-cardBorder rounded-2xl px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)]">
                 <div className="text-center">
                   <p className="text-[16px] font-medium text-sub">Monthly Payment</p>
                   <p className="text-[48px] leading-none font-semibold text-heading mt-3">{result ? currency(result.monthlyPayment) : '$0.00'}</p>
@@ -201,6 +210,7 @@ export default function Amortization() {
                     <span className="text-body font-medium">Loan Term</span>
                     <span className="text-heading font-semibold whitespace-nowrap">{termLabel}</span>
                   </div>
+                </div>
                 </div>
               </div>
             </div>

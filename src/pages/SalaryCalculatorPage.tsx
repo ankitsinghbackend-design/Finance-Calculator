@@ -1,6 +1,7 @@
 import React, { FormEvent, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
+import ellipseBg from '../assets/Ellipse 1.svg'
 
 type SalaryFormState = {
   salaryAmount: string
@@ -253,7 +254,14 @@ export default function SalaryCalculatorPage() {
             ) : null}
           </form>
 
-          <div className="bg-[#f9fafb] border border-cardBorder rounded-2xl px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)]">
+          <div className="relative">
+            <img
+              src={ellipseBg}
+              alt=""
+              aria-hidden
+              className="absolute -right-[210px] -top-[260px] w-[655px] max-w-none opacity-90 pointer-events-none select-none z-0"
+            />
+            <div className="relative z-10 bg-[#f9fafb] border border-cardBorder rounded-2xl px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)]">
             <div className="text-center">
               <p className="text-[16px] font-medium text-sub">Annual Salary</p>
               <p className="text-[40px] leading-none font-semibold text-heading mt-3">
@@ -276,6 +284,7 @@ export default function SalaryCalculatorPage() {
               <div className="flex items-center justify-between"><p className="text-body font-medium">Adjusted Weekly Salary</p><p className="text-heading font-semibold">{formatCurrency(currentResult.adjustedWeeklySalary)}</p></div>
               <div className="flex items-center justify-between"><p className="text-body font-medium">Adjusted Daily Salary</p><p className="text-heading font-semibold">{formatCurrency(currentResult.adjustedDailySalary)}</p></div>
               <div className="flex items-center justify-between"><p className="text-body font-medium">Adjusted Hourly Salary</p><p className="text-heading font-semibold">{formatCurrency(currentResult.adjustedHourlySalary)}</p></div>
+            </div>
             </div>
           </div>
         </div>

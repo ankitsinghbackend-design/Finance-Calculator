@@ -20,7 +20,9 @@ type CurrencyApiResults = {
 }
 
 const RATES_API_URL = 'https://open.er-api.com/v6/latest/USD'
-const heroGraphic = 'https://www.figma.com/api/mcp/asset/86be2859-a756-4ba3-af6a-23cfa3a96bf5'
+import currencyHeroImg from '../assets/currency-hero.png'
+import ellipseBg from '../assets/Ellipse 1.svg'
+const heroGraphic = currencyHeroImg
 
 const usdFormatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
@@ -225,7 +227,14 @@ export default function CurrencyCalculatorPage() {
             ) : null}
           </form>
 
-          <div className="bg-[#f9fafb] border border-cardBorder rounded-2xl px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)] relative z-10">
+          <div className="relative">
+            <img
+              src={ellipseBg}
+              alt=""
+              aria-hidden
+              className="absolute -right-[210px] -top-[260px] w-[655px] max-w-none opacity-90 pointer-events-none select-none z-0"
+            />
+            <div className="relative z-10 bg-[#f9fafb] border border-cardBorder rounded-2xl px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)]">
             <div className="text-center">
               <p className="text-[16px] font-medium text-sub">Converted Amount</p>
               <p className="text-[40px] leading-none font-semibold text-heading mt-3">
@@ -256,6 +265,7 @@ export default function CurrencyCalculatorPage() {
                 <span className="text-body font-medium">Last Updated</span>
                 <span className="text-heading font-semibold text-right">{lastUpdated || '-'}</span>
               </div>
+            </div>
             </div>
           </div>
         </div>
