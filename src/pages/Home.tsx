@@ -7,8 +7,6 @@ import { apiUrl } from '../config/api'
 import heroGraphicSvg from '../assets/hero-graphic.svg'
 import faqQuoteIconSvg from '../assets/Vector.svg'
 import expectBgImg from '../assets/expect-bg.png'
-import expectArrow1Img from '../assets/expect-arrow1.png'
-import expectArrow2Img from '../assets/expect-arrow2.png'
 import financeVisualImg from '../assets/finance-visual.png'
 // How It Works icons (SVG)
 import iconSearch from '../assets/icon-search.svg'
@@ -64,8 +62,6 @@ export default function Home(){
   const heroGraphic = heroGraphicSvg
   const faqQuote = faqQuoteIconSvg
   const expectBg = expectBgImg
-  const expectArrow1 = expectArrow1Img
-  const expectArrow2 = expectArrow2Img
 
   const howItWorks = [
     {
@@ -685,8 +681,47 @@ export default function Home(){
               <p className="text-[16px] leading-[25.6px] text-body mt-3">We continuously enhance calculators to provide clearer breakdowns, better comparisons, and improved insights so users can confidently evaluate financial scenarios and choose the best options for their needs.</p>
             </article>
 
-            <img src={expectArrow1} alt="" aria-hidden className="absolute left-[567px] top-[254px] w-[201px] pointer-events-none" />
-            <img src={expectArrow2} alt="" aria-hidden className="absolute left-[573px] top-[589px] w-[201px] pointer-events-none" />
+            {/* Arrow 1 — Challenge 1 → Solution 1 */}
+            <svg
+              aria-hidden="true"
+              className="pointer-events-none absolute z-20"
+              style={{ left: 567, top: 169 }}
+              width="201"
+              height="150"
+              viewBox="0 0 201 150"
+              fill="none"
+            >
+              <path
+                d="M 6,6 C 100,6 101,144 195,144"
+                stroke="#22C55E"
+                strokeWidth="2"
+                strokeDasharray="6 4"
+                fill="none"
+              />
+              <circle cx="6" cy="6" r="5" fill="white" stroke="#22C55E" strokeWidth="2" />
+              <circle cx="195" cy="144" r="5" fill="white" stroke="#22C55E" strokeWidth="2" />
+            </svg>
+
+            {/* Arrow 2 — Challenge 2 → Solution 2 */}
+            <svg
+              aria-hidden="true"
+              className="pointer-events-none absolute z-20"
+              style={{ left: 567, top: 493 }}
+              width="207"
+              height="149"
+              viewBox="0 0 207 149"
+              fill="none"
+            >
+              <path
+                d="M 6,6 C 103,6 104,143 201,143"
+                stroke="#22C55E"
+                strokeWidth="2"
+                strokeDasharray="6 4"
+                fill="none"
+              />
+              <circle cx="6" cy="6" r="5" fill="white" stroke="#22C55E" strokeWidth="2" />
+              <circle cx="201" cy="143" r="5" fill="white" stroke="#22C55E" strokeWidth="2" />
+            </svg>
           </div>
 
           <div className="mt-10 grid grid-cols-1 gap-y-8 xl:hidden">
