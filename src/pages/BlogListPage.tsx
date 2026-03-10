@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
 
@@ -23,6 +23,7 @@ function formatDate(dateStr: string): string {
 }
 
 export default function BlogListPage() {
+  const navigate = useNavigate()
   const [blogs, setBlogs] = useState<BlogSummary[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -40,6 +41,25 @@ export default function BlogListPage() {
     }
     fetchBlogs()
   }, [])
+
+  const handleDelete = async (e: React.MouseEvent, blogId: string, title: string) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (!window.confirm(`Are you sure you want to delete "${title}"? This action cannot be undone.`)) return
+
+    try {
+      await axios.delete(apiUrl(`/api/blogs/${blogId}`))
+      setBlogs(prev => prev.filter(b => b._id !== blogId))
+    } catch {
+      setError('Failed to delete blog post')
+    }
+  }
+
+  const handleEdit = (e: React.MouseEvent, blogId: string) => {
+    e.preventDefault()
+    e.stopPropagation()
+    navigate(`/admin/blog-editor/${blogId}`)
+  }
 
   // Group blogs by first tag
   const grouped = blogs.reduce<Record<string, BlogSummary[]>>((acc, blog) => {
@@ -132,6 +152,22 @@ export default function BlogListPage() {
                       <p className="text-sub text-base leading-relaxed line-clamp-2">
                         {blog.excerpt}
                       </p>
+
+                      {/* Edit / Delete Actions */}
+                      <div className="flex items-center gap-3 pt-1">
+                        <button
+                          onClick={(e) => handleEdit(e, blog._id)}
+                          className="text-xs font-medium text-primary hover:text-blue-700 transition-colors"
+                        >
+                          ✏️ Edit
+                        </button>
+                        <button
+                          onClick={(e) => handleDelete(e, blog._id, blog.title)}
+                          className="text-xs font-medium text-red-500 hover:text-red-700 transition-colors"
+                        >
+                          🗑️ Delete
+                        </button>
+                      </div>
                     </div>
 
                     {/* Thumbnail */}

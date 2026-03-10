@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
 import TipTapEditor from '../components/TipTapEditor'
@@ -26,11 +27,56 @@ const initialState: BlogFormState = {
 }
 
 export default function BlogEditorPage() {
+  const { id } = useParams<{ id: string }>()
+  const navigate = useNavigate()
+  const isEditMode = Boolean(id)
+
   const [form, setForm] = useState<BlogFormState>(initialState)
   const [coverUploading, setCoverUploading] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState('')
   const [error, setError] = useState('')
+
+  // Load existing blog data in edit mode
+  useEffect(() => {
+    if (!id) return
+
+    async function fetchBlog() {
+      setLoading(true)
+      setError('')
+      try {
+        // Fetch all blogs and find by ID since the API uses slug for single get
+        const { data } = await axios.get<{
+          _id: string
+          title: string
+          excerpt: string
+          content: string
+          coverImage: string
+          tags: string[]
+          keywords: string[]
+          author: string
+          isPublished: boolean
+        }>(apiUrl(`/api/blogs/id/${id}`))
+
+        setForm({
+          title: data.title,
+          excerpt: data.excerpt,
+          content: data.content,
+          coverImage: data.coverImage ?? '',
+          tags: (data.tags ?? []).join(', '),
+          keywords: (data.keywords ?? []).join(', '),
+          author: data.author ?? 'Admin',
+          isPublished: data.isPublished
+        })
+      } catch {
+        setError('Failed to load blog post for editing')
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchBlog()
+  }, [id])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -91,23 +137,71 @@ export default function BlogEditorPage() {
         isPublished: form.isPublished
       }
 
-      await axios.post(apiUrl('/api/blogs'), payload)
-      setSuccess(payload.isPublished ? 'Blog published successfully!' : 'Blog saved as draft!')
-      setForm(initialState)
+      if (isEditMode) {
+        await axios.put(apiUrl(`/api/blogs/${id}`), payload)
+        setSuccess('Blog updated successfully!')
+      } else {
+        await axios.post(apiUrl('/api/blogs'), payload)
+        setSuccess(payload.isPublished ? 'Blog published successfully!' : 'Blog saved as draft!')
+        setForm(initialState)
+      }
     } catch (err: unknown) {
       if (axios.isAxiosError(err) && err.response?.data?.error) {
         setError(err.response.data.error as string)
       } else {
-        setError('Failed to create blog post')
+        setError(isEditMode ? 'Failed to update blog post' : 'Failed to create blog post')
       }
     } finally {
       setSubmitting(false)
     }
   }
 
+  const handleDelete = async () => {
+    if (!id) return
+    if (!window.confirm('Are you sure you want to delete this blog post? This action cannot be undone.')) return
+
+    setSubmitting(true)
+    setError('')
+    try {
+      await axios.delete(apiUrl(`/api/blogs/${id}`))
+      navigate('/blogs')
+    } catch {
+      setError('Failed to delete blog post')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="container mx-auto px-6 py-20 text-center">
+        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-heading border-r-transparent" />
+        <p className="mt-4 text-sub">Loading blog...</p>
+      </div>
+    )
+  }
+
   return (
     <div className="container mx-auto px-6 py-10 max-w-4xl">
-      <h1 className="text-3xl font-bold text-heading mb-8 font-figtree">Create Blog Post</h1>
+      <Link to="/blogs" className="inline-flex items-center text-sub hover:text-heading transition-colors mb-6 text-sm">
+        ← Back to all blogs
+      </Link>
+
+      <div className="flex items-center justify-between mb-8">
+        <h1 className="text-3xl font-bold text-heading font-figtree">
+          {isEditMode ? 'Edit Blog Post' : 'Create Blog Post'}
+        </h1>
+        {isEditMode && (
+          <button
+            type="button"
+            onClick={handleDelete}
+            disabled={submitting}
+            className="px-5 py-2.5 bg-red-600 text-white text-sm font-semibold rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Delete Post
+          </button>
+        )}
+      </div>
 
       {success && (
         <div className="mb-6 p-4 bg-green-50 border border-green-200 text-green-800 rounded-lg">
@@ -267,8 +361,19 @@ export default function BlogEditorPage() {
             disabled={submitting}
             className="px-8 py-3 bg-heading text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {submitting ? 'Publishing...' : 'Publish Blog'}
+            {submitting
+              ? (isEditMode ? 'Updating...' : 'Publishing...')
+              : (isEditMode ? 'Update Blog' : 'Publish Blog')}
           </button>
+          {isEditMode && (
+            <button
+              type="button"
+              onClick={() => navigate(-1)}
+              className="px-8 py-3 border border-cardBorder text-heading font-semibold rounded-lg hover:bg-alt transition-colors"
+            >
+              Cancel
+            </button>
+          )}
         </div>
       </form>
     </div>

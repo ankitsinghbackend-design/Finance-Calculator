@@ -88,6 +88,7 @@ export default function App(){
             <Route path="/blogs" element={<BlogListPage/>} />
             <Route path="/blogs/:slug" element={<BlogDetailPage/>} />
             <Route path="/admin/blog-editor" element={<BlogEditorPage/>} />
+            <Route path="/admin/blog-editor/:id" element={<BlogEditorPage/>} />
           </Routes>
         </main>
         <Footer />

@@ -111,6 +111,27 @@ export async function getBlogBySlug(req: Request, res: Response): Promise<void> 
 }
 
 /**
+ * GET /api/blogs/id/:id
+ * Get a single blog post by its MongoDB _id
+ */
+export async function getBlogById(req: Request, res: Response): Promise<void> {
+  try {
+    const { id } = req.params
+    const blog = await Blog.findById(id).lean()
+
+    if (!blog) {
+      res.status(404).json({ error: 'Blog not found' })
+      return
+    }
+
+    res.json(blog)
+  } catch (error) {
+    console.error('Error fetching blog by id:', error)
+    res.status(500).json({ error: 'Failed to fetch blog' })
+  }
+}
+
+/**
  * GET /api/blogs/:slug/suggestions
  * Return up to 3 suggested published articles.
  * Priority order:

@@ -3,6 +3,7 @@ import {
   createBlog,
   getAllBlogs,
   getBlogBySlug,
+  getBlogById,
   getSuggestedBlogs,
   updateBlog,
   deleteBlog
@@ -12,6 +13,7 @@ const router = Router()
 
 router.post('/', createBlog)
 router.get('/', getAllBlogs)
+router.get('/id/:id', getBlogById)
 router.get('/:slug/suggestions', getSuggestedBlogs)
 router.get('/:slug', getBlogBySlug)
 router.put('/:id', updateBlog)
