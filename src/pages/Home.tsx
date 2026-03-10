@@ -248,6 +248,10 @@ export default function Home(){
     toNumber(autoLoanInputs.tradeInValue) +
     toNumber(autoLoanInputs.cashIncentives)
 
+  const visibleCalculatorColumns = showAllCalculators
+    ? [...landingCalculatorColumns, ...additionalCalculatorColumns.filter((column) => column.length > 0)]
+    : landingCalculatorColumns
+
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
     setAutoLoanInputs((previous) => ({
@@ -431,45 +435,43 @@ export default function Home(){
 
       <section className="max-w-[1440px] mx-auto px-6 xl:px-10 py-8 grid grid-cols-1 xl:grid-cols-[1fr_321px] gap-10 items-start">
         <div>
-          <h3 className="text-[28px] font-medium text-black">Financial Calculators</h3>
-          <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-x-8 gap-y-4 text-[19px] text-body font-semibold underline">
-            {landingCalculatorColumns.map((col, idx) => (
-              <div key={idx} className="space-y-3">
-                {col.map((item) => (
-                  <p key={item.calculatorId}>
-                    <Link to={item.calculatorId === 'amortization' ? '/finance/amortization' : `/calculators/${item.calculatorId}`}>
-                      {item.label}
-                    </Link>
-                  </p>
-                ))}
-              </div>
-            ))}
-
-            {showAllCalculators
-              ? additionalCalculatorColumns.map((col, idx) => (
-                  <div key={`extra-${idx}`} className="space-y-3">
-                    {col.map((item) => (
-                      <p key={item.calculatorId}>
-                        <Link to={`/calculators/${item.calculatorId}`}>{item.label}</Link>
-                      </p>
-                    ))}
-                  </div>
-                ))
-              : null}
-          </div>
-
-          <div className="mt-2 text-right">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h3 className="text-[24px] sm:text-[28px] font-medium text-black">Financial Calculators</h3>
+              <p className="mt-1 max-w-[720px] text-[14px] sm:text-[16px] leading-[24px] text-body">
+                Browse calculators by topic and jump straight into the tool you need on desktop, tablet, or phone.
+              </p>
+            </div>
             <button
               type="button"
               onClick={() => setShowAllCalculators((previous) => !previous)}
-              className="text-[23px] text-primaryDark underline"
+              className="self-start text-[18px] sm:self-auto sm:text-[20px] text-primaryDark underline"
               aria-expanded={showAllCalculators}
             >
               {showAllCalculators ? 'Show Less' : 'View All'}
             </button>
           </div>
+
+          <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
+            {visibleCalculatorColumns.map((col, idx) => (
+              <div key={idx} className="rounded-2xl border border-cardBorder bg-alt p-4 shadow-sm">
+                <div className="space-y-2.5">
+                {col.map((item) => (
+                  <p key={item.calculatorId} className="leading-6">
+                    <Link
+                      to={item.calculatorId === 'amortization' ? '/finance/amortization' : `/calculators/${item.calculatorId}`}
+                      className="block break-words text-[16px] sm:text-[17px] font-semibold text-body underline transition-colors hover:text-heading"
+                    >
+                      {item.label}
+                    </Link>
+                  </p>
+                ))}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="h-[316px] rounded-2xl border border-cardBorder bg-white flex items-center justify-center text-[28px] text-sub">AD.</div>
+        <div className="order-last xl:order-none h-[220px] sm:h-[260px] xl:h-[316px] rounded-2xl border border-cardBorder bg-white flex items-center justify-center text-[24px] sm:text-[28px] text-sub">AD.</div>
       </section>
 
       <section className="bg-alt py-10">

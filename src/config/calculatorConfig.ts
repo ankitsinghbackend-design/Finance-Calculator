@@ -48,6 +48,7 @@ export const calculators: CalculatorItem[] = [
   { id: 'personal-loan', title: 'Personal Loan', description: 'Personal loan planner.', category: 'Loan' },
   { id: 'investment', title: 'Investment Calculator', description: 'Project investment growth and solve for contribution, rate, starting amount, or length.', category: 'Investment' },
   { id: 'compound-interest', title: 'Compound Interest', description: 'Growth over time with compound interest.', category: 'Investment' },
+  { id: 'mutual-fund', title: 'Mutual Fund Calculator', description: 'Estimate ending balance, fee drag, and gain on mutual fund investments.', category: 'Investment' },
   { id: 'pension', title: 'Pension Calculator', description: 'Compare lump sum versus monthly pension lifetime value.', category: 'Retirement' },
   { id: 'annuity', title: 'Annuity Calculator', description: 'Project annuity accumulation with principal and recurring additions.', category: 'Retirement' },
   { id: 'roth-ira', title: 'Roth IRA Calculator', description: 'Compare Roth IRA growth with a taxable investment account.', category: 'Retirement' },
@@ -84,7 +85,8 @@ export const landingCalculatorColumns: LandingCalculatorLink[][] = [
     { label: 'College Cost', calculatorId: 'college-cost' },
     { label: 'Student Loan', calculatorId: 'student-loan' },
     { label: 'Loan', calculatorId: 'loan' },
-    { label: 'Bond', calculatorId: 'bond' }
+    { label: 'Bond', calculatorId: 'bond' },
+    { label: 'Mutual Fund', calculatorId: 'mutual-fund' }
   ],
   [
     { label: 'Estate Tax', calculatorId: 'estate-tax' },
@@ -161,6 +163,7 @@ export const financeMenuColumns: FinanceMenuColumn[] = [
       { label: 'Simple Interest Calculator' },
       { label: 'CD Calculator' },
       { label: 'Bond Calculator', calculatorId: 'bond' },
+      { label: 'Mutual Fund Calculator', calculatorId: 'mutual-fund' },
       { label: 'Average Return Calculator' },
       { label: 'IRR Calculator' },
       { label: 'ROI Calculator' },

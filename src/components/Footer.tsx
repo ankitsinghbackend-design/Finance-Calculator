@@ -11,10 +11,10 @@ const social = {
 export default function Footer(){
   return (
     <footer className="bg-alt border-t border-cardBorder mt-12">
-      <div className="container mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div className="container mx-auto px-4 py-10 sm:px-6 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8">
         <div>
           <h3 className="text-primary font-bold text-2xl">Finovo</h3>
-          <p className="text-body mt-3">Helping users make smarter financial decisions through simple, accurate, and accessible calculation tools for everyday planning.</p>
+          <p className="text-body mt-3 max-w-[320px]">Helping users make smarter financial decisions through simple, accurate, and accessible calculation tools for everyday planning.</p>
           <div className="flex gap-3 mt-4">
             <img src={social.instagram} alt="ig" className="w-4 h-4" />
             <img src={social.twitter} alt="tw" className="w-4 h-4" />
@@ -50,9 +50,9 @@ export default function Footer(){
         </div>
       </div>
       <div className="border-t border-cardBorder">
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between text-sm text-[#212121]">
+        <div className="container mx-auto px-4 py-4 sm:px-6 flex flex-col gap-3 text-center sm:text-left sm:flex-row sm:items-center sm:justify-between text-sm text-[#212121]">
           <div>© 2025 logoipsum. All Rights Reserved.</div>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap items-center justify-center gap-4 sm:justify-end sm:gap-6">
             <a href="#">Privacy Policy</a>
             <a href="#">Term &amp; Condition</a>
           </div>

@@ -33,6 +33,7 @@ import AnnuityPage from './AnnuityPage'
 import RothIraPage from './RothIraPage'
 import RMDPage from './RMDPage'
 import BondPage from './BondPage'
+import MutualFundPage from './MutualFundPage'
 
 export default function CalculatorPlaceholder() {
 	const { calculatorId } = useParams()
@@ -167,6 +168,10 @@ export default function CalculatorPlaceholder() {
 
 	if (calculatorId === 'bond' || calculatorId === 'bond-pricing') {
 		return <BondPage />
+	}
+
+	if (calculatorId === 'mutual-fund') {
+		return <MutualFundPage />
 	}
 
 	return <div className="min-h-[60vh]" />

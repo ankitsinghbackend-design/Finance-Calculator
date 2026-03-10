@@ -34,6 +34,7 @@ import AnnuityPage from './pages/AnnuityPage'
 import RothIraPage from './pages/RothIraPage'
 import RMDPage from './pages/RMDPage'
 import BondPage from './pages/BondPage'
+import MutualFundPage from './pages/MutualFundPage'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import CalculatorLayout from './layouts/CalculatorLayout'
@@ -81,6 +82,7 @@ export default function App(){
             <Route path="/calculators/roth-ira" element={<RothIraPage/>} />
             <Route path="/calculators/rmd" element={<RMDPage/>} />
             <Route path="/calculators/bond" element={<BondPage/>} />
+            <Route path="/calculators/mutual-fund" element={<MutualFundPage/>} />
             <Route path="/calculators/:calculatorId" element={<CalculatorPlaceholder/>} />
             <Route path="/help/disable-adblock" element={<DisableAdblockHelp/>} />
             <Route path="/blogs" element={<BlogListPage/>} />

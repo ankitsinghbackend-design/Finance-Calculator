@@ -32,6 +32,7 @@ import * as annuityCalc from './annuityCalc'
 import * as rothIraCalc from './rothIraCalc'
 import * as rmdCalc from './rmdCalc'
 import * as bondCalc from './bondCalc'
+import * as mutualFund from './mutualFund'
 import { generalAprSchema, mortgageAprSchema, calculateGeneralApr, calculateMortgageApr } from './aprLogic'
 import { ZodTypeAny } from 'zod'
 
@@ -64,6 +65,7 @@ export const calculatorRegistry = {
   rmd: rmdCalc,
   'bond-pricing': bondCalc,
   bond: bondCalc,
+  'mutual-fund': mutualFund,
   'general-apr': {
     schema: generalAprSchema,
     calculate: calculateGeneralApr
