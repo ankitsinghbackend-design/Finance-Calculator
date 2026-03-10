@@ -42,6 +42,7 @@ export const calculators: CalculatorItem[] = [
   { id: 'rent-vs-buy', title: 'Rent vs. Buy Calculator', description: 'Compare long-term rent and homeownership costs.', category: 'Loan' },
   { id: 'auto-loan', title: 'Auto Loan Calculator', description: 'Auto loan payments & amortization.', category: 'Loan' },
   { id: 'cash-back-or-low-interest', title: 'Cash Back or Low Interest Calculator', description: 'Compare dealer cash offers with low-interest financing.', category: 'Loan' },
+  { id: 'loan', title: 'Loan Calculator', description: 'Estimate monthly loan payments or payoff time with fixed term and fixed payment modes.', category: 'Loan' },
   { id: 'repayment', title: 'Repayment Calculator', description: 'Estimate monthly repayment amount or payoff time for a loan.', category: 'Loan' },
   { id: 'interest-rate', title: 'Interest Rate Calculator', description: 'Solve for the implied loan interest rate from payment, amount, and term.', category: 'Loan' },
   { id: 'personal-loan', title: 'Personal Loan', description: 'Personal loan planner.', category: 'Loan' },
@@ -77,7 +78,7 @@ export const landingCalculatorColumns: LandingCalculatorLink[][] = [
     { label: 'Interest Rate', calculatorId: 'interest-rate' },
     { label: 'College Cost', calculatorId: 'college-cost' },
     { label: 'Student Loan', calculatorId: 'student-loan' },
-    { label: 'Auto Lease', calculatorId: 'auto-lease' }
+    { label: 'Loan', calculatorId: 'loan' }
   ],
   [
     { label: 'Estate Tax', calculatorId: 'estate-tax' },
@@ -175,7 +176,7 @@ export const financeMenuColumns: FinanceMenuColumn[] = [
   {
     title: 'Other',
     items: [
-      { label: 'Loan Calculator' },
+      { label: 'Loan Calculator', calculatorId: 'loan' },
       { label: 'Payment Calculator' },
       { label: 'Currency Calculator', calculatorId: 'currency' },
       { label: 'Inflation Calculator', calculatorId: 'inflation' },

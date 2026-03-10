@@ -16,6 +16,7 @@ import PensionCalculatorPage from './pages/PensionCalculatorPage'
 import InvestmentCalculatorPage from './pages/InvestmentCalculatorPage'
 import InterestRateCalculatorPage from './pages/InterestRateCalculatorPage'
 import EstateTaxCalculatorPage from './pages/EstateTaxCalculatorPage'
+import LoanCalculatorPage from './pages/LoanCalculatorPage'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import CalculatorLayout from './layouts/CalculatorLayout'
@@ -45,6 +46,7 @@ export default function App(){
             <Route path="/calculators/investment" element={<InvestmentCalculatorPage/>} />
             <Route path="/calculators/interest-rate" element={<InterestRateCalculatorPage/>} />
             <Route path="/calculators/estate-tax" element={<EstateTaxCalculatorPage/>} />
+            <Route path="/calculators/loan" element={<LoanCalculatorPage/>} />
             <Route path="/calculators/:calculatorId" element={<CalculatorPlaceholder/>} />
             <Route path="/help/disable-adblock" element={<DisableAdblockHelp/>} />
             <Route path="/blogs" element={<BlogListPage/>} />

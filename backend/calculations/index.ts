@@ -15,6 +15,7 @@ import * as repayment from './repayment'
 import * as investment from './investment'
 import * as interestRate from './interestRate'
 import * as estateTax from './estateTax'
+import * as loan from './loan'
 import { ZodTypeAny } from 'zod'
 
 export interface CalculatorModule {
@@ -30,6 +31,7 @@ export const calculatorRegistry = {
   '401k': k401,
   salary,
   repayment,
+  loan,
   investment,
   'interest-rate': interestRate,
   'estate-tax': estateTax,

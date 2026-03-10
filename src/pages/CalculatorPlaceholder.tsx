@@ -15,6 +15,7 @@ import PensionCalculatorPage from './PensionCalculatorPage'
 import InvestmentCalculatorPage from './InvestmentCalculatorPage'
 import InterestRateCalculatorPage from './InterestRateCalculatorPage'
 import EstateTaxCalculatorPage from './EstateTaxCalculatorPage'
+import LoanCalculatorPage from './LoanCalculatorPage'
 
 export default function CalculatorPlaceholder() {
 	const { calculatorId } = useParams()
@@ -77,6 +78,10 @@ export default function CalculatorPlaceholder() {
 
 	if (calculatorId === 'estate-tax') {
 		return <EstateTaxCalculatorPage />
+	}
+
+	if (calculatorId === 'loan') {
+		return <LoanCalculatorPage />
 	}
 
 	return <div className="min-h-[60vh]" />
