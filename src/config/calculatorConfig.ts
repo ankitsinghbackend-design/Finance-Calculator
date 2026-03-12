@@ -60,7 +60,7 @@ export const calculators: CalculatorItem[] = [
   { id: 'sales-tax', title: 'Sales Tax Calculator', description: 'Solve for before-tax price, sales tax rate, or final price when the other two are known.', category: 'Tax' },
   { id: 'currency', title: 'Currency Converter', description: 'Quick conversions.', category: 'Utility' },
   { id: 'college-cost', title: 'College Cost Calculator', description: 'Estimate future college cost and funding gap.', category: 'Education' },
-  { id: 'inflation', title: 'Inflation Calculator', description: 'Adjust for inflation.', category: 'Investment' },
+  { id: 'depreciation', title: 'Depreciation Calculator', description: 'Calculate asset depreciation over time.', category: 'Investment' },
   { id: 'bond', title: 'Bond Calculator', description: 'Calculate bond price, yield, accrued interest, and coupon cash flow.', category: 'Investment' },
   { id: 'view-all', title: 'View All Calculators', description: 'Explore full list.', category: 'General' }
 ]
@@ -92,7 +92,7 @@ export const landingCalculatorColumns: LandingCalculatorLink[][] = [
     { label: 'Estate Tax', calculatorId: 'estate-tax' },
     { label: 'Pension', calculatorId: 'pension' },
     { label: 'Investment', calculatorId: 'investment' },
-    { label: 'Inflation', calculatorId: 'inflation' },
+    { label: 'Depreciation', calculatorId: 'depreciation' },
     { label: 'Roth IRA', calculatorId: 'roth-ira' }
   ],
   [

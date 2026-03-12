@@ -1,6 +1,7 @@
 import React, { FormEvent, useMemo, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
+import CalculatorMarketingSections from '../components/CalculatorMarketingSections'
 
 type ExchangeApiResponse = {
   result: string
@@ -142,6 +143,7 @@ export default function CurrencyCalculatorPage() {
   }
 
   return (
+    <>
     <section className="bg-[#f5f7fa] py-12 min-h-[calc(100vh-82px)] overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-6 xl:px-10 relative isolate">
         <img
@@ -266,5 +268,8 @@ export default function CurrencyCalculatorPage() {
         </div>
       </div>
     </section>
+
+    <CalculatorMarketingSections loginRedirectPath="/calculators/currency" />
+    </>
   )
 }

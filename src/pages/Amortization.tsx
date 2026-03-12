@@ -175,7 +175,7 @@ export default function Amortization() {
               </form>
             </div>
 
-            <div className="xl:-mt-[57px] relative z-20">
+            <div className="xl:mt-[180px] relative z-20">
               <div className="max-w-[516px] ml-auto bg-white border border-cardBorder rounded-[16px] px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)] overflow-hidden">
                 <div className="text-center">
                   <p className="text-[16px] font-medium text-sub">Total Monthly Payment</p>

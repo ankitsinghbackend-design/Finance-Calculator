@@ -13,6 +13,7 @@ type TranslationContextValue = {
   currentLanguage: string
   supportedLanguages: SupportedLanguage[]
   isReady: boolean
+  isTranslating: boolean
   setLanguage: (languageCode: string) => Promise<void>
 }
 
@@ -64,6 +65,10 @@ const setGoogleTranslateCookie = (languageCode: string) => {
 const clearGoogleTranslateCookie = () => {
   document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/'
   document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 GMT; domain=${window.location.hostname}; path=/`
+}
+
+const persistSelectedLanguage = (languageCode: string) => {
+  localStorage.setItem(TRANSLATION_STORAGE_KEY, languageCode)
 }
 
 const initializeGoogleWidget = (languageCodes: string[]) => {
@@ -127,7 +132,7 @@ const ensureGoogleTranslate = (languageCodes: string[]): Promise<void> => {
 const applyGoogleTranslation = async (languageCode: string, languageCodes: string[]) => {
   if (languageCode === DEFAULT_LANGUAGE) {
     clearGoogleTranslateCookie()
-    localStorage.setItem(TRANSLATION_STORAGE_KEY, DEFAULT_LANGUAGE)
+    persistSelectedLanguage(DEFAULT_LANGUAGE)
     window.location.reload()
     return
   }
@@ -135,22 +140,28 @@ const applyGoogleTranslation = async (languageCode: string, languageCodes: strin
   setGoogleTranslateCookie(languageCode)
   await ensureGoogleTranslate(languageCodes)
 
-  const attemptSelection = (remainingAttempts: number) => {
-    const combo = getGoogleCombo()
+  await new Promise<void>((resolve) => {
+    const attemptSelection = (remainingAttempts: number) => {
+      const combo = getGoogleCombo()
 
-    if (combo) {
-      combo.value = languageCode
-      combo.dispatchEvent(new Event('change'))
-      localStorage.setItem(TRANSLATION_STORAGE_KEY, languageCode)
-      return
+      if (combo) {
+        combo.value = languageCode
+        combo.dispatchEvent(new Event('change'))
+        persistSelectedLanguage(languageCode)
+        window.setTimeout(resolve, 700)
+        return
+      }
+
+      if (remainingAttempts > 0) {
+        window.setTimeout(() => attemptSelection(remainingAttempts - 1), 250)
+        return
+      }
+
+      resolve()
     }
 
-    if (remainingAttempts > 0) {
-      window.setTimeout(() => attemptSelection(remainingAttempts - 1), 250)
-    }
-  }
-
-  attemptSelection(12)
+    attemptSelection(12)
+  })
 }
 
 export function TranslationProvider({ children }: { children: React.ReactNode }) {
@@ -164,6 +175,14 @@ export function TranslationProvider({ children }: { children: React.ReactNode })
     return localStorage.getItem(TRANSLATION_STORAGE_KEY) ?? DEFAULT_LANGUAGE
   })
   const [isReady, setIsReady] = useState(false)
+  const [isTranslating, setIsTranslating] = useState(() => {
+    if (typeof window === 'undefined') {
+      return false
+    }
+
+    const storedLanguage = localStorage.getItem(TRANSLATION_STORAGE_KEY)
+    return Boolean(storedLanguage && storedLanguage !== DEFAULT_LANGUAGE)
+  })
 
   const languageCodes = useMemo(() => supportedLanguages.map((language) => language.code), [supportedLanguages])
 
@@ -186,19 +205,44 @@ export function TranslationProvider({ children }: { children: React.ReactNode })
 
   useEffect(() => {
     if (!isReady || currentLanguage === DEFAULT_LANGUAGE) {
+      if (currentLanguage === DEFAULT_LANGUAGE) {
+        setIsTranslating(false)
+      }
       return
     }
 
     const timeoutId = window.setTimeout(() => {
       void applyGoogleTranslation(currentLanguage, languageCodes)
+        .finally(() => setIsTranslating(false))
     }, 200)
 
     return () => window.clearTimeout(timeoutId)
   }, [currentLanguage, isReady, languageCodes, location.pathname, location.search])
 
   const setLanguage = async (languageCode: string) => {
+    if (languageCode === currentLanguage) {
+      return
+    }
+
+    setIsTranslating(true)
+
+    if (languageCode === DEFAULT_LANGUAGE) {
+      setCurrentLanguage(DEFAULT_LANGUAGE)
+      clearGoogleTranslateCookie()
+      persistSelectedLanguage(DEFAULT_LANGUAGE)
+      window.location.reload()
+      return
+    }
+
+    if (currentLanguage !== DEFAULT_LANGUAGE) {
+      setCurrentLanguage(languageCode)
+      setGoogleTranslateCookie(languageCode)
+      persistSelectedLanguage(languageCode)
+      window.location.reload()
+      return
+    }
+
     setCurrentLanguage(languageCode)
-    await applyGoogleTranslation(languageCode, languageCodes)
   }
 
   const value = useMemo<TranslationContextValue>(
@@ -206,9 +250,10 @@ export function TranslationProvider({ children }: { children: React.ReactNode })
       currentLanguage,
       supportedLanguages,
       isReady,
+      isTranslating,
       setLanguage
     }),
-    [currentLanguage, isReady, supportedLanguages]
+    [currentLanguage, isReady, isTranslating, supportedLanguages]
   )
 
   return (

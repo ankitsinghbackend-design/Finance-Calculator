@@ -1,6 +1,7 @@
 import React, { FormEvent, useMemo, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
+import CalculatorMarketingSections from '../components/CalculatorMarketingSections'
 import heroGraphicSvg from '../assets/hero-graphic.svg'
 
 type MortgageFormState = {
@@ -179,6 +180,7 @@ export default function MortgageCalculatorPage() {
   const monthlyOtherCosts = toNumber(form.pmi) + toNumber(form.hoa) + toNumber(form.otherCosts)
 
   return (
+    <>
     <section className="bg-[#f5f7fa] relative overflow-hidden">
       {/* Hero graphic — page-level background decoration */}
       <img
@@ -366,5 +368,8 @@ export default function MortgageCalculatorPage() {
         </div>
       </div>
     </section>
+
+    <CalculatorMarketingSections loginRedirectPath="/calculators/mortgage" />
+    </>
   )
 }

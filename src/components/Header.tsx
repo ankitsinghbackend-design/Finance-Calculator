@@ -12,11 +12,11 @@ export default function Header(){
   const isBlog = location.pathname.startsWith('/blogs')
   const isAdminPage = location.pathname.startsWith('/admin')
   const { isAuthenticated, logout, user } = useAuth()
-  const { currentLanguage, supportedLanguages, setLanguage, isReady } = useTranslation()
+  const { currentLanguage, supportedLanguages, setLanguage, isReady, isTranslating } = useTranslation()
   const isAdminUser = user?.role === 'admin'
 
   const selectedLanguageLabel = useMemo(() => {
-    return supportedLanguages.find((language) => language.code === currentLanguage)?.nativeLabel ?? 'English'
+    return supportedLanguages.find((language) => language.code === currentLanguage)?.label ?? 'English'
   }, [currentLanguage, supportedLanguages])
 
   const navLink = (to: string, label: string, active: boolean) =>
@@ -36,13 +36,14 @@ export default function Header(){
           <Link to="/finance" className={navLink('/finance', 'Features', isFinance)}>Features</Link>
           <Link to="/blogs" className={navLink('/blogs', 'Blog', isBlog)}>Blog</Link>
           <a href="#faqs" className="text-body text-base">FAQs</a>
-          <div className="relative">
+          <div className="relative notranslate" translate="no">
             <button
               type="button"
+              disabled={!isReady || isTranslating}
               onClick={() => setIsTranslateMenuOpen((previous) => !previous)}
-              className="inline-flex items-center gap-2 rounded-lg border border-cardBorder px-3 py-2 text-sm font-medium text-heading transition hover:bg-white"
+              className="inline-flex items-center gap-2 rounded-lg border border-cardBorder px-3 py-2 text-sm font-medium text-heading transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-70"
             >
-              <span>Translate</span>
+              <span>{isTranslating ? 'Translating...' : 'Translate'}</span>
               <span className="text-xs text-sub">{selectedLanguageLabel}</span>
             </button>
             {isTranslateMenuOpen ? (
@@ -63,8 +64,11 @@ export default function Header(){
                         currentLanguage === language.code ? 'bg-alt text-heading font-medium' : 'text-sub'
                       ].join(' ')}
                     >
-                      <span>{language.label}</span>
-                      <span className="text-xs">{language.nativeLabel}</span>
+                      <span className="flex items-center gap-2">
+                        <span>{language.label}</span>
+                        <span className="text-xs text-sub">{language.nativeLabel}</span>
+                      </span>
+                      <span className="text-xs">{currentLanguage === language.code ? 'Selected' : ''}</span>
                     </button>
                   ))}
                 </div>
@@ -107,14 +111,15 @@ export default function Header(){
             <Link to="/finance" onClick={closeMobileMenu} className={`${navLink('/finance', 'Features', isFinance)} rounded-lg px-3 py-2`}>Features</Link>
             <Link to="/blogs" onClick={closeMobileMenu} className={`${navLink('/blogs', 'Blog', isBlog)} rounded-lg px-3 py-2`}>Blogs</Link>
             <a href="#faqs" onClick={closeMobileMenu} className="rounded-lg px-3 py-2 text-body text-base hover:text-heading transition-colors">FAQs</a>
-            <div className="mt-2 rounded-lg border border-cardBorder p-3">
+            <div className="notranslate mt-2 rounded-lg border border-cardBorder p-3" translate="no">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-sub">Translate</p>
+              {isTranslating ? <p className="mt-2 text-xs text-sub">Translating current page...</p> : null}
               <div className="mt-3 grid grid-cols-1 gap-2">
                 {supportedLanguages.map((language) => (
                   <button
                     key={language.code}
                     type="button"
-                    disabled={!isReady}
+                    disabled={!isReady || isTranslating}
                     onClick={() => {
                       void setLanguage(language.code)
                       closeMobileMenu()
@@ -124,8 +129,11 @@ export default function Header(){
                       currentLanguage === language.code ? 'bg-white text-heading font-medium' : 'text-sub'
                     ].join(' ')}
                   >
-                    <span>{language.label}</span>
-                    <span className="text-xs">{language.nativeLabel}</span>
+                    <span className="flex items-center gap-2">
+                      <span>{language.label}</span>
+                      <span className="text-xs text-sub">{language.nativeLabel}</span>
+                    </span>
+                    <span className="text-xs">{currentLanguage === language.code ? 'Selected' : ''}</span>
                   </button>
                 ))}
               </div>
