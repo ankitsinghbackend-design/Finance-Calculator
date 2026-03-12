@@ -1,5 +1,5 @@
 import React from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
 import AutoLoanPage from './components/calculators/AutoLoanPage'
 import Home from './pages/Home'
 import Finance from './pages/Finance'
@@ -41,57 +41,120 @@ import CalculatorLayout from './layouts/CalculatorLayout'
 import BlogListPage from './pages/BlogListPage'
 import BlogDetailPage from './pages/BlogDetailPage'
 import BlogEditorPage from './pages/BlogEditorPage'
+import AuthPage from './pages/AuthPage'
+import AuthAccessModal from './components/AuthAccessModal'
+import { useAuth } from './context/AuthContext'
 
 export default function App(){
+  const location = useLocation()
+  const navigate = useNavigate()
+  const { isAuthenticated, isInitializing, user } = useAuth()
+
+  const isCalculatorRoute =
+    location.pathname.startsWith('/calculators/') || location.pathname === '/finance/amortization'
+  const isAdminRoute = location.pathname.startsWith('/admin')
+  const shouldHoldProtectedContent = isInitializing && (isCalculatorRoute || isAdminRoute)
+
+  const accessPrompt = (() => {
+    if (isInitializing || location.pathname === '/login') {
+      return null
+    }
+
+    if (isAdminRoute) {
+      if (!isAuthenticated) {
+        return {
+          title: 'Login required',
+          description: 'Please login or sign up to continue. Admin tools are available only after authentication.',
+          primaryLabel: 'Login / Sign Up',
+          onPrimary: () => navigate('/login?mode=signup', { state: { from: location.pathname + location.search } }),
+          secondaryLabel: 'Back to Home',
+          onSecondary: () => navigate('/')
+        }
+      }
+
+      if (user?.role !== 'admin') {
+        return {
+          title: 'Admin access only',
+          description: 'Only admins can create, edit, or delete blog posts. You can still browse and read all published blogs.',
+          primaryLabel: 'Go to Blogs',
+          onPrimary: () => navigate('/blogs'),
+          secondaryLabel: 'Back to Home',
+          onSecondary: () => navigate('/')
+        }
+      }
+    }
+
+    if (isCalculatorRoute && !isAuthenticated) {
+      return {
+        title: 'Login required',
+        description: 'Please login or create your account to access calculators and continue to this page.',
+        primaryLabel: 'Login / Sign Up',
+        onPrimary: () => navigate('/login?mode=signup', { state: { from: location.pathname + location.search } }),
+        secondaryLabel: 'Back to Home',
+        onSecondary: () => navigate('/')
+      }
+    }
+
+    return null
+  })()
+
   return (
     <CalculatorLayout>
       <div className="min-h-screen flex flex-col">
         <Header />
         <main className="flex-1">
-          <Routes>
-            <Route path="/" element={<Home/>} />
-            <Route path="/finance" element={<Finance/>} />
-            <Route path="/finance/amortization" element={<Amortization/>} />
-            <Route path="/calculators/amortization" element={<Amortization/>} />
-            <Route path="/calculators/auto-loan" element={<AutoLoanPage/>} />
-            <Route path="/calculators/house-affordability" element={<HouseAffordabilityPage/>} />
-            <Route path="/calculators/repayment" element={<RepaymentCalculatorPage/>} />
-            <Route path="/calculators/college-cost" element={<CollegeCostCalculatorPage/>} />
-            <Route path="/calculators/compound-interest" element={<CompoundInterestCalculatorPage/>} />
-            <Route path="/calculators/student-loan" element={<StudentLoanCalculatorPage/>} />
-            <Route path="/calculators/income-tax" element={<IncomeTaxCalculatorPage/>} />
-            <Route path="/calculators/pension" element={<PensionCalculatorPage/>} />
-            <Route path="/calculators/social-security" element={<SocialSecurityCalculatorPage/>} />
-            <Route path="/calculators/investment" element={<InvestmentCalculatorPage/>} />
-            <Route path="/calculators/interest-rate" element={<InterestRateCalculatorPage/>} />
-            <Route path="/calculators/estate-tax" element={<EstateTaxCalculatorPage/>} />
-            <Route path="/calculators/loan" element={<LoanCalculatorPage/>} />
-            <Route path="/calculators/heloc" element={<HelocCalculatorPage/>} />
-            <Route path="/calculators/rent-vs-buy" element={<RentVsBuyCalculatorPage/>} />
-            <Route path="/calculators/auto-lease" element={<AutoLeaseCalculatorPage/>} />
-            <Route path="/calculators/apr" element={<APRCalculatorPage/>} />
-            <Route path="/calculators/sales-tax" element={<SalesTaxCalculatorPage/>} />
-            <Route path="/calculators/dti-ratio" element={<DebtToIncomeCalculatorPage/>} />
-            <Route path="/calculators/fha-loan" element={<FHALoanPage/>} />
-            <Route path="/calculators/va-mortgage" element={<VAMortgagePage/>} />
-            <Route path="/calculators/refinance" element={<RefinancePage/>} />
-            <Route path="/calculators/rental-property" element={<RentalPropertyPage/>} />
-            <Route path="/calculators/down-payment" element={<DownPaymentPage/>} />
-            <Route path="/calculators/cash-back-or-low-interest" element={<CashBackComparisonPage/>} />
-            <Route path="/calculators/annuity" element={<AnnuityPage/>} />
-            <Route path="/calculators/roth-ira" element={<RothIraPage/>} />
-            <Route path="/calculators/rmd" element={<RMDPage/>} />
-            <Route path="/calculators/bond" element={<BondPage/>} />
-            <Route path="/calculators/mutual-fund" element={<MutualFundPage/>} />
-            <Route path="/calculators/:calculatorId" element={<CalculatorPlaceholder/>} />
-            <Route path="/help/disable-adblock" element={<DisableAdblockHelp/>} />
-            <Route path="/blogs" element={<BlogListPage/>} />
-            <Route path="/blogs/:slug" element={<BlogDetailPage/>} />
-            <Route path="/admin/blog-editor" element={<BlogEditorPage/>} />
-            <Route path="/admin/blog-editor/:id" element={<BlogEditorPage/>} />
-          </Routes>
+          {shouldHoldProtectedContent ? (
+            <div className="min-h-[40vh]" />
+          ) : accessPrompt ? (
+            <div className="min-h-[40vh]" />
+          ) : (
+            <Routes>
+              <Route path="/" element={<Home/>} />
+              <Route path="/login" element={<AuthPage />} />
+              <Route path="/finance" element={<Finance/>} />
+              <Route path="/finance/amortization" element={<Amortization/>} />
+              <Route path="/calculators/amortization" element={<Amortization/>} />
+              <Route path="/calculators/auto-loan" element={<AutoLoanPage/>} />
+              <Route path="/calculators/house-affordability" element={<HouseAffordabilityPage/>} />
+              <Route path="/calculators/repayment" element={<RepaymentCalculatorPage/>} />
+              <Route path="/calculators/college-cost" element={<CollegeCostCalculatorPage/>} />
+              <Route path="/calculators/compound-interest" element={<CompoundInterestCalculatorPage/>} />
+              <Route path="/calculators/student-loan" element={<StudentLoanCalculatorPage/>} />
+              <Route path="/calculators/income-tax" element={<IncomeTaxCalculatorPage/>} />
+              <Route path="/calculators/pension" element={<PensionCalculatorPage/>} />
+              <Route path="/calculators/social-security" element={<SocialSecurityCalculatorPage/>} />
+              <Route path="/calculators/investment" element={<InvestmentCalculatorPage/>} />
+              <Route path="/calculators/interest-rate" element={<InterestRateCalculatorPage/>} />
+              <Route path="/calculators/estate-tax" element={<EstateTaxCalculatorPage/>} />
+              <Route path="/calculators/loan" element={<LoanCalculatorPage/>} />
+              <Route path="/calculators/heloc" element={<HelocCalculatorPage/>} />
+              <Route path="/calculators/rent-vs-buy" element={<RentVsBuyCalculatorPage/>} />
+              <Route path="/calculators/auto-lease" element={<AutoLeaseCalculatorPage/>} />
+              <Route path="/calculators/apr" element={<APRCalculatorPage/>} />
+              <Route path="/calculators/sales-tax" element={<SalesTaxCalculatorPage/>} />
+              <Route path="/calculators/dti-ratio" element={<DebtToIncomeCalculatorPage/>} />
+              <Route path="/calculators/fha-loan" element={<FHALoanPage/>} />
+              <Route path="/calculators/va-mortgage" element={<VAMortgagePage/>} />
+              <Route path="/calculators/refinance" element={<RefinancePage/>} />
+              <Route path="/calculators/rental-property" element={<RentalPropertyPage/>} />
+              <Route path="/calculators/down-payment" element={<DownPaymentPage/>} />
+              <Route path="/calculators/cash-back-or-low-interest" element={<CashBackComparisonPage/>} />
+              <Route path="/calculators/annuity" element={<AnnuityPage/>} />
+              <Route path="/calculators/roth-ira" element={<RothIraPage/>} />
+              <Route path="/calculators/rmd" element={<RMDPage/>} />
+              <Route path="/calculators/bond" element={<BondPage/>} />
+              <Route path="/calculators/mutual-fund" element={<MutualFundPage/>} />
+              <Route path="/calculators/:calculatorId" element={<CalculatorPlaceholder/>} />
+              <Route path="/help/disable-adblock" element={<DisableAdblockHelp/>} />
+              <Route path="/blogs" element={<BlogListPage/>} />
+              <Route path="/blogs/:slug" element={<BlogDetailPage/>} />
+              <Route path="/admin/blog-editor" element={<BlogEditorPage/>} />
+              <Route path="/admin/blog-editor/:id" element={<BlogEditorPage/>} />
+            </Routes>
+          )}
         </main>
         <Footer />
+        {accessPrompt ? <AuthAccessModal {...accessPrompt} /> : null}
       </div>
     </CalculatorLayout>
   )

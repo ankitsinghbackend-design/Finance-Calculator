@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
+import { useAuth } from '../context/AuthContext'
 
 interface BlogSummary {
   _id: string
@@ -24,9 +25,11 @@ function formatDate(dateStr: string): string {
 
 export default function BlogListPage() {
   const navigate = useNavigate()
+  const { user } = useAuth()
   const [blogs, setBlogs] = useState<BlogSummary[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const isAdmin = user?.role === 'admin'
 
   useEffect(() => {
     async function fetchBlogs() {
@@ -105,13 +108,19 @@ export default function BlogListPage() {
           <div className="text-center py-20 space-y-6">
             <div className="text-6xl">📝</div>
             <p className="text-heading text-xl font-semibold font-figtree">No blog posts yet</p>
-            <p className="text-sub text-base max-w-md mx-auto">Get started by creating your first blog post using the editor.</p>
-            <Link
-              to="/admin/blog-editor"
-              className="inline-block bg-heading text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors"
-            >
-              ✍️ Create Your First Post
-            </Link>
+            <p className="text-sub text-base max-w-md mx-auto">
+              {isAdmin
+                ? 'Get started by creating your first blog post using the editor.'
+                : 'Check back soon for fresh finance articles from the Finovo team.'}
+            </p>
+            {isAdmin ? (
+              <Link
+                to="/admin/blog-editor"
+                className="inline-block bg-heading text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors"
+              >
+                ✍️ Create Your First Post
+              </Link>
+            ) : null}
           </div>
         )}
 
@@ -154,20 +163,22 @@ export default function BlogListPage() {
                       </p>
 
                       {/* Edit / Delete Actions */}
-                      <div className="flex items-center gap-3 pt-1">
-                        <button
-                          onClick={(e) => handleEdit(e, blog._id)}
-                          className="text-xs font-medium text-primary hover:text-blue-700 transition-colors"
-                        >
-                          ✏️ Edit
-                        </button>
-                        <button
-                          onClick={(e) => handleDelete(e, blog._id, blog.title)}
-                          className="text-xs font-medium text-red-500 hover:text-red-700 transition-colors"
-                        >
-                          🗑️ Delete
-                        </button>
-                      </div>
+                      {isAdmin ? (
+                        <div className="flex items-center gap-3 pt-1">
+                          <button
+                            onClick={(e) => handleEdit(e, blog._id)}
+                            className="text-xs font-medium text-primary hover:text-blue-700 transition-colors"
+                          >
+                            ✏️ Edit
+                          </button>
+                          <button
+                            onClick={(e) => handleDelete(e, blog._id, blog.title)}
+                            className="text-xs font-medium text-red-500 hover:text-red-700 transition-colors"
+                          >
+                            🗑️ Delete
+                          </button>
+                        </div>
+                      ) : null}
                     </div>
 
                     {/* Thumbnail */}

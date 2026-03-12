@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express"
 import { uploadSingle } from "../middleware/cloudinaryUpload"
+import { requireAuth, requireRole } from '../middleware/auth'
 
 const router = express.Router()
 
@@ -19,7 +20,7 @@ const router = express.Router()
  *
  * Success response: { url: "https://res.cloudinary.com/…" }
  */
-router.post("/image", uploadSingle("image"), (req: Request, res: Response) => {
+router.post("/image", requireAuth, requireRole('admin'), uploadSingle("image"), (req: Request, res: Response) => {
   // If middleware passed but no file object exists, the request was empty
   if (!req.file) {
     res.status(400).json({ error: "No image file provided" })

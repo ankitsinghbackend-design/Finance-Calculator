@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import DOMPurify from 'dompurify'
 import { apiUrl } from '../config/api'
+import { useAuth } from '../context/AuthContext'
 
 interface Blog {
   _id: string
@@ -42,11 +43,13 @@ function formatDate(dateStr: string): string {
 export default function BlogDetailPage() {
   const { slug } = useParams<{ slug: string }>()
   const navigate = useNavigate()
+  const { user } = useAuth()
   const [blog, setBlog] = useState<Blog | null>(null)
   const [suggestedBlogs, setSuggestedBlogs] = useState<SuggestedBlog[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [deleting, setDeleting] = useState(false)
+  const isAdmin = user?.role === 'admin'
 
   useEffect(() => {
     async function fetchBlog() {
@@ -129,31 +132,33 @@ export default function BlogDetailPage() {
       </div>
 
       {/* Edit / Delete Actions */}
-      <div className="flex items-center gap-3 mb-8">
-        <Link
-          to={`/admin/blog-editor/${blog._id}`}
-          className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors"
-        >
-          ✏️ Edit Post
-        </Link>
-        <button
-          onClick={async () => {
-            if (!window.confirm('Are you sure you want to delete this blog post? This action cannot be undone.')) return
-            setDeleting(true)
-            try {
-              await axios.delete(apiUrl(`/api/blogs/${blog._id}`))
-              navigate('/blogs')
-            } catch {
-              setError('Failed to delete blog post')
-              setDeleting(false)
-            }
-          }}
-          disabled={deleting}
-          className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium border border-red-200 text-red-600 rounded-lg hover:bg-red-50 transition-colors disabled:opacity-50"
-        >
-          🗑️ {deleting ? 'Deleting...' : 'Delete Post'}
-        </button>
-      </div>
+      {isAdmin ? (
+        <div className="flex items-center gap-3 mb-8">
+          <Link
+            to={`/admin/blog-editor/${blog._id}`}
+            className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            ✏️ Edit Post
+          </Link>
+          <button
+            onClick={async () => {
+              if (!window.confirm('Are you sure you want to delete this blog post? This action cannot be undone.')) return
+              setDeleting(true)
+              try {
+                await axios.delete(apiUrl(`/api/blogs/${blog._id}`))
+                navigate('/blogs')
+              } catch {
+                setError('Failed to delete blog post')
+                setDeleting(false)
+              }
+            }}
+            disabled={deleting}
+            className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium border border-red-200 text-red-600 rounded-lg hover:bg-red-50 transition-colors disabled:opacity-50"
+          >
+            🗑️ {deleting ? 'Deleting...' : 'Delete Post'}
+          </button>
+        </div>
+      ) : null}
 
       {/* Cover Image */}
       {blog.coverImage && (

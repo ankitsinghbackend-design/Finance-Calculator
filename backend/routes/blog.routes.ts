@@ -8,15 +8,16 @@ import {
   updateBlog,
   deleteBlog
 } from '../controllers/blog.controller'
+import { requireAuth, requireRole } from '../middleware/auth'
 
 const router = Router()
 
-router.post('/', createBlog)
+router.post('/', requireAuth, requireRole('admin'), createBlog)
 router.get('/', getAllBlogs)
-router.get('/id/:id', getBlogById)
+router.get('/id/:id', requireAuth, requireRole('admin'), getBlogById)
 router.get('/:slug/suggestions', getSuggestedBlogs)
 router.get('/:slug', getBlogBySlug)
-router.put('/:id', updateBlog)
-router.delete('/:id', deleteBlog)
+router.put('/:id', requireAuth, requireRole('admin'), updateBlog)
+router.delete('/:id', requireAuth, requireRole('admin'), deleteBlog)
 
 export default router

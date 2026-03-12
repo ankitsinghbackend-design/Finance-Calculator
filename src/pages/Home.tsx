@@ -1,9 +1,11 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { calculate, schema, type AutoLoanResults } from '../../backend/calculations/autoLoan'
 import { landingCalculatorColumns } from '../config/calculatorConfig'
 import { apiUrl } from '../config/api'
+import { useAuth } from '../context/AuthContext'
+import AuthAccessModal from '../components/AuthAccessModal'
 import heroGraphicSvg from '../assets/hero-graphic.svg'
 import faqQuoteIconSvg from '../assets/Vector.svg'
 import expectBgImg from '../assets/expect-bg.png'
@@ -101,6 +103,8 @@ const validateReviewForm = (values: ReviewFormState): ReviewFieldErrors => {
 }
 
 export default function Home(){
+  const navigate = useNavigate()
+  const { user } = useAuth()
   const heroGraphic = heroGraphicSvg
   const faqQuote = faqQuoteIconSvg
   const expectBg = expectBgImg
@@ -266,6 +270,7 @@ export default function Home(){
   const [reviewSubmitError, setReviewSubmitError] = useState<string | null>(null)
   const [isSubmittingReview, setIsSubmittingReview] = useState(false)
   const [showReviewSuccessCard, setShowReviewSuccessCard] = useState(false)
+  const [showAuthPrompt, setShowAuthPrompt] = useState<null | 'calculator' | 'feedback'>(null)
   const collapsedCalculatorRowCount = 4
 
   const expandedCalculatorColumns = [
@@ -358,6 +363,11 @@ export default function Home(){
   const handleReviewSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
+    if (!user) {
+      setShowAuthPrompt('feedback')
+      return
+    }
+
     const trimmedValues: ReviewFormState = {
       name: reviewForm.name.trim(),
       email: reviewForm.email.trim(),
@@ -405,6 +415,12 @@ export default function Home(){
 
   const handleAutoLoanSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+
+    if (!user) {
+      setShowAuthPrompt('calculator')
+      return
+    }
+
     setCalculateError(null)
 
     const raw = {
@@ -466,8 +482,35 @@ export default function Home(){
     return () => observer.disconnect()
   }, [])
 
+  useEffect(() => {
+    if (!user) {
+      return
+    }
+
+    setReviewForm((previous) => ({
+      ...previous,
+      name: previous.name || user.name,
+      email: previous.email || user.email
+    }))
+  }, [user])
+
   return (
     <div className="bg-alt">
+      {showAuthPrompt ? (
+        <AuthAccessModal
+          title="Login required"
+          description={
+            showAuthPrompt === 'calculator'
+              ? 'Please login or sign up to use our calculators.'
+              : 'Please login or sign up before submitting feedback.'
+          }
+          primaryLabel="Login / Sign Up"
+          onPrimary={() => navigate('/login?mode=signup', { state: { from: '/' } })}
+          secondaryLabel="Maybe later"
+          onSecondary={() => setShowAuthPrompt(null)}
+        />
+      ) : null}
+
       {showReviewSuccessCard ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/40 px-4">
           <div className="w-full max-w-[420px] rounded-[28px] bg-white p-8 text-center shadow-[0_24px_80px_rgba(15,23,42,0.22)]">
@@ -710,7 +753,7 @@ export default function Home(){
         </div>
       </section>
 
-      <section className="max-w-[1440px] mx-auto px-6 xl:px-10 py-16">
+      <section className="max-w-[1440px] mx-auto px-6 xl:px-10 py-16" id="faqs">
         <div className="text-center max-w-[652px] mx-auto">
           <h2 className="text-[40px] font-semibold text-heading">Why Choose Our Platform?</h2>
           <p className="text-[16px] leading-[25.6px] text-sub mt-3">We provide fast, accurate, and easy-to-use financial calculators designed to help everyone make smarter financial decisions with confidence.</p>

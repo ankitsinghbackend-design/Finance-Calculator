@@ -7,8 +7,11 @@ import { createApp } from './app'
 import uploadRoutes from "./routes/imageUpload"
 import blogRoutes from "./routes/blog.routes"
 import feedbackRoutes from './routes/feedback.routes'
+import authRoutes from './routes/auth.routes'
+import { ensureAdminUser } from './services/auth.service'
 
 const app = createApp()
+app.use('/api/auth', authRoutes)
 app.use('/api/upload', uploadRoutes)
 app.use('/api/blogs', blogRoutes)
 app.use('/api/feedback', feedbackRoutes)
@@ -41,6 +44,7 @@ async function startServer() {
   })
 
   await mongoose.connect(mongoUri)
+  await ensureAdminUser()
 
   app.listen(port, () => {
     console.log(`Backend server running at http://localhost:${port}`)

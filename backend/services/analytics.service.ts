@@ -3,6 +3,10 @@ import { CalculatorLogLocation, CalculatorLogModel } from '../models/calculatorL
 
 export interface LogCalculatorUsageData {
   calculatorId: string
+  user: {
+    name: string
+    email: string
+  }
   location: CalculatorLogLocation
   inputs: Record<string, unknown>
   results: Record<string, unknown>
@@ -61,6 +65,8 @@ export const getLocationFromIp = async (ip?: string): Promise<CalculatorLogLocat
 export const logCalculatorUsage = async (data: LogCalculatorUsageData): Promise<void> => {
   await CalculatorLogModel.create({
     calculatorId: data.calculatorId,
+    name: data.user.name,
+    email: data.user.email,
     location: data.location,
     inputs: data.inputs,
     results: data.results

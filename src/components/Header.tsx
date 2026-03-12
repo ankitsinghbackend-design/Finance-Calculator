@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 
 export default function Header(){
   const location = useLocation()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const isFinance = location.pathname === '/finance'
   const isBlog = location.pathname.startsWith('/blogs')
-  const isAdmin = location.pathname.startsWith('/admin')
+  const isAdminPage = location.pathname.startsWith('/admin')
+  const { isAuthenticated, logout, user } = useAuth()
+  const isAdminUser = user?.role === 'admin'
 
   const navLink = (to: string, label: string, active: boolean) =>
     `text-base ${active ? 'text-heading font-semibold' : 'text-body hover:text-heading transition-colors'}`
@@ -22,9 +25,22 @@ export default function Header(){
           <Link to="/" className={navLink('/', 'Home', location.pathname === '/')}>Home</Link>
           <Link to="/finance" className={navLink('/finance', 'Features', isFinance)}>Features</Link>
           <Link to="/blogs" className={navLink('/blogs', 'Blog', isBlog)}>Blog</Link>
-          <a href="#" className="text-body text-base">Pricing</a>
           <a href="#faqs" className="text-body text-base">FAQs</a>
-          <Link to="/admin/blog-editor" className={`text-sm px-3 py-1.5 rounded-lg transition-colors ${isAdmin ? 'bg-heading text-white' : 'bg-gray-100 text-sub hover:bg-gray-200'}`}>✍️ Write</Link>
+          {isAdminUser ? (
+            <Link to="/admin/blog-editor" className={`text-sm px-3 py-1.5 rounded-lg transition-colors ${isAdminPage ? 'bg-heading text-white' : 'bg-gray-100 text-sub hover:bg-gray-200'}`}>✍️ Write</Link>
+          ) : null}
+          {isAuthenticated && user ? <span className="text-sm font-medium text-sub">Hi, {user.name}</span> : null}
+          {isAuthenticated ? (
+            <button
+              type="button"
+              onClick={logout}
+              className="rounded-lg border border-cardBorder px-4 py-2 text-sm font-medium text-heading transition hover:bg-white"
+            >
+              Logout
+            </button>
+          ) : (
+            <Link to="/login" className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition hover:bg-primaryDark">Login</Link>
+          )}
         </nav>
         <div className="md:hidden"> 
           <button
@@ -44,16 +60,37 @@ export default function Header(){
           <nav className="container mx-auto flex flex-col gap-1 px-4 py-4 sm:px-6">
             <Link to="/" onClick={closeMobileMenu} className={`${navLink('/', 'Home', location.pathname === '/')} rounded-lg px-3 py-2`}>Home</Link>
             <Link to="/finance" onClick={closeMobileMenu} className={`${navLink('/finance', 'Features', isFinance)} rounded-lg px-3 py-2`}>Features</Link>
-            <Link to="/blogs" onClick={closeMobileMenu} className={`${navLink('/blogs', 'Blog', isBlog)} rounded-lg px-3 py-2`}>Blog</Link>
-            <a href="#" onClick={closeMobileMenu} className="rounded-lg px-3 py-2 text-body text-base hover:text-heading transition-colors">Pricing</a>
+            <Link to="/blogs" onClick={closeMobileMenu} className={`${navLink('/blogs', 'Blog', isBlog)} rounded-lg px-3 py-2`}>Blogs</Link>
             <a href="#faqs" onClick={closeMobileMenu} className="rounded-lg px-3 py-2 text-body text-base hover:text-heading transition-colors">FAQs</a>
-            <Link
-              to="/admin/blog-editor"
-              onClick={closeMobileMenu}
-              className={`mt-2 inline-flex items-center justify-center rounded-lg px-3 py-2 text-sm transition-colors ${isAdmin ? 'bg-heading text-white' : 'bg-gray-100 text-sub hover:bg-gray-200'}`}
-            >
-              ✍️ Write
-            </Link>
+            {isAdminUser ? (
+              <Link
+                to="/admin/blog-editor"
+                onClick={closeMobileMenu}
+                className={`mt-2 inline-flex items-center justify-center rounded-lg px-3 py-2 text-sm transition-colors ${isAdminPage ? 'bg-heading text-white' : 'bg-gray-100 text-sub hover:bg-gray-200'}`}
+              >
+                ✍️ Write
+              </Link>
+            ) : null}
+            {isAuthenticated ? (
+              <button
+                type="button"
+                onClick={() => {
+                  logout()
+                  closeMobileMenu()
+                }}
+                className="mt-2 inline-flex items-center justify-center rounded-lg border border-cardBorder px-3 py-2 text-sm font-medium text-heading transition-colors hover:bg-white"
+              >
+                Logout
+              </button>
+            ) : (
+              <Link
+                to="/login"
+                onClick={closeMobileMenu}
+                className="mt-2 inline-flex items-center justify-center rounded-lg bg-primary px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-primaryDark"
+              >
+                Login
+              </Link>
+            )}
           </nav>
         </div>
       ) : null}

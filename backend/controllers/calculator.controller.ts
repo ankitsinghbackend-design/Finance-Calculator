@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { ZodError } from 'zod'
 import { calculatorRegistry, CalculatorModule } from '../calculations'
 import { getLocationFromIp, logCalculatorUsage } from '../services/analytics.service'
+import { type AuthenticatedRequest } from '../middleware/auth'
 
 const getSourceIp = (req: Request): string | undefined => {
   const forwardedFor = req.headers['x-forwarded-for']
@@ -31,6 +32,7 @@ const toRecord = (value: unknown): Record<string, unknown> => {
  * Validates request body against calculator schema and returns computed results.
  */
 export async function calculateHandler(req: Request, res: Response): Promise<void> {
+  const authReq = req as AuthenticatedRequest
   const calculatorIdParam = req.params.calculatorId
   const calculatorId = Array.isArray(calculatorIdParam) ? calculatorIdParam[0] : calculatorIdParam
   const calculatorModule = calculatorRegistry[calculatorId as keyof typeof calculatorRegistry] as CalculatorModule | undefined
@@ -57,6 +59,10 @@ export async function calculateHandler(req: Request, res: Response): Promise<voi
 
       await logCalculatorUsage({
         calculatorId,
+        user: {
+          name: authReq.authUser?.name ?? 'Unknown',
+          email: authReq.authUser?.email ?? 'Unknown'
+        },
         location,
         inputs: toRecord(validatedInputs),
         results: toRecord(results)
