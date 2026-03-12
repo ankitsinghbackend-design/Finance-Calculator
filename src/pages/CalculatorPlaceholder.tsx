@@ -35,6 +35,7 @@ import RMDPage from './RMDPage'
 import BondPage from './BondPage'
 import MutualFundPage from './MutualFundPage'
 import DepreciationCalculatorPage from './DepreciationCalculatorPage'
+import BusinessLoanCalculatorPage from './BusinessLoanCalculatorPage'
 
 export default function CalculatorPlaceholder() {
 	const { calculatorId } = useParams()
@@ -177,6 +178,10 @@ export default function CalculatorPlaceholder() {
 
 	if (calculatorId === 'depreciation') {
 		return <DepreciationCalculatorPage />
+	}
+
+	if (calculatorId === 'business-loan') {
+		return <BusinessLoanCalculatorPage />
 	}
 
 	return <div className="min-h-[60vh]" />

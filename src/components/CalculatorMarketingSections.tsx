@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { apiUrl } from '../config/api'
 import { useAuth } from '../context/AuthContext'
 import AuthAccessModal from './AuthAccessModal'
@@ -115,6 +115,29 @@ const featureList = [
   }
 ]
 
+const salaryFeatureList = [
+  {
+    title: 'Instant Salary Breakdowns',
+    body: 'Quickly convert annual salary into monthly, weekly, daily, and hourly figures so you can plan pay and budgets immediately.'
+  },
+  {
+    title: 'Adjust for Time Off',
+    body: 'Account for holidays and vacation days to see adjusted pay that reflects actual working time and take-home planning.'
+  },
+  {
+    title: 'Compare Pay Frequencies',
+    body: 'Easily compare biweekly, semi-monthly, and monthly pay schedules to understand differences in take-home amounts and timing.'
+  },
+  {
+    title: 'Budget & Planning Friendly',
+    body: 'Use adjusted monthly and weekly figures to build realistic budgets, savings plans, and cashflow forecasts.'
+  },
+  {
+    title: 'Private & Mobile Ready',
+    body: 'No signup required and responsive layouts make it simple to calculate pay on any device while keeping your data private.'
+  }
+]
+
 const benefits = [
   {
     title: 'Make Smarter Financial Decisions',
@@ -215,6 +238,7 @@ export default function CalculatorMarketingSections({
   loginRedirectPath
 }: CalculatorMarketingSectionsProps) {
   const navigate = useNavigate()
+  const location = useLocation()
   const { user } = useAuth()
   const [reviewForm, setReviewForm] = useState<ReviewFormState>(initialReviewFormState)
   const [reviewErrors, setReviewErrors] = useState<ReviewFieldErrors>({})
@@ -419,10 +443,21 @@ export default function CalculatorMarketingSections({
             <img src={financeVisualImg} alt="finance calculator visual" className="w-full h-full object-cover" />
           </div>
           <div>
-            <h2 className="text-[40px] leading-tight font-semibold text-heading">Your Complete Financial Calculator Platform</h2>
-            <p className="text-[19px] font-semibold text-sub mt-3">Make smarter financial decisions with fast, accurate, and easy-to-use calculation tools.</p>
-            <p className="text-[16px] leading-[25.6px] text-body mt-3">Access a wide range of calculators to plan loans, investments, savings, and retirement with confidence. Our tools simplify complex financial numbers into clear and easy results anyone can understand. No complicated setup or account is required just enter your values and calculate instantly.</p>
-            <p className="text-[16px] leading-[25.6px] text-body mt-4">Whether for personal or professional use, our platform helps you stay financially informed.</p>
+            {loginRedirectPath === '/calculators/salary' || location.pathname.includes('/salary') ? (
+              <>
+                <h2 className="text-[40px] leading-tight font-semibold text-heading">Salary Calculator — Instant Pay Breakdown</h2>
+                <p className="text-[19px] font-semibold text-sub mt-3">Convert annual salary into monthly, weekly, daily, and hourly rates quickly.</p>
+                <p className="text-[16px] leading-[25.6px] text-body mt-3">Enter your gross salary, work hours, and time-off details to see both unadjusted and adjusted pay figures that account for holidays and vacation days.</p>
+                <p className="text-[16px] leading-[25.6px] text-body mt-4">Use these calculations to budget, compare pay schedules, and plan your finances with clarity.</p>
+              </>
+            ) : (
+              <>
+                <h2 className="text-[40px] leading-tight font-semibold text-heading">Your Complete Financial Calculator Platform</h2>
+                <p className="text-[19px] font-semibold text-sub mt-3">Make smarter financial decisions with fast, accurate, and easy-to-use calculation tools.</p>
+                <p className="text-[16px] leading-[25.6px] text-body mt-3">Access a wide range of calculators to plan loans, investments, savings, and retirement with confidence. Our tools simplify complex financial numbers into clear and easy results anyone can understand. No complicated setup or account is required just enter your values and calculate instantly.</p>
+                <p className="text-[16px] leading-[25.6px] text-body mt-4">Whether for personal or professional use, our platform helps you stay financially informed.</p>
+              </>
+            )}
           </div>
         </div>
       </section>
@@ -430,20 +465,32 @@ export default function CalculatorMarketingSections({
       <section className="max-w-[1440px] mx-auto px-6 xl:px-10 py-2 bg-white" id="features">
         <div className="grid grid-cols-1 xl:grid-cols-[652px_605px] justify-between gap-10">
           <div>
-            <h2 className="text-[40px] leading-tight font-semibold text-heading max-w-[528px]">Powerful Features Built for Smart Financial Planning</h2>
-            <p className="text-[16px] leading-[25.6px] text-sub mt-3 max-w-[652px]">Everything you need to calculate, compare, and plan finances with accuracy and confidence.</p>
+            {loginRedirectPath === '/calculators/salary' || location.pathname.includes('/salary') ? (
+              <>
+                <h2 className="text-[40px] leading-tight font-semibold text-heading max-w-[528px]">What the Salary Calculator Helps You Do</h2>
+                <p className="text-[16px] leading-[25.6px] text-sub mt-3 max-w-[652px]">Quickly translate salary figures into pay periods, adjust for time-off, and plan your monthly budget with confidence.</p>
+              </>
+            ) : (
+              <>
+                <h2 className="text-[40px] leading-tight font-semibold text-heading max-w-[528px]">Powerful Features Built for Smart Financial Planning</h2>
+                <p className="text-[16px] leading-[25.6px] text-sub mt-3 max-w-[652px]">Everything you need to calculate, compare, and plan finances with accuracy and confidence.</p>
+              </>
+            )}
           </div>
           <div className="flex gap-[7px]">
             <div className="w-[12px] flex flex-col items-center shrink-0">
-              {featureList.map((_, i) => (
+              {(loginRedirectPath === '/calculators/salary' || location.pathname.includes('/salary') ? (
+                // salary specific feature markers
+                salaryFeatureList
+              ) : featureList).map((_, i) => (
                 <div key={i} className="contents">
                   <div className="w-3 h-3 rounded-full bg-primary shrink-0" />
-                  {i < featureList.length - 1 ? <div className="w-[6px] flex-1 bg-primary rounded-full" /> : null}
+                  {i < (loginRedirectPath === '/calculators/salary' || location.pathname.includes('/salary') ? salaryFeatureList.length : featureList.length) - 1 ? <div className="w-[6px] flex-1 bg-primary rounded-full" /> : null}
                 </div>
               ))}
             </div>
             <div className="space-y-5 w-[586px]">
-              {featureList.map((item, index) => (
+              {(loginRedirectPath === '/calculators/salary' || location.pathname.includes('/salary') ? salaryFeatureList : featureList).map((item, index) => (
                 <div
                   key={item.title}
                   className="reveal-stagger"

@@ -62,6 +62,7 @@ export const calculators: CalculatorItem[] = [
   { id: 'college-cost', title: 'College Cost Calculator', description: 'Estimate future college cost and funding gap.', category: 'Education' },
   { id: 'depreciation', title: 'Depreciation Calculator', description: 'Calculate asset depreciation over time.', category: 'Investment' },
   { id: 'bond', title: 'Bond Calculator', description: 'Calculate bond price, yield, accrued interest, and coupon cash flow.', category: 'Investment' },
+  { id: 'business-loan', title: 'Business Loan Calculator', description: 'Estimate fee-adjusted business loan payments and APR.', category: 'Loan' },
   { id: 'view-all', title: 'View All Calculators', description: 'Explore full list.', category: 'General' }
 ]
 
@@ -85,6 +86,7 @@ export const landingCalculatorColumns: LandingCalculatorLink[][] = [
     { label: 'College Cost', calculatorId: 'college-cost' },
     { label: 'Student Loan', calculatorId: 'student-loan' },
     { label: 'Loan', calculatorId: 'loan' },
+    { label: 'Business Loan', calculatorId: 'business-loan' },
     { label: 'Bond', calculatorId: 'bond' },
     { label: 'Mutual Fund', calculatorId: 'mutual-fund' }
   ],
@@ -205,7 +207,7 @@ export const financeMenuColumns: FinanceMenuColumn[] = [
       { label: 'Depreciation Calculator', calculatorId: 'depreciation' },
       { label: 'Margin Calculator' },
       { label: 'Discount Calculator' },
-      { label: 'Business Loan Calculator' },
+      { label: 'Business Loan Calculator', calculatorId: 'business-loan' },
       { label: 'Personal Loan Calculator' },
       { label: 'Boat Loan Calculator' },
       { label: 'Lease Calculator' },
