@@ -111,7 +111,7 @@ export default function RefinancePage() {
         className="pointer-events-none absolute left-[calc(37.5%+32px)] top-[42px] hidden h-[883px] w-[868px] select-none object-contain xl:block"
       />
 
-      <div className="relative z-10 mx-auto max-w-[1360px] px-6 pb-[180px] pt-[131px] xl:min-h-[2037px] xl:px-0">
+      <div className="relative z-10 mx-auto max-w-[1360px] px-6 pb-16 pt-[131px] xl:min-h-[1120px] xl:px-0 xl:pb-[140px]">
         <p className="text-[19px] font-semibold text-sub">Home / Finance / Refinance Calculator</p>
 
         <h1 className="mt-2 max-w-[586px] text-[48px] font-semibold leading-[1.1] text-heading">Refinance Calculator</h1>
@@ -120,7 +120,8 @@ export default function RefinancePage() {
           total interest, upfront refinance costs, and the break-even point to recover those costs.
         </p>
 
-        <div className="mt-8 grid grid-cols-1 items-start gap-60 xl:grid-cols-[516px_516px] xl:justify-start">          <div className="w-full max-w-[516px]">
+        <div className="mt-8 grid grid-cols-1 items-start gap-60 xl:grid-cols-[516px_516px] xl:justify-start">
+          <div className="w-full max-w-[516px]">
             <RefinanceForm
               form={form}
               onChange={(field, value) => setForm((previous) => ({ ...previous, [field]: value }))}

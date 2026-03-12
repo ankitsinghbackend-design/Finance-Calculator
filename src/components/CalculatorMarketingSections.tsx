@@ -138,6 +138,131 @@ const salaryFeatureList = [
   }
 ]
 
+const mortgageFeatureList = [
+  { title: 'Accurate Mortgage Payments', body: 'Calculate monthly mortgage payments, amortization schedules, and principal vs interest breakdowns for better home-buying decisions.' },
+  { title: 'Compare Rates & Terms', body: 'Quickly analyze different interest rates, loan terms, and down payments to choose the most affordable mortgage option.' },
+  { title: 'Amortization Schedules', body: 'View month-by-month amortization to understand how payments reduce principal over time.' },
+  { title: 'Estimate Total Costs', body: 'Estimate total interest paid, required down payment, and monthly obligations to plan your budget.' },
+  { title: 'Refinance Impact', body: 'See how refinancing or rate changes affect monthly payments and long-term interest.' }
+]
+
+const autoLoanFeatureList = [
+  { title: 'Auto Loan Payments', body: 'Calculate monthly payments given loan amount, term, and interest so you can compare car financing options.' },
+  { title: 'Upfront Fees & Taxes', body: 'Include taxes and fees in your analysis to see realistic out-of-pocket costs and financed totals.' },
+  { title: 'Trade-offs by Term', body: 'Compare shorter vs longer loan terms to balance monthly affordability and total interest.' },
+  { title: 'Extra Payments', body: 'Estimate savings from extra principal payments and accelerated payoff schedules.' },
+  { title: 'APR vs Interest Rate', body: 'Understand APR implications when fees are financed into the loan.' }
+]
+
+const repaymentFeatureList = [
+  { title: 'Flexible Repayment Plans', body: 'Explore repayment amounts and timelines for different payment schedules and lump-sum contributions.' },
+  { title: 'Interest vs Principal', body: 'See how payments are split and how additional payments shorten the loan term.' },
+  { title: 'Payment Strategies', body: 'Compare strategies like snowball or avalanche to prioritize debt efficiently.' },
+  { title: 'Payoff Dates', body: 'Project payoff dates based on your current payment and additional contributions.' },
+  { title: 'Total Interest Saved', body: 'Estimate interest savings from accelerated repayment plans.' }
+]
+
+const amortizationFeatureList = [
+  { title: 'Full Amortization Tables', body: 'Generate detailed amortization schedules showing principal, interest, and remaining balance each period.' },
+  { title: 'Custom Frequencies', body: 'Support monthly, biweekly, and other payment frequencies for accurate schedules.' },
+  { title: 'Partial Periods', body: 'Handle partial-period first payments and prorated interest calculations.' },
+  { title: 'Exportable Schedules', body: 'Use amortization data for financial planning, spreadsheets, and reporting.' },
+  { title: 'Visualize Paydown', body: 'Understand how much principal is paid over time versus interest.' }
+]
+
+const dtiFeatureList = [
+  { title: 'Debt-to-Income Ratio', body: 'Calculate your DTI to assess loan eligibility and affordability for mortgages and other credit.' },
+  { title: 'Include All Obligations', body: 'Account for loans, credit cards, and recurring payments to get an accurate DTI.' },
+  { title: 'Lender-Friendly Metrics', body: 'See typical DTI thresholds lenders use for mortgage and loan approvals.' },
+  { title: 'Improve Affordability', body: 'Identify which debts to pay down to improve your DTI and borrowing power.' },
+  { title: 'Scenario Planning', body: 'Model how changes to income or debts affect your eligibility.' }
+]
+
+const refinanceFeatureList = [
+  { title: 'Refinance Analysis', body: 'Compare current and new loan terms to estimate monthly savings and break-even points.' },
+  { title: 'Cost vs Savings', body: 'Include closing costs and fees to compute net savings and payback periods.' },
+  { title: 'APR & Rate Comparison', body: 'Understand effective APR changes and their impact on long-term interest.' },
+  { title: 'Term Conversion', body: 'See how switching loan terms affects monthly obligations and total interest.' },
+  { title: 'Refinance Timing', body: 'Estimate ideal timing to refinance based on interest rate trends and costs.' }
+]
+
+const rentalPropertyFeatureList = [
+  { title: 'Rental ROI Estimates', body: 'Project rental income, operating expenses, and returns to evaluate investment viability.' },
+  { title: 'Cashflow Analysis', body: 'See monthly cashflow after mortgage, taxes, insurance, and vacancy adjustments.' },
+  { title: 'Cap Rate & Cash-on-Cash', body: 'Calculate key investment metrics used by real estate investors.' },
+  { title: 'Financing Scenarios', body: 'Model different mortgage terms and down payments to find optimal financing.' },
+  { title: 'Expense Tracking', body: 'Account for maintenance, management fees, and other recurring costs in projections.' }
+]
+
+const featureMap: Record<string, any[]> = {
+  salary: salaryFeatureList,
+  mortgage: mortgageFeatureList,
+  'auto-loan': autoLoanFeatureList,
+  repayment: repaymentFeatureList,
+  amortization: amortizationFeatureList,
+  'debt-to-income': dtiFeatureList,
+  'dti-ratio': dtiFeatureList,
+  refinance: refinanceFeatureList,
+  'rental-property': rentalPropertyFeatureList
+}
+
+const introMap: Record<string, { title: React.ReactNode; subtitle: string; body1: string; body2?: string }> = {
+    salary: {
+        title: 'Salary Calculator — Instant Pay Breakdown',
+        subtitle: 'Convert annual salary into monthly, weekly, daily, and hourly rates quickly.',
+        body1: 'Enter your gross salary, work hours, and time-off details to see both unadjusted and adjusted pay figures that account for holidays and vacation days.',
+        body2: 'Use these calculations to budget, compare pay schedules, and plan your finances with clarity.'
+    },
+    mortgage: {
+        title: 'Mortgage Calculator - Plan Your Home Payments',
+        subtitle: 'Estimate monthly mortgage payments and view amortization schedules.',
+        body1: 'Enter loan amount, interest rate, and term to get a detailed payment schedule and total interest paid.',
+        body2: 'Compare down payments and terms to find a plan that fits your budget.'
+    },
+    'auto-loan': {
+        title: 'Auto Loan Calculator - Car Financing Made Clear',
+        subtitle: 'Translate loan amount, rate, and term into monthly payments and total cost.',
+        body1: 'Include fees, taxes, and dealer add-ons to understand the full financed amount and monthly obligation.',
+        body2: 'Compare loan terms to choose the most cost-effective financing option.'
+    },
+    repayment: {
+        title: 'Repayment Calculator - Manage Debt Efficiently',
+        subtitle: 'Explore repayment schedules and strategies to pay down debt faster.',
+        body1: 'Model different payment amounts, extra contributions, and timelines to see payoff impact.',
+        body2: 'Estimate total interest savings from accelerated repayment approaches.'
+    },
+    amortization: {
+        title: (
+            <>
+                Amortization Calculator
+                <br />
+                Detailed Schedules
+            </>
+        ),
+        subtitle: 'Generate full amortization tables and visualize principal paydown over time.',
+        body1: 'Support for custom payment frequencies and partial periods gives accurate schedules.',
+        body2: 'Export schedules for planning and reporting.'
+    },
+    'dti-ratio': {
+      title: 'Debt to Income Calculator - Assess Affordability',
+      subtitle: 'Calculate your DTI to evaluate loan eligibility and financial health.',
+      body1: 'Include all monthly obligations and gross income to compute the ratio lenders use.',
+      body2: 'Use scenario planning to see how paying down debts or increasing income changes your DTI.'
+    },
+    refinance: {
+        title: 'Refinance Calculator - Find Savings',
+        subtitle: 'Compare current and new loan terms to estimate monthly savings and break-even points.',
+        body1: 'Include closing costs and fees to compute net savings and payback periods.',
+        body2: 'See how changing terms affects total interest and monthly payments.'
+    },
+    'rental-property': {
+        title: 'Rental Property Calculator - Evaluate Investments',
+        subtitle: 'Estimate income, expenses, and returns to assess rental property viability.',
+        body1: 'Project cashflow, cap rate, and cash-on-cash returns based on realistic expense and vacancy assumptions.',
+        body2: 'Model financing scenarios to compare investment structures.'
+    }
+}
+
 const benefits = [
   {
     title: 'Make Smarter Financial Decisions',
@@ -443,21 +568,39 @@ export default function CalculatorMarketingSections({
             <img src={financeVisualImg} alt="finance calculator visual" className="w-full h-full object-cover" />
           </div>
           <div>
-            {loginRedirectPath === '/calculators/salary' || location.pathname.includes('/salary') ? (
-              <>
-                <h2 className="text-[40px] leading-tight font-semibold text-heading">Salary Calculator — Instant Pay Breakdown</h2>
-                <p className="text-[19px] font-semibold text-sub mt-3">Convert annual salary into monthly, weekly, daily, and hourly rates quickly.</p>
-                <p className="text-[16px] leading-[25.6px] text-body mt-3">Enter your gross salary, work hours, and time-off details to see both unadjusted and adjusted pay figures that account for holidays and vacation days.</p>
-                <p className="text-[16px] leading-[25.6px] text-body mt-4">Use these calculations to budget, compare pay schedules, and plan your finances with clarity.</p>
-              </>
-            ) : (
-              <>
-                <h2 className="text-[40px] leading-tight font-semibold text-heading">Your Complete Financial Calculator Platform</h2>
-                <p className="text-[19px] font-semibold text-sub mt-3">Make smarter financial decisions with fast, accurate, and easy-to-use calculation tools.</p>
-                <p className="text-[16px] leading-[25.6px] text-body mt-3">Access a wide range of calculators to plan loans, investments, savings, and retirement with confidence. Our tools simplify complex financial numbers into clear and easy results anyone can understand. No complicated setup or account is required just enter your values and calculate instantly.</p>
-                <p className="text-[16px] leading-[25.6px] text-body mt-4">Whether for personal or professional use, our platform helps you stay financially informed.</p>
-              </>
-            )}
+            {
+              (() => {
+                const keys = Object.keys(introMap)
+                let match = ''
+                for (const k of keys) {
+                  if ((loginRedirectPath || '').includes(k) || location.pathname.includes(k)) {
+                    match = k
+                    break
+                  }
+                }
+
+                if (match) {
+                  const intro = introMap[match]
+                  return (
+                    <>
+                      <h2 className="text-[40px] leading-tight font-semibold text-heading">{intro.title}</h2>
+                      <p className="text-[19px] font-semibold text-sub mt-3">{intro.subtitle}</p>
+                      <p className="text-[16px] leading-[25.6px] text-body mt-3">{intro.body1}</p>
+                      {intro.body2 ? <p className="text-[16px] leading-[25.6px] text-body mt-4">{intro.body2}</p> : null}
+                    </>
+                  )
+                }
+
+                return (
+                  <>
+                    <h2 className="text-[40px] leading-tight font-semibold text-heading">Your Complete Financial Calculator Platform</h2>
+                    <p className="text-[19px] font-semibold text-sub mt-3">Make smarter financial decisions with fast, accurate, and easy-to-use calculation tools.</p>
+                    <p className="text-[16px] leading-[25.6px] text-body mt-3">Access a wide range of calculators to plan loans, investments, savings, and retirement with confidence. Our tools simplify complex financial numbers into clear and easy results anyone can understand. No complicated setup or account is required just enter your values and calculate instantly.</p>
+                    <p className="text-[16px] leading-[25.6px] text-body mt-4">Whether for personal or professional use, our platform helps you stay financially informed.</p>
+                  </>
+                )
+              })()
+            }
           </div>
         </div>
       </section>
@@ -465,32 +608,78 @@ export default function CalculatorMarketingSections({
       <section className="max-w-[1440px] mx-auto px-6 xl:px-10 py-2 bg-white" id="features">
         <div className="grid grid-cols-1 xl:grid-cols-[652px_605px] justify-between gap-10">
           <div>
-            {loginRedirectPath === '/calculators/salary' || location.pathname.includes('/salary') ? (
-              <>
-                <h2 className="text-[40px] leading-tight font-semibold text-heading max-w-[528px]">What the Salary Calculator Helps You Do</h2>
-                <p className="text-[16px] leading-[25.6px] text-sub mt-3 max-w-[652px]">Quickly translate salary figures into pay periods, adjust for time-off, and plan your monthly budget with confidence.</p>
-              </>
-            ) : (
-              <>
-                <h2 className="text-[40px] leading-tight font-semibold text-heading max-w-[528px]">Powerful Features Built for Smart Financial Planning</h2>
-                <p className="text-[16px] leading-[25.6px] text-sub mt-3 max-w-[652px]">Everything you need to calculate, compare, and plan finances with accuracy and confidence.</p>
-              </>
-            )}
+            {
+              (() => {
+                const keys = Object.keys(featureMap)
+                let match = ''
+                for (const k of keys) {
+                  if ((loginRedirectPath || '').includes(k) || location.pathname.includes(k)) {
+                    match = k
+                    break
+                  }
+                }
+
+                if (match) {
+                  if (match === 'salary') {
+                    return (
+                      <>
+                        <h2 className="text-[40px] leading-tight font-semibold text-heading max-w-[528px]">What the Salary Calculator Helps You Do</h2>
+                        <p className="text-[16px] leading-[25.6px] text-sub mt-3 max-w-[652px]">Quickly translate salary figures into pay periods, adjust for time-off, and plan your monthly budget with confidence.</p>
+                      </>
+                    )
+                  }
+
+                  return (
+                    <>
+                      <h2 className="text-[40px] leading-tight font-semibold text-heading max-w-[528px]">Powerful Features Built for Smart Financial Planning</h2>
+                      <p className="text-[16px] leading-[25.6px] text-sub mt-3 max-w-[652px]">Everything you need to calculate, compare, and plan finances with accuracy and confidence.</p>
+                    </>
+                  )
+                }
+
+                return (
+                  <>
+                    <h2 className="text-[40px] leading-tight font-semibold text-heading max-w-[528px]">Powerful Features Built for Smart Financial Planning</h2>
+                    <p className="text-[16px] leading-[25.6px] text-sub mt-3 max-w-[652px]">Everything you need to calculate, compare, and plan finances with accuracy and confidence.</p>
+                  </>
+                )
+              })()
+            }
           </div>
           <div className="flex gap-[7px]">
             <div className="w-[12px] flex flex-col items-center shrink-0">
-              {(loginRedirectPath === '/calculators/salary' || location.pathname.includes('/salary') ? (
-                // salary specific feature markers
-                salaryFeatureList
-              ) : featureList).map((_, i) => (
+              {(() => {
+                const keys = Object.keys(featureMap)
+                let match = ''
+                for (const k of keys) {
+                  if ((loginRedirectPath || '').includes(k) || location.pathname.includes(k)) {
+                    match = k
+                    break
+                  }
+                }
+
+                const list = match ? featureMap[match] : featureList
+                return list.map((_, i) => (
                 <div key={i} className="contents">
                   <div className="w-3 h-3 rounded-full bg-primary shrink-0" />
-                  {i < (loginRedirectPath === '/calculators/salary' || location.pathname.includes('/salary') ? salaryFeatureList.length : featureList.length) - 1 ? <div className="w-[6px] flex-1 bg-primary rounded-full" /> : null}
+                  {i < list.length - 1 ? <div className="w-[6px] flex-1 bg-primary rounded-full" /> : null}
                 </div>
-              ))}
+                ))
+              })()}
             </div>
             <div className="space-y-5 w-[586px]">
-              {(loginRedirectPath === '/calculators/salary' || location.pathname.includes('/salary') ? salaryFeatureList : featureList).map((item, index) => (
+              {(() => {
+                const keys = Object.keys(featureMap)
+                let match = ''
+                for (const k of keys) {
+                  if ((loginRedirectPath || '').includes(k) || location.pathname.includes(k)) {
+                    match = k
+                    break
+                  }
+                }
+
+                const list = match ? featureMap[match] : featureList
+                return list.map((item, index) => (
                 <div
                   key={item.title}
                   className="reveal-stagger"
@@ -499,7 +688,8 @@ export default function CalculatorMarketingSections({
                   <h3 className="text-[19px] font-semibold text-heading">{item.title}</h3>
                   <p className="text-[16px] leading-[25.6px] text-body mt-2">{item.body}</p>
                 </div>
-              ))}
+                ))
+              })()}
             </div>
           </div>
         </div>
