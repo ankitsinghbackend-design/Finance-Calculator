@@ -33,6 +33,7 @@ import * as rothIraCalc from './rothIraCalc'
 import * as rmdCalc from './rmdCalc'
 import * as bondCalc from './bondCalc'
 import * as mutualFund from './mutualFund'
+import * as depreciation from './depreciation'
 import { generalAprSchema, mortgageAprSchema, calculateGeneralApr, calculateMortgageApr } from './aprLogic'
 import { ZodTypeAny } from 'zod'
 
@@ -86,7 +87,8 @@ export const calculatorRegistry = {
   'income-tax': incomeTax,
   pension,
   'social-security': socialSecurity,
-  'compound-interest': compoundInterest
+  'compound-interest': compoundInterest,
+  depreciation
 } satisfies Record<string, CalculatorModule>
 
 export type CalculatorId = keyof typeof calculatorRegistry

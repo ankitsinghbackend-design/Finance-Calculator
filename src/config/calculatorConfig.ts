@@ -202,7 +202,7 @@ export const financeMenuColumns: FinanceMenuColumn[] = [
       { label: 'Student Loan Calculator', calculatorId: 'student-loan' },
       { label: 'College Cost Calculator', calculatorId: 'college-cost' },
       { label: 'VAT Calculator' },
-      { label: 'Depreciation Calculator' },
+      { label: 'Depreciation Calculator', calculatorId: 'depreciation' },
       { label: 'Margin Calculator' },
       { label: 'Discount Calculator' },
       { label: 'Business Loan Calculator' },

@@ -34,6 +34,7 @@ import RothIraPage from './RothIraPage'
 import RMDPage from './RMDPage'
 import BondPage from './BondPage'
 import MutualFundPage from './MutualFundPage'
+import DepreciationCalculatorPage from './DepreciationCalculatorPage'
 
 export default function CalculatorPlaceholder() {
 	const { calculatorId } = useParams()
@@ -172,6 +173,10 @@ export default function CalculatorPlaceholder() {
 
 	if (calculatorId === 'mutual-fund') {
 		return <MutualFundPage />
+	}
+
+	if (calculatorId === 'depreciation') {
+		return <DepreciationCalculatorPage />
 	}
 
 	return <div className="min-h-[60vh]" />
