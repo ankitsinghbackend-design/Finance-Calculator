@@ -119,7 +119,7 @@ export default function EstateTaxCalculatorPage() {
           </div>
 
           {result ? (
-            <div className="mt-8 max-w-[516px] xl:absolute xl:left-0 xl:top-[980px] xl:w-[516px]">
+            <div className="mt-8 max-w-[516px] xl:absolute xl:left-1/3 xl:top-[650px] xl:w-[516px]">
               <EstateTaxResults result={result} />
             </div>
           ) : null}

@@ -253,7 +253,7 @@ export default function APRCalculatorPage() {
             )}
           </div>
 
-          <div className="xl:pt-[48px]">
+          <div className="xl:pt-[2px] xl:-ml-[24px]">
             <AprResultsCard result={currentResult} paymentCount={currentPaymentCount} />
           </div>
         </div>

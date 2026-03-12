@@ -194,16 +194,478 @@ const rentalPropertyFeatureList = [
   { title: 'Expense Tracking', body: 'Account for maintenance, management fees, and other recurring costs in projections.' }
 ]
 
+const currencyFeatureList = [
+  { title: 'Real-Time Conversions', body: 'Convert amounts between currencies quickly using up-to-date exchange formats and clear formatting.' },
+  { title: 'Multiple Currencies', body: 'Support for major global currencies and easy switching between base and target currencies.' },
+  { title: 'Clear Formatting', body: 'Formatted outputs with currency symbols and localized number formats for readability.' },
+  { title: 'Quick Rate Lookup', body: 'See which currencies give the best conversion for budgeting and international payments.' },
+  { title: 'No Signup Required', body: 'Instant conversions without account setup so you can get answers fast.' }
+]
+
+const houseAffordFeatureList = [
+  { title: 'Affordability Estimates', body: 'Calculate the home price and mortgage amount you can afford based on income, debts, and down payment.' },
+  { title: 'DTI Integration', body: 'Includes debt-to-income considerations to estimate realistic borrowing capacity.' },
+  { title: 'Monthly Cost Breakdown', body: 'Estimate mortgage principal, interest, taxes, and insurance for monthly budgeting.' },
+  { title: 'Down Payment Scenarios', body: 'Compare different down payment amounts to see their effect on monthly payments and loan size.' },
+  { title: 'Quick What-Ifs', body: 'Run scenario changes quickly to evaluate different interest rates and terms.' }
+]
+
+const incomeTaxFeatureList = [
+  { title: 'Estimate Take-Home Pay', body: 'Calculate estimated federal (and basic state) income tax to understand net pay.' },
+  { title: 'Standard & Itemized', body: 'Support for common deductions and filing options to provide realistic tax estimates.' },
+  { title: 'Yearly & Paycheck Views', body: 'See tax impact on both annual and per-paycheck basis for budgeting.' },
+  { title: 'Quick Scenarios', body: 'Model filing status, dependents, and deductions to explore tax outcomes.' },
+  { title: 'No CPA Needed', body: 'Simple, approachable estimates for planning — not a replacement for professional advice.' }
+]
+
+const aprFeatureList = [
+  { title: 'APR vs Interest Rate', body: 'Understand the difference between nominal interest rates and APR including fees.' },
+  { title: 'Fee Impact', body: 'Include origination and other fees to see their effect on the true borrowing cost.' },
+  { title: 'Compare Offers', body: 'Compare multiple loan offers on an APR basis to find the best overall deal.' },
+  { title: 'Annualized View', body: 'APR calculations are annualized to align with lender disclosures and comparison standards.' },
+  { title: 'Transparent Calculations', body: 'See the inputs and formulas used so you can verify how APR was determined.' }
+]
+
+const fhaFeatureList = [
+  { title: 'FHA Payment Estimates', body: 'Calculate monthly payments for FHA loans including mortgage insurance premiums.' },
+  { title: 'Down Payment Guidance', body: 'Estimate required minimum down payment and private mortgage insurance impacts.' },
+  { title: 'Eligibility Pointers', body: 'Highlight key FHA program considerations such as loan limits and credit factors.' },
+  { title: 'Compare to Conventional', body: 'See side-by-side comparisons of FHA vs conventional financing to inform decisions.' },
+  { title: 'Cost Breakdown', body: 'Estimate upfront and ongoing costs unique to FHA loans, including MIP.' }
+]
+
+const vaFeatureList = [
+  { title: 'VA Loan Estimates', body: 'Estimate payments and financing terms for VA-backed mortgages with favorable rates.' },
+  { title: 'No Down Payment Scenarios', body: 'Model scenarios with reduced or no down payment when eligible for VA benefits.' },
+  { title: 'Funding Fee Impact', body: 'Include VA funding fee in calculations to understand financed total and monthly impact.' },
+  { title: 'Eligibility Notes', body: 'Summarize common VA eligibility considerations for veterans and service members.' },
+  { title: 'Compare Options', body: 'Compare VA loan scenarios to conventional and FHA to choose the best fit.' }
+]
+
+const interestRateFeatureList = [
+  { title: 'Precise Rate Calculations', body: 'Calculate effective and nominal interest rates with clear formulas. Compare periodic and annualized rates to understand true cost. Use the tool to convert between compounding conventions for accurate financial modeling.' },
+  { title: 'Conversion Tools', body: 'Easily convert APR to periodic rates and vice versa. Adjust compounding frequency to see how it affects payments. Helpful when comparing loans and investment returns.' },
+  { title: 'Transparent Math', body: 'See the formulas and steps used for rate conversions and calculations. This helps validate results and aids learning. Use outputs for reporting and decision making.' }
+]
+
+const collegeCostFeatureList = [
+  { title: 'Estimate Total College Costs', body: 'Project tuition, fees, room, and board over time with inflation assumptions. Combine yearly costs to get multi-year program estimates. Useful for planning savings and financial aid needs.' },
+  { title: 'Aid & Scholarship Scenarios', body: 'Model scholarships, grants, and expected aid to reduce out-of-pocket cost. Compare multiple scenarios to see net price differences. Helpful for choosing between schools.' },
+  { title: 'Savings Planning', body: 'Determine how much to save monthly or annually to meet projected costs. Include investment growth assumptions for 529 or other savings. Helps families set realistic contribution goals.' }
+]
+
+const studentLoanFeatureList = [
+  { title: 'Repayment Estimates', body: 'Compute monthly payments based on loan amount, rate, and term. Support standard, graduated, and income-driven approximations. Helps borrowers plan budgets and compare strategies.' },
+  { title: 'Interest Accrual Insight', body: 'See how interest accumulates over deferment and repayment periods. Understand capitalized interest and long-term costs. Useful for choosing repayment timing.' },
+  { title: 'Payoff Strategies', body: 'Model extra payments and accelerated payoff to estimate interest savings. Compare term shortening effects and required additional contributions. Helps prioritize high-cost debt.' }
+]
+
+const loanFeatureList = [
+  { title: 'Loan Payment Calculations', body: 'Calculate monthly payments, interest, and total costs for standard amortizing loans. Support different terms and compounding frequencies. Great for personal and small business loan planning.' },
+  { title: 'Fee & APR Considerations', body: 'Include origination fees and other charges to see their impact on APR and financed amount. Compare quoted rates on an apples-to-apples basis. Helps identify hidden costs.' },
+  { title: 'Extra Payment Effects', body: 'Model additional principal payments and one-time lumps to see payoff impact. Estimate interest savings and new payoff dates. Useful for aggressive repayment planning.' }
+]
+
+const businessLoanFeatureList = [
+  { title: 'Business Loan Modeling', body: 'Estimate periodic payments for term loans, including variable compounding and payment frequencies. Account for origination fees and financed charges. Useful for cashflow planning and loan comparisons.' },
+  { title: 'Net Funding & APR', body: 'Compute net funds after fees and derive APR to show true borrowing cost. Compare offers with different fee structures. This clarifies which loan is genuinely cheaper.' },
+  { title: 'Scenario Analysis', body: 'Vary term, rate, and fees to test multiple financing scenarios. Understand monthly obligations and total interest under each case. Helps choose the best structure for business cashflow.' }
+]
+
+const bondFeatureList = [
+  { title: 'Yield & Price Calculations', body: 'Calculate present value, yield to maturity, and current yield for coupon bonds. Compare price vs yield trade-offs and sensitivity to rate changes. Useful for bond investment evaluation.' },
+  { title: 'Coupon & Maturity Effects', body: 'See how coupon frequency and maturity date affect income and price. Model reinvestment of coupons for total return projections. Helps with duration and risk assessment.' },
+  { title: 'Scenario & Price Sensitivity', body: 'Stress-test bond prices against rate shifts to see potential losses or gains. Compare callable vs non-callable effects on expected returns. Useful for portfolio risk analysis.' }
+]
+
+const mutualFundFeatureList = [
+  { title: 'Return Projections', body: 'Estimate future values using contribution schedules and expected returns. Include expense ratios and fees to show net return. Useful for long-term investment planning.' },
+  { title: 'Cost & Fee Impact', body: 'Understand how management fees and expense ratios reduce compounded returns over time. Compare funds on net-return basis rather than gross returns. Helps pick cost-effective investments.' },
+  { title: 'Scenario Comparison', body: 'Model different return assumptions and contribution patterns to see a range of outcomes. Use results for retirement and goal planning. Provides clarity for allocation choices.' }
+]
+
+const socialSecurityFeatureList = [
+  { title: 'Benefit Estimates', body: 'Estimate future Social Security benefits based on earnings and claiming age. Compare claiming ages to see impact on monthly benefit. Helpful for retirement income planning.' },
+  { title: 'Spousal & Survivor Effects', body: 'Model spousal and survivor benefit scenarios to understand household income outcomes. See how combined claiming strategies affect total household benefits. Useful for couple retirement planning.' },
+  { title: 'Replacement Rate Insights', body: 'Compare expected benefits to pre-retirement income to evaluate replacement ratios. Use results to plan supplemental savings and income sources. Helps set retirement funding targets.' }
+]
+
+const helocFeatureList = [
+  { title: 'HELOC Payment Estimates', body: 'Estimate minimum and interest-only payments based on outstanding balance and variable rates. Model draw and repayment phases for accurate cashflow planning. Useful for homeowners considering credit lines.' },
+  { title: 'Variable Rate Effects', body: 'See how rate adjustments affect monthly payments and total interest. Understand amortization if principal repayments begin. Helps assess refinancing or paydown decisions.' },
+  { title: 'Use Case Scenarios', body: 'Model using HELOC for renovations, debt consolidation, or emergency funds. Compare costs vs fixed-rate alternatives. Supports informed borrowing choices.' }
+]
+
+const downPaymentFeatureList = [
+  { title: 'Down Payment Planning', body: 'Calculate required down payment amounts for desired loan-to-value ratios. See how higher down payments reduce monthly payments and interest. Useful for home purchase budgeting.' },
+  { title: 'Savings Targets', body: 'Determine monthly savings needed to reach your down payment goal by a target date. Include expected interest/growth from savings to refine targets. Helps prioritize saving strategies.' },
+  { title: 'Impact on Mortgage Costs', body: 'Compare monthly payment and total interest across different down payment levels. Understand trade-offs between liquidity and lower financing costs. Useful for planning optimal upfront contributions.' }
+]
+
+const estateTaxFeatureList = [
+  {
+    title: 'Estimate Estate Tax Liability',
+    body: 'Project potential federal estate tax owed after exemptions, deductions, and lifetime gifts using current thresholds. The calculator factors in common deductions and basic valuation adjustments to give a realistic tax estimate. Use this to see the potential tax burden and plan distribution strategies.'
+  },
+  {
+    title: 'Exemption & Threshold Planning',
+    body: 'Model how changes in estate value and exemption thresholds affect taxable amounts and owed tax. Quickly compare current-law exemptions to hypothetical changes and understand sensitivity to legislative shifts.'
+  },
+  {
+    title: 'Deductions & Valuation Adjustments',
+    body: 'Account for charitable gifts, debts, administration costs, and valuation discounts to refine the taxable estate estimate. These adjustments can materially change the tax outcome and are essential for realistic planning.'
+  },
+  {
+    title: 'Gifting & Trust Strategies',
+    body: 'Simulate lifetime gifting, trusts, and other transfer strategies to see how they reduce the taxable estate and impact beneficiaries. Use the tool to evaluate trade-offs and timing implications.'
+  },
+  {
+    title: 'Scenario Stress Testing',
+    body: 'Run multiple scenarios with varying asset values, exemptions, and deductions to assess downside and best-case tax outcomes. This helps prioritize planning actions and estimate potential tax savings.'
+  }
+]
+
+const pensionFeatureList = [
+  {
+    title: 'Lump Sum vs Monthly Comparison',
+    body: 'Compare a one-time lump-sum payout against lifetime monthly pension payments by converting future cash flows into present value equivalents. This helps determine which option offers better financial security given expected lifespan and discount rates.'
+  },
+  {
+    title: 'Present Value & Discounting',
+    body: 'Calculate the present value of future pension streams using your chosen discount rate to directly compare with other assets or investment alternatives. Adjust assumptions to reflect conservative or optimistic market expectations.'
+  },
+  {
+    title: 'Survivor & Inflation Options',
+    body: 'Model survivor benefits, joint-and-survivor options, and simple inflation adjustments to understand the effect on long-term purchasing power and household income risks.'
+  },
+  {
+    title: 'Tax Treatment Impact',
+    body: 'Estimate tax implications of pension payments versus lump-sum distributions including potential tax-deferral and withholding effects. Use this to plan tax-efficient retirement income.'
+  },
+  {
+    title: 'Payout Timing Strategies',
+    body: 'Evaluate how delaying or accelerating pension start dates affects lifetime income and present value. This can be critical when coordinating pensions with Social Security or other retirement income sources.'
+  }
+]
+
+const investmentFeatureList = [
+  {
+    title: 'Project Investment Growth',
+    body: 'Estimate future balances using starting amounts, periodic contributions, expected returns, and compounding frequency. The tool provides clear year-by-year projections to support goal planning for retirement, education, or large purchases.'
+  },
+  {
+    title: 'Contribution Scheduling & Targets',
+    body: 'Compare lump-sum investments versus recurring contributions to identify efficient saving paths and monthly targets needed to reach goals by a specific date. Helps prioritize contributions across multiple goals.'
+  },
+  {
+    title: 'Fees & Expense Impact',
+    body: 'Factor in management fees, expense ratios, and transaction costs to show net returns after fees. Even small fee differences compound over time and significantly influence long-term outcomes.'
+  },
+  {
+    title: 'Asset Allocation Scenarios',
+    body: 'Test conservative, balanced, and aggressive return assumptions to see how allocation choices affect expected outcomes and risk exposure. Use multiple scenarios to prepare for market variability.'
+  },
+  {
+    title: 'Tax-Aware Projections',
+    body: 'Run projections that account for tax treatment of accounts (taxable, tax-deferred, or tax-free) to estimate after-tax outcomes and optimize where to hold assets.'
+  }
+]
+
+const depreciationFeatureList = [
+  {
+    title: 'Multiple Depreciation Methods',
+    body: 'Support straight-line, double-declining, and MACRS methods so you can compute annual depreciation under different accounting and tax rules. Choose the method that matches your reporting or tax strategy.'
+  },
+  {
+    title: 'Tax vs Book Comparison',
+    body: 'Compare tax depreciation schedules with book (financial reporting) depreciation to see timing differences in expense recognition and their impact on reported profits and taxable income.'
+  },
+  {
+    title: 'Schedule Export & Yearly Tables',
+    body: 'Generate year-by-year depreciation tables that can be exported for accounting, tax filing, or internal analysis. Clear schedules help with budgeting and tax preparation.'
+  },
+  {
+    title: 'Disposals & Gain/Loss Effects',
+    body: 'Model asset disposal or sale events to calculate recognized gains or losses, remaining basis, and tax consequences after depreciation recapture where applicable.'
+  },
+  {
+    title: 'Useful for Tax Planning',
+    body: 'Use depreciation projections to plan capital expenditures and tax timing, helping to optimize deductions and cash flow for business or investment assets.'
+  }
+]
+
+const rothIraFeatureList = [
+  {
+    title: 'Roth IRA Growth Projections',
+    body: 'Project tax-free accumulation using annual contributions, expected returns, and compounding assumptions. The calculator shows how tax-free withdrawals can improve retirement cash flow.'
+  },
+  {
+    title: 'Contribution Limits & Timing',
+    body: 'Account for annual contribution limits, catch-up contributions, and income phase-outs to determine eligibility and optimal contribution paths for each year.'
+  },
+  {
+    title: 'Roth vs Traditional Comparison',
+    body: 'Compare after-tax outcomes between Roth and Traditional accounts by modeling current tax rates versus expected retirement tax rates to decide which provides better lifetime income.'
+  },
+  {
+    title: 'Withdrawal Rules & Ordering',
+    body: 'Understand qualified withdrawal rules, ordering of contributions vs earnings, and potential penalties to plan tax-free retirement distributions correctly.'
+  },
+  {
+    title: 'Tax-Free Income Planning',
+    body: 'Use Roth projections to estimate how much tax-free retirement income a Roth IRA can provide and how it complements other retirement sources for tax-efficient withdrawal sequencing.'
+  }
+]
+
+const rentVsBuyFeatureList = [
+  {
+    title: 'Comprehensive Cost Comparison',
+    body: 'Compare the total cost of renting versus owning over your chosen horizon, including mortgage payments, taxes, insurance, maintenance, and expected rent escalation to produce a realistic net cost picture.'
+  },
+  {
+    title: 'Break-Even Analysis',
+    body: 'Estimate the break-even horizon where buying becomes more economical than renting given your assumptions for appreciation, transaction costs, and holding period. Helps determine which option suits medium-term plans.'
+  },
+  {
+    title: 'Cash Flow & Opportunity Cost',
+    body: 'Include opportunity cost of down payment and other upfront costs by modeling alternative investments to see net economic impact versus renting.'
+  },
+  {
+    title: 'Maintenance & Transaction Costs',
+    body: 'Account for recurring maintenance, HOA fees, and major one-time expenses, plus buying/selling transaction costs, to avoid underestimating ownership costs.'
+  },
+  {
+    title: 'Equity, Appreciation & Mobility',
+    body: 'Model home equity accumulation and expected appreciation while considering mobility needs and the potential costs of selling early to ensure the decision matches lifestyle plans.'
+  }
+]
+
+const cashBackFeatureList = [
+  {
+    title: 'Dealer Cash vs Low-Interest Comparison',
+    body: 'Compare the immediate benefit of dealer cash incentives against the long-term savings from reduced interest rates by modeling their effect on financed amount and monthly payments.'
+  },
+  {
+    title: 'Total Cost & Net Savings',
+    body: 'Include rebates, fees, taxes, and financed add-ons to calculate net costs over the loan term so you can see which option saves more in total dollars.'
+  },
+  {
+    title: 'APR & Payment Impact',
+    body: 'Understand how different APRs change monthly payments and total interest; see whether a lower rate or a cash rebate produces a lower effective APR when fees are considered.'
+  },
+  {
+    title: 'Tax & Rebate Treatment',
+    body: 'Clarify how rebates and incentives are treated for tax purposes and whether incentives affect trade-in values or documentation differently, impacting net benefit.'
+  },
+  {
+    title: 'Decision Summary & Recommendation',
+    body: 'Get a clear summary that shows which choice is financially preferable under your inputs, helping you make a confident, data-driven decision when purchasing a vehicle.'
+  }
+]
+
+const mortgagePayoffFeatureList = [
+  {
+    title: 'Accelerated Payoff Planning',
+    body: 'Model extra principal contributions, biweekly payments, and one-time lumps to see how quickly you can eliminate your mortgage. Understand the timeline and required contributions to reach payoff targets while tracking interest savings over time.'
+  },
+  {
+    title: 'Interest Savings Estimates',
+    body: 'Calculate total interest saved from different payoff strategies and refinancing options. The tool breaks down savings by period and highlights how small additional payments compound into large interest reductions.'
+  },
+  {
+    title: 'Refinance vs Extra Payments',
+    body: 'Compare the impact of refinancing to a lower rate versus making extra principal payments to determine which approach yields larger long-term savings net of fees.'
+  },
+  {
+    title: 'Amortization Adjustment',
+    body: 'See updated amortization schedules after each extra payment or rate change so you can visualize principal reduction and remaining balance over time.'
+  },
+  {
+    title: 'Payment Affordability Analysis',
+    body: 'Estimate how different payoff plans affect monthly cash flow and budget, helping you choose a sustainable strategy that balances savings with other financial goals.'
+  }
+]
+
+const compoundInterestFeatureList = [
+  {
+    title: 'Growth Projections with Compounding',
+    body: 'Project how investments grow under different compounding frequencies (daily, monthly, annually) and contribution schedules to understand the real impact of compound interest over time.'
+  },
+  {
+    title: 'Compare Contribution Strategies',
+    body: 'Test lump-sum, periodic, and escalating contribution plans to see which approach reaches your target fastest and most efficiently given expected returns.'
+  },
+  {
+    title: 'Effective Annual Rate',
+    body: 'Convert nominal rates and compounding frequencies into effective annual rates so you can compare yields across different instruments on an apples-to-apples basis.'
+  },
+  {
+    title: 'Inflation-Adjusted Projections',
+    body: 'Include inflation assumptions to view real (inflation-adjusted) growth so you can plan for purchasing power rather than nominal balances.'
+  },
+  {
+    title: 'Goal-Based Savings Targets',
+    body: 'Calculate required contributions and timelines to reach defined savings goals considering compound returns and fees.'
+  }
+]
+
+const four01kFeatureList = [
+  {
+    title: '401(k) Growth Projections',
+    body: 'Project retirement account growth using employer match, contribution percentages, and expected returns to estimate potential retirement balances under realistic assumptions.'
+  },
+  {
+    title: 'Employer Match Optimization',
+    body: 'Model employer matching schedules to determine the optimal employee contribution needed to maximize free employer contributions and long-term account growth.'
+  },
+  {
+    title: 'Tax-Deferred Benefits',
+    body: 'See how tax-deferred growth accelerates account accumulation compared to taxable accounts, and model after-tax withdrawal scenarios to plan retirement income.'
+  },
+  {
+    title: 'Contribution Limits & Catch-up',
+    body: 'Incorporate annual contribution limits, catch-up contributions for eligible ages, and phased adjustments to ensure compliance and maximize savings potential.'
+  },
+  {
+    title: 'Withdrawal & Rollover Scenarios',
+    body: 'Simulate withdrawal strategies, early withdrawal penalties, and rollover options to plan tax-efficient distribution strategies in retirement or job changes.'
+  }
+]
+
+const salesTaxFeatureList = [
+  {
+    title: 'Accurate Tax Calculations',
+    body: 'Compute sales tax forward and reverse (solve for pre-tax or post-tax price) across different jurisdictions and rates to ensure precise pricing and checkout totals.'
+  },
+  {
+    title: 'Multiple Rate Support',
+    body: 'Handle combined tax rates including state, county, and local additions as well as special district taxes for accurate final pricing.'
+  },
+  {
+    title: 'Itemized Tax Breakdown',
+    body: 'See how taxes apply to individual line-items, exemptions, and tax-exempt products to prepare accurate invoices and receipts.'
+  },
+  {
+    title: 'International & VAT Considerations',
+    body: 'Adjust calculations for VAT-style taxes or international VAT/GST rules where applicable, including display options for tax-inclusive or tax-exclusive pricing.'
+  },
+  {
+    title: 'Rounding & Display Options',
+    body: 'Control rounding rules and display formats to match accounting systems and point-of-sale requirements for consistent receipts.'
+  }
+]
+
+const annuityFeatureList = [
+  {
+    title: 'Annuity Growth & Payout Projections',
+    body: 'Model how annuity balances grow and how different payout options (lifetime, fixed period, or lump sum) translate into periodic income streams.'
+  },
+  {
+    title: 'Immediate vs Deferred Options',
+    body: 'Compare immediate annuities that start payments now versus deferred annuities that begin later, showing present value and lifetime income trade-offs.'
+  },
+  {
+    title: 'Fee & Surrender Impact',
+    body: 'Include fees, surrender charges, and riders to see their effect on net returns and available income, helping evaluate real net benefits.'
+  },
+  {
+    title: 'Variable vs Fixed Annuities',
+    body: 'Compare variable annuities with market-linked returns to fixed annuities with guaranteed rates, assessing risk and guaranteed income trade-offs.'
+  },
+  {
+    title: 'Taxation of Payouts',
+    body: 'Understand tax treatment of annuity payments and how tax deferral versus immediate taxable distributions affect net income.'
+  }
+]
+
+const rmdFeatureList = [
+  {
+    title: 'Required Minimum Distribution Estimates',
+    body: 'Calculate RMD amounts using IRS life expectancy tables and account balances to ensure compliance and avoid penalties.'
+  },
+  {
+    title: 'Year-by-Year Projections',
+    body: 'Generate future-year RMD projections based on expected account growth and changing life expectancy factors for long-term planning.'
+  },
+  {
+    title: 'Penalty Awareness',
+    body: 'Highlight potential IRS penalties for missed or insufficient distributions and show how small shortfalls can create large tax costs.'
+  },
+  {
+    title: 'Tax-Efficient Distribution Planning',
+    body: 'Model strategies such as Roth conversions, qualified charitable distributions, or partial Roth rollovers to manage tax impact while meeting RMD rules.'
+  },
+  {
+    title: 'Multiple Account Coordination',
+    body: 'Coordinate RMDs across multiple retirement accounts to understand total taxable distribution and optimize tax planning.'
+  }
+]
+
+const autoLeaseFeatureList = [
+  {
+    title: 'Lease Payment Calculations',
+    body: 'Compute monthly lease payments using capitalized cost, residual value, money factor, and term to give an accurate expected payment schedule.'
+  },
+  {
+    title: 'Depreciation & Residuals',
+    body: 'Understand how residual value and depreciation drive lease payments and compare lease vs financing for different terms and mileage assumptions.'
+  },
+  {
+    title: 'Mileage & Wear Costing',
+    body: 'Include excess mileage and wear-and-tear estimates to forecast potential end-of-lease charges and total lease cost.'
+  },
+  {
+    title: 'Upfront Cash & Fees',
+    body: 'Assess how down payments, acquisition fees, and security deposits affect financed amount and monthly obligations.'
+  },
+  {
+    title: 'Lease vs Buy Comparison',
+    body: 'Compare the long-term costs of leasing versus buying the same vehicle including equity accumulation, maintenance, and resale values.'
+  }
+]
+
 const featureMap: Record<string, any[]> = {
   salary: salaryFeatureList,
   mortgage: mortgageFeatureList,
+  'interest-rate': interestRateFeatureList,
+  'college-cost': collegeCostFeatureList,
+  'student-loan': studentLoanFeatureList,
+  loan: loanFeatureList,
+  'business-loan': businessLoanFeatureList,
+  bond: bondFeatureList,
+  'mutual-fund': mutualFundFeatureList,
+  'social-security': socialSecurityFeatureList,
+  heloc: helocFeatureList,
+  'down-payment': downPaymentFeatureList,
+  'house-affordability': houseAffordFeatureList,
   'auto-loan': autoLoanFeatureList,
   repayment: repaymentFeatureList,
   amortization: amortizationFeatureList,
   'debt-to-income': dtiFeatureList,
   'dti-ratio': dtiFeatureList,
+  currency: currencyFeatureList,
+  'income-tax': incomeTaxFeatureList,
+  apr: aprFeatureList,
+  'fha-loan': fhaFeatureList,
+  'va-mortgage': vaFeatureList,
   refinance: refinanceFeatureList,
   'rental-property': rentalPropertyFeatureList
+  ,
+  'estate-tax': estateTaxFeatureList,
+  pension: pensionFeatureList,
+  investment: investmentFeatureList,
+  depreciation: depreciationFeatureList,
+  'roth-ira': rothIraFeatureList,
+  'rent-vs-buy': rentVsBuyFeatureList,
+  'cash-back-or-low-interest': cashBackFeatureList
+  ,
+  'mortgage-payoff': mortgagePayoffFeatureList,
+  'compound-interest': compoundInterestFeatureList,
+  '401k': four01kFeatureList,
+  'sales-tax': salesTaxFeatureList,
+  annuity: annuityFeatureList,
+  rmd: rmdFeatureList,
+  'auto-lease': autoLeaseFeatureList
 }
 
 const introMap: Record<string, { title: React.ReactNode; subtitle: string; body1: string; body2?: string }> = {
@@ -261,7 +723,191 @@ const introMap: Record<string, { title: React.ReactNode; subtitle: string; body1
         body1: 'Project cashflow, cap rate, and cash-on-cash returns based on realistic expense and vacancy assumptions.',
         body2: 'Model financing scenarios to compare investment structures.'
     }
-}
+    ,
+    currency: {
+      title: 'Currency Converter - Quick Exchange Rates',
+      subtitle: 'Convert between currencies and format results for international use.',
+      body1: 'Enter amounts and choose source/target currencies to get formatted conversion results and rates.',
+      body2: 'Ideal for budgeting, travel planning, and quick rate checks without signup.'
+    },
+    'house-affordability': {
+      title: 'House Affordability Calculator',
+      subtitle: 'Estimate how much home you can afford based on income and debts.',
+      body1: 'Use income, debts, down payment, and interest rate assumptions to calculate an affordable home price and monthly payment.',
+      body2: 'Includes DTI considerations and common monthly costs for realistic affordability planning.'
+    },
+    'income-tax': {
+      title: 'Income Tax Estimator',
+      subtitle: 'Estimate your annual and per-paycheck tax withholding and take-home pay.',
+      body1: 'Model filing status, deductions, and dependents to see how taxes affect your net income.',
+      body2: 'Great for budgeting and planning, but not a substitute for professional tax advice.'
+    },
+    apr: {
+      title: 'APR Calculator - True Cost of Borrowing',
+      subtitle: 'Calculate APR including fees to compare loan offers effectively.',
+      body1: 'Include finance charges and origination fees to compute an annualized APR that reflects the true cost.',
+      body2: 'Use APR to compare loan offers on an apples-to-apples basis.'
+    },
+    'fha-loan': {
+      title: 'FHA Loan Calculator',
+      subtitle: 'Estimate monthly payments and insurance for FHA-backed mortgages.',
+      body1: 'See how mortgage insurance premiums and down payment requirements affect monthly payments and total cost.',
+      body2: 'Helpful for first-time buyers comparing FHA to other loan types.'
+    },
+    'va-mortgage': {
+      title: 'VA Mortgage Calculator',
+      subtitle: 'Estimate payments and financing terms for VA-backed loans.',
+      body1: 'Model scenarios with or without down payment and include funding fees to assess financed totals and monthly impacts.',
+      body2: 'Useful for veterans and service members evaluating VA loan benefits.'
+    }
+    ,
+    'interest-rate': {
+      title: 'Interest Rate Calculator',
+      subtitle: 'Solve for the implied interest rate from payment, principal, and term.',
+      body1: 'Given a loan amount, payment, and term, compute the effective interest rate that matches those cash flows.',
+      body2: 'Useful when comparing offers or reverse-engineering loan terms.'
+    },
+    'college-cost': {
+      title: 'College Cost Calculator',
+      subtitle: 'Estimate future college expenses and funding needs.',
+      body1: 'Project tuition inflation, years of attendance, and expected savings to estimate total future costs.',
+      body2: 'Use the results to set savings targets and compare financial aid, scholarships, and loan options.'
+    },
+    'student-loan': {
+      title: 'Student Loan Calculator',
+      subtitle: 'Plan student loan payments, interest, and payoff timelines.',
+      body1: 'Calculate monthly payments, interest accrual, and projected payoff dates for federal or private student loans.',
+      body2: 'Compare repayment plans, extra payments, and consolidation scenarios to reduce interest paid.'
+    },
+    loan: {
+      title: 'Loan Calculator',
+      subtitle: 'Compute payments or payoff time for fixed-rate loans.',
+      body1: 'Enter loan amount, rate, and either term or desired payment to see payment schedules and total interest costs.',
+      body2: 'Supports personal, auto, and other fixed-term loan scenarios for straightforward planning.'
+    },
+    'business-loan': {
+      title: 'Business Loan Calculator',
+      subtitle: 'Estimate payments and true cost of business financing.',
+      body1: 'Include fees and origination costs to calculate monthly obligations and the effective APR.',
+      body2: 'Helpful for comparing term loans, SBA options, and assessing cash flow impact on your business.'
+    },
+    bond: {
+      title: 'Bond Calculator',
+      subtitle: 'Price bonds and compute yield, coupon cash flows, and accrued interest.',
+      body1: 'Evaluate bond price given yield, coupon, and maturity or solve for yield from price and cash flows.',
+      body2: 'Includes accrued interest calculations and schedules for investment analysis.'
+    },
+    'mutual-fund': {
+      title: 'Mutual Fund Calculator',
+      subtitle: 'Estimate returns and fee impact on mutual fund investments.',
+      body1: 'Project investment growth while accounting for expense ratios and management fees that reduce net returns.',
+      body2: 'Compare fund choices, fees, and net returns over different time horizons.'
+    },
+    'social-security': {
+      title: 'Social Security Calculator',
+      subtitle: 'Estimate retirement benefits and claiming strategies.',
+      body1: 'Model benefit estimates based on earnings history, claiming age, and spousal benefits to forecast monthly payments.',
+      body2: 'Use this to plan retirement timing and expected Social Security income.'
+    },
+    heloc: {
+      title: 'HELOC Calculator',
+      subtitle: 'Estimate borrowing and repayment for a home equity line of credit.',
+      body1: 'Model draws, variable interest rates, and repayment schedules to understand payment variability and interest costs.',
+      body2: 'Useful for planning renovations or short-term financing using home equity.'
+    },
+    'down-payment': {
+      title: 'Down Payment Calculator',
+      subtitle: 'Plan down payment amounts and upfront home purchase costs.',
+      body1: 'Calculate required down payment, loan-to-value, and how different down payments affect monthly mortgage payments.',
+      body2: 'Compare trade-offs between a larger down payment and lower ongoing mortgage costs.'
+    }
+    ,
+    'estate-tax': {
+      title: 'Estate Tax Calculator',
+      subtitle: 'Estimate potential federal estate tax owed on an estate.',
+      body1: 'Input estate value, deductions, and lifetime gifts to project taxable estate and estimated tax liability under current rules.',
+      body2: 'Use scenarios to explore gifting and planning strategies that may reduce estate tax exposure.'
+    },
+    pension: {
+      title: 'Pension Calculator',
+      subtitle: 'Compare lump-sum and periodic pension benefits to evaluate lifetime value.',
+      body1: 'Model monthly pension payouts, survivor options, and present value to choose the best retirement income option.',
+      body2: 'Helpful for pension planning and comparing alternative retirement income sources.'
+    },
+    investment: {
+      title: 'Investment Calculator',
+      subtitle: 'Project investment growth and compare contribution strategies.',
+      body1: 'Estimate future balances using contributions, expected returns, and compounding to plan for goals like retirement or college.',
+      body2: 'Compare lump-sum vs recurring contributions and test different return assumptions.'
+    },
+    depreciation: {
+      title: 'Depreciation Calculator',
+      subtitle: 'Calculate asset depreciation using common accounting methods.',
+      body1: 'Support straight-line, declining balance, and MACRS schedules to compute annual depreciation for assets used in business or tax reporting.',
+      body2: 'Understand tax vs book depreciation differences and the effect of disposals on asset basis.'
+    },
+    'roth-ira': {
+      title: 'Roth IRA Calculator',
+      subtitle: 'Project tax-free retirement growth and compare contribution choices.',
+      body1: 'Model annual contributions, expected returns, and years to withdrawal to project tax-free retirement income from a Roth IRA.',
+      body2: 'Compare Roth vs Traditional contribution scenarios to evaluate tax timing benefits.'
+    },
+    'rent-vs-buy': {
+      title: 'Rent vs. Buy Calculator',
+      subtitle: 'Compare the financial trade-offs of renting versus buying a home.',
+      body1: 'Include purchase costs, ongoing ownership expenses, rent, and expected appreciation to estimate total cost over your chosen horizon.',
+      body2: 'Calculate break-even points and help decide which option fits your financial goals.'
+    },
+    'cash-back-or-low-interest': {
+      title: 'Cash Back vs Low-Interest Calculator',
+      subtitle: 'Compare dealer cash incentives with low-interest financing offers.',
+      body1: 'Evaluate whether upfront rebates or lower APR financing provide the better overall deal by including fees and financed amounts.',
+      body2: 'Use this to decide the most cost-effective auto purchase financing strategy.'
+    }
+    ,
+    'mortgage-payoff': {
+      title: 'Mortgage Payoff Calculator',
+      subtitle: 'Plan accelerated payoff strategies and see interest savings over time.',
+      body1: 'Model extra principal payments, biweekly schedules, and lump-sum contributions to see how they shorten the payoff timeline and reduce interest costs.',
+      body2: 'Compare refinancing and extra-payment strategies to decide the best route for reducing long-term cost.'
+    },
+    'compound-interest': {
+      title: 'Compound Interest Calculator',
+      subtitle: 'Understand how compounding frequency and contributions affect investment growth.',
+      body1: 'Project growth under different compounding intervals and contribution schedules to identify efficient saving strategies and realistic timelines for goals.',
+      body2: 'Include inflation and fees to see real, after-cost purchasing power over time.'
+    },
+    '401k': {
+      title: '401(k) Calculator',
+      subtitle: 'Estimate retirement savings including contributions and employer match.',
+      body1: 'Model employee contributions, employer matching, and expected returns to forecast account balances at retirement and identify contribution targets.',
+      body2: 'Assess tax-deferred benefits and optimal contribution levels to maximize long-term retirement savings.'
+    },
+    'sales-tax': {
+      title: 'Sales Tax Calculator',
+      subtitle: 'Accurately compute tax-inclusive and tax-exclusive prices across jurisdictions.',
+      body1: 'Handle combined state, county, and local tax rates and compute pre-tax or post-tax amounts for precise billing and pricing.',
+      body2: 'Support VAT/GST-style rules and display options for invoicing or receipts.'
+    },
+    annuity: {
+      title: 'Annuity Calculator',
+      subtitle: 'Model annuity accumulation and payout options for retirement income planning.',
+      body1: 'Compare immediate and deferred annuities, fee structures, and payout types to evaluate expected income streams and net returns.',
+      body2: 'Use tax and surrender assumptions to understand true net payouts and flexibility.'
+    },
+    rmd: {
+      title: 'RMD Calculator',
+      subtitle: 'Estimate required minimum distributions and plan tax-efficient withdrawals.',
+      body1: 'Calculate RMDs using IRS tables and project future required distributions across multiple accounts to plan taxable income and strategies.',
+      body2: 'Explore Roth conversions and qualified charitable distributions to reduce future RMD burdens.'
+    },
+    'auto-lease': {
+      title: 'Auto Lease Calculator',
+      subtitle: 'Estimate lease payments, residual impacts, and total lease cost.',
+      body1: 'Compute payments using capitalized cost, residual value, money factor, and term while modeling mileage and fees to forecast total leasing expenses.',
+      body2: 'Compare leasing and buying scenarios to choose the most cost-effective option based on usage and ownership preferences.'
+    }
+  }
 
 const benefits = [
   {

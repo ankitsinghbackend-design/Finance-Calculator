@@ -158,7 +158,7 @@ export default function SalaryCalculatorPage() {
             The Salary Calculator converts salary amounts to their corresponding values based on payment frequency. Examples of payment frequencies include biweekly, semi-monthly, or monthly payments. Results include unadjusted figures and adjusted figures that account for vacation days and holidays per year.
           </p>
 
-          <div className="mt-8 grid grid-cols-1 gap-8 xl:mt-0 xl:block xl:min-h-[860px]">
+          <div className="mt-8 grid grid-cols-1 gap-8 xl:mt-0 xl:block xl:min-h-[640px]">
             <form
               onSubmit={handleCalculate}
               className="w-full rounded-[28px] border border-cardBorder bg-[#f9fafb] p-5 backdrop-blur-[10.5px] xl:absolute xl:left-0 xl:top-[380px] xl:w-[516px]"
