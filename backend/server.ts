@@ -6,10 +6,12 @@ import mongoose from 'mongoose'
 import { createApp } from './app'
 import uploadRoutes from "./routes/imageUpload"
 import blogRoutes from "./routes/blog.routes"
+import feedbackRoutes from './routes/feedback.routes'
 
 const app = createApp()
 app.use('/api/upload', uploadRoutes)
 app.use('/api/blogs', blogRoutes)
+app.use('/api/feedback', feedbackRoutes)
 const port = Number(process.env.PORT || 5000)
 const mongoUri = process.env.MONGODB_URI
 

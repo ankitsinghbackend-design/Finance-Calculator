@@ -47,7 +47,7 @@ export default function Footer(){
             <li>Tax Calculators</li>
           </ul>
         </div>
-        <div>
+        {/* <div>
           <h4 className="text-heading text-lg font-medium">Contact / Support</h4>
           <ul className="mt-3 text-sub space-y-2 text-sm">
             <li className="flex items-start gap-2">
@@ -63,11 +63,11 @@ export default function Footer(){
               <span>+123456987</span>
             </li>
           </ul>
-        </div>
+        </div> */}
       </div>
       <div className="border-t border-cardBorder">
         <div className="container mx-auto px-4 py-4 sm:px-6 flex flex-col gap-3 text-center sm:text-left sm:flex-row sm:items-center sm:justify-between text-sm text-[#212121]">
-          <div>© 2025 logoipsum. All Rights Reserved.</div>
+          <div>© 2026 logoipsum. All Rights Reserved.</div>
           <div className="flex flex-wrap items-center justify-center gap-4 sm:justify-end sm:gap-6">
             <a href="#">Privacy Policy</a>
             <a href="#">Term &amp; Condition</a>

@@ -33,6 +33,15 @@ import iconChartPie2 from '../assets/icon-chart-pie-2.svg'
 import iconArrowsSplit from '../assets/icon-arrows-split.svg'
 import iconGlobe from '../assets/icon-globe.svg'
 
+type ReviewFormState = {
+  name: string
+  email: string
+  message: string
+  rating: number
+}
+
+type ReviewFieldErrors = Partial<Record<'name' | 'email' | 'message' | 'rating', string>>
+
 type AutoLoanFormState = {
   price: string
   termMonths: string
@@ -57,6 +66,39 @@ const currencyFormatter = new Intl.NumberFormat('en-US', {
 })
 
 const formatCurrency = (value: number): string => currencyFormatter.format(value)
+
+const initialReviewFormState: ReviewFormState = {
+  name: '',
+  email: '',
+  message: '',
+  rating: 0
+}
+
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+const validateReviewForm = (values: ReviewFormState): ReviewFieldErrors => {
+  const errors: ReviewFieldErrors = {}
+
+  if (!values.name.trim()) {
+    errors.name = 'Name is required.'
+  }
+
+  if (!values.email.trim()) {
+    errors.email = 'Email is required.'
+  } else if (!emailPattern.test(values.email.trim())) {
+    errors.email = 'Enter a valid email address.'
+  }
+
+  if (!values.message.trim()) {
+    errors.message = 'Message is required.'
+  }
+
+  if (values.rating < 1 || values.rating > 5) {
+    errors.rating = 'Please select a rating.'
+  }
+
+  return errors
+}
 
 export default function Home(){
   const heroGraphic = heroGraphicSvg
@@ -219,6 +261,11 @@ export default function Home(){
   const [calculateError, setCalculateError] = useState<string | null>(null)
   const [isCalculatingAutoLoan, setIsCalculatingAutoLoan] = useState(false)
   const [showAllCalculators, setShowAllCalculators] = useState(false)
+  const [reviewForm, setReviewForm] = useState<ReviewFormState>(initialReviewFormState)
+  const [reviewErrors, setReviewErrors] = useState<ReviewFieldErrors>({})
+  const [reviewSubmitError, setReviewSubmitError] = useState<string | null>(null)
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false)
+  const [showReviewSuccessCard, setShowReviewSuccessCard] = useState(false)
   const collapsedCalculatorRowCount = 4
 
   const expandedCalculatorColumns = [
@@ -267,6 +314,94 @@ export default function Home(){
       [name]: value
     }))
   }
+
+  const handleReviewInputChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = event.target
+
+    setReviewForm((previous) => ({
+      ...previous,
+      [name]: value
+    }))
+
+    setReviewErrors((previous) => {
+      if (!previous[name as keyof ReviewFieldErrors]) {
+        return previous
+      }
+
+      const nextErrors = { ...previous }
+      delete nextErrors[name as keyof ReviewFieldErrors]
+      return nextErrors
+    })
+
+    setReviewSubmitError(null)
+  }
+
+  const handleRatingSelect = (rating: number) => {
+    setReviewForm((previous) => ({
+      ...previous,
+      rating
+    }))
+
+    setReviewErrors((previous) => {
+      if (!previous.rating) {
+        return previous
+      }
+
+      const nextErrors = { ...previous }
+      delete nextErrors.rating
+      return nextErrors
+    })
+
+    setReviewSubmitError(null)
+  }
+
+  const handleReviewSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    const trimmedValues: ReviewFormState = {
+      name: reviewForm.name.trim(),
+      email: reviewForm.email.trim(),
+      message: reviewForm.message.trim(),
+      rating: reviewForm.rating
+    }
+
+    const validationErrors = validateReviewForm(trimmedValues)
+    setReviewErrors(validationErrors)
+    setReviewSubmitError(null)
+
+    if (Object.keys(validationErrors).length > 0) {
+      return
+    }
+
+    try {
+      setIsSubmittingReview(true)
+      await axios.post(apiUrl('/api/feedback'), trimmedValues)
+      setReviewForm(initialReviewFormState)
+      setShowReviewSuccessCard(true)
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const fieldErrors = error.response?.data?.fieldErrors as ReviewFieldErrors | undefined
+        if (fieldErrors) {
+          setReviewErrors((previous) => ({
+            ...previous,
+            ...fieldErrors
+          }))
+        }
+
+        setReviewSubmitError(error.response?.data?.error ?? 'Unable to submit feedback right now. Please try again.')
+      } else {
+        setReviewSubmitError('Unable to submit feedback right now. Please try again.')
+      }
+    } finally {
+      setIsSubmittingReview(false)
+    }
+  }
+
+  const isReviewFormComplete =
+    reviewForm.name.trim().length > 0 &&
+    reviewForm.email.trim().length > 0 &&
+    reviewForm.message.trim().length > 0 &&
+    reviewForm.rating > 0
 
   const handleAutoLoanSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -333,6 +468,29 @@ export default function Home(){
 
   return (
     <div className="bg-alt">
+      {showReviewSuccessCard ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/40 px-4">
+          <div className="w-full max-w-[420px] rounded-[28px] bg-white p-8 text-center shadow-[0_24px_80px_rgba(15,23,42,0.22)]">
+            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-primary/15">
+              <svg aria-hidden="true" viewBox="0 0 24 24" className="h-10 w-10 text-primary" fill="none">
+                <path d="M6 12.5l4 4L18 8.5" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+            <h3 className="mt-6 text-[30px] font-semibold text-heading">Thank you for the feedback!</h3>
+            <p className="mt-3 text-[16px] leading-[25.6px] text-body">
+              Your review has been received successfully. We really appreciate you taking the time to share your experience.
+            </p>
+            <button
+              type="button"
+              onClick={() => setShowReviewSuccessCard(false)}
+              className="mt-8 inline-flex h-[46px] items-center justify-center rounded-lg bg-primary px-6 text-[16px] font-medium text-white transition hover:bg-primaryDark"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      ) : null}
+
       <section className="relative overflow-hidden">
         <img
           src={heroGraphic}
@@ -867,38 +1025,103 @@ export default function Home(){
           <div className="mt-10 max-w-[1080px] mx-auto bg-cardBorder rounded-[20px] p-6 md:p-10">
             <h3 className="text-[33px] font-semibold text-heading text-center">Leave a Review</h3>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-10">
-              <div>
-                <label className="block text-[16px] font-medium text-sub mb-1.5">Your Name*</label>
-                <input className="w-full h-[37px] rounded-md border border-cardBorder bg-alt px-2 text-[16px] text-[#9ca3af]" placeholder="Jonny" />
+            <form className="mt-10" onSubmit={handleReviewSubmit} noValidate>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                  <label htmlFor="review-name" className="block text-[16px] font-medium text-sub mb-1.5">Your Name*</label>
+                  <input
+                    id="review-name"
+                    name="name"
+                    value={reviewForm.name}
+                    onChange={handleReviewInputChange}
+                    className="w-full h-[44px] rounded-md border border-cardBorder bg-alt px-3 text-[16px] text-heading placeholder:text-[#9ca3af]"
+                    placeholder="Jonny"
+                    aria-invalid={Boolean(reviewErrors.name)}
+                    aria-describedby={reviewErrors.name ? 'review-name-error' : undefined}
+                  />
+                  {reviewErrors.name ? <p id="review-name-error" className="mt-1.5 text-sm text-red-600">{reviewErrors.name}</p> : null}
+                </div>
+                <div>
+                  <label htmlFor="review-email" className="block text-[16px] font-medium text-sub mb-1.5">Your Email*</label>
+                  <input
+                    id="review-email"
+                    name="email"
+                    type="email"
+                    value={reviewForm.email}
+                    onChange={handleReviewInputChange}
+                    className="w-full h-[44px] rounded-md border border-cardBorder bg-alt px-3 text-[16px] text-heading placeholder:text-[#9ca3af]"
+                    placeholder="jonny@example.com"
+                    aria-invalid={Boolean(reviewErrors.email)}
+                    aria-describedby={reviewErrors.email ? 'review-email-error' : undefined}
+                  />
+                  {reviewErrors.email ? <p id="review-email-error" className="mt-1.5 text-sm text-red-600">{reviewErrors.email}</p> : null}
+                </div>
               </div>
-              <div>
-                <label className="block text-[16px] font-medium text-sub mb-1.5">Your Email*</label>
-                <input className="w-full h-[37px] rounded-md border border-cardBorder bg-alt px-2 text-[16px] text-[#9ca3af]" placeholder="jonny@example.com" />
+
+              <div className="mt-5">
+                <label htmlFor="review-message" className="block text-[16px] text-sub mb-2">Your message*</label>
+                <textarea
+                  id="review-message"
+                  name="message"
+                  value={reviewForm.message}
+                  onChange={handleReviewInputChange}
+                  className="w-full h-[160px] rounded-md border border-[#cbd5e1] bg-[#f5f7fa] px-3 py-3 text-[14px] leading-5 text-heading placeholder:text-[#94a3b8]"
+                  placeholder="Type your message here"
+                  aria-invalid={Boolean(reviewErrors.message)}
+                  aria-describedby={reviewErrors.message ? 'review-message-error' : undefined}
+                />
+                {reviewErrors.message ? <p id="review-message-error" className="mt-1.5 text-sm text-red-600">{reviewErrors.message}</p> : null}
               </div>
-            </div>
 
-            <div className="mt-5">
-              <label className="block text-[16px] text-sub mb-2">Your message</label>
-              <textarea className="w-full h-[160px] rounded-md border border-[#cbd5e1] bg-[#f5f7fa] px-3 py-2 text-[14px] leading-5 text-[#94a3b8]" placeholder="Type your message here" />
-            </div>
+              <div className="mt-6">
+                <p className="text-[16px] font-medium text-sub">Your Rating*</p>
+                <div className="mt-2 flex items-center gap-1.5" role="radiogroup" aria-label="Select rating">
+                  {Array.from({ length: 5 }).map((_, index) => {
+                    const ratingValue = index + 1
+                    const isActive = ratingValue <= reviewForm.rating
 
-            <div className="mt-6">
-              <p className="text-[16px] font-medium text-sub">Your Rating*</p>
-              <div className="flex items-center gap-1.5 mt-2">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <span
-                    key={i}
-                    aria-hidden="true"
-                    className="inline-flex items-center justify-center text-[26px] leading-none text-[#d1d5db]"
-                  >
-                    ★
+                    return (
+                      <button
+                        key={ratingValue}
+                        type="button"
+                        onClick={() => handleRatingSelect(ratingValue)}
+                        className={[
+                          'inline-flex items-center justify-center text-[30px] leading-none transition-transform hover:scale-110',
+                          isActive ? 'text-amber-400' : 'text-[#d1d5db]'
+                        ].join(' ')}
+                        aria-label={`${ratingValue} star${ratingValue > 1 ? 's' : ''}`}
+                        aria-pressed={reviewForm.rating === ratingValue}
+                      >
+                        ★
+                      </button>
+                    )
+                  })}
+                  <span className="ml-2 text-[14px] font-medium text-sub">
+                    {reviewForm.rating > 0 ? `${reviewForm.rating} / 5` : 'Select a rating'}
                   </span>
-                ))}
+                </div>
+                {reviewErrors.rating ? <p className="mt-1.5 text-sm text-red-600">{reviewErrors.rating}</p> : null}
               </div>
-            </div>
 
-            <button className="w-full h-[43px] rounded-lg bg-primary text-white text-[16px] font-medium mt-8">Post Your Reviews</button>
+              {reviewSubmitError ? (
+                <p className="mt-4 text-sm text-red-600" role="alert">
+                  {reviewSubmitError}
+                </p>
+              ) : null}
+
+              <button
+                type="submit"
+                disabled={!isReviewFormComplete || isSubmittingReview}
+                className={[
+                  'mt-8 w-full h-[43px] rounded-lg text-[16px] font-medium transition',
+                  !isReviewFormComplete || isSubmittingReview
+                    ? 'cursor-not-allowed bg-slate-300 text-slate-600'
+                    : 'bg-primary text-white hover:bg-primaryDark'
+                ].join(' ')}
+              >
+                {isSubmittingReview ? 'Submitting...' : 'Post Your Review'}
+              </button>
+            </form>
           </div>
         </div>
       </section>
