@@ -1,6 +1,7 @@
 import React, { FormEvent, useMemo, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
+import CalculatorMarketingSections from '../components/CalculatorMarketingSections'
 import DTIForm, { type DTIFormState } from '../components/calculators/DTIForm'
 import DTIResults from '../components/calculators/DTIResults'
 import {
@@ -110,6 +111,7 @@ export default function DebtToIncomeCalculatorPage() {
   }
 
   return (
+    <>
     <section className="relative min-h-screen overflow-hidden bg-[#f5f7fa]">
       {/* ────────────────────────────────────────────────────
           Decorative Graphic — desktop only (ellipses only)
@@ -192,5 +194,8 @@ export default function DebtToIncomeCalculatorPage() {
         </div>
       </div>
     </section>
+
+    <CalculatorMarketingSections loginRedirectPath="/calculators/dti-ratio" />
+    </>
   )
 }

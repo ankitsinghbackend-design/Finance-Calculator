@@ -1,6 +1,7 @@
 import React, { FormEvent, useMemo, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
+import CalculatorMarketingSections from '../components/CalculatorMarketingSections'
 import MutualFundForm, { type MutualFundFormState } from '../components/calculators/MutualFundForm'
 import MutualFundResults from '../components/calculators/MutualFundResults'
 import { calculate, schema, type MutualFundInputs, type MutualFundResults as MutualFundResult } from '../../backend/calculations/mutualFund'
@@ -88,6 +89,7 @@ export default function MutualFundPage() {
   }
 
   return (
+    <>
     <section className="relative min-h-[calc(100vh-82px)] overflow-hidden bg-[#f5f7fa]">
       <img
         src={mutualFundGraphic}
@@ -122,5 +124,8 @@ export default function MutualFundPage() {
         </div>
       </div>
     </section>
+
+    <CalculatorMarketingSections loginRedirectPath="/calculators/mutual-fund" />
+    </>
   )
 }

@@ -1,6 +1,7 @@
 import React, { FormEvent, useMemo, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
+import CalculatorMarketingSections from '../components/CalculatorMarketingSections'
 import RefinanceForm, { type RefinanceFormState } from '../components/calculators/RefinanceForm'
 import RefinanceResults from '../components/calculators/RefinanceResults'
 import {
@@ -101,6 +102,7 @@ export default function RefinancePage() {
   const displayResult = result ?? currentEstimate
 
   return (
+    <>
     <section className="relative min-h-[calc(100vh-82px)] overflow-hidden bg-[#f5f7fa]">
       <img
         src={refinanceGraphic}
@@ -118,8 +120,7 @@ export default function RefinancePage() {
           total interest, upfront refinance costs, and the break-even point to recover those costs.
         </p>
 
-        <div className="mt-8 grid grid-cols-1 items-start gap-8 xl:grid-cols-[516px_516px] xl:justify-between">
-          <div className="w-full max-w-[516px]">
+        <div className="mt-8 grid grid-cols-1 items-start gap-60 xl:grid-cols-[516px_516px] xl:justify-start">          <div className="w-full max-w-[516px]">
             <RefinanceForm
               form={form}
               onChange={(field, value) => setForm((previous) => ({ ...previous, [field]: value }))}
@@ -131,11 +132,14 @@ export default function RefinancePage() {
             />
           </div>
 
-          <div className="w-full max-w-[516px] xl:pt-[57px]">
+          <div className="w-full max-w-[516px] xl:-mt-[25px]">
             <RefinanceResults result={displayResult} />
           </div>
         </div>
       </div>
     </section>
+
+    <CalculatorMarketingSections loginRedirectPath="/calculators/refinance" />
+    </>
   )
 }

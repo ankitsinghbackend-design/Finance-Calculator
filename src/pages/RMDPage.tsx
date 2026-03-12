@@ -1,6 +1,7 @@
 import React, { FormEvent, useMemo, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
+import CalculatorMarketingSections from '../components/CalculatorMarketingSections'
 import RMDForm, { type RMDFormState } from '../components/calculators/RMDForm'
 import RMDResults from '../components/calculators/RMDResults'
 import { calculate, schema, type RmdInputs, type RmdResults as RMDResult } from '../../backend/calculations/rmdCalc'
@@ -82,6 +83,7 @@ export default function RMDPage() {
   }
 
   return (
+    <>
     <section className="relative min-h-[calc(100vh-82px)] overflow-hidden bg-[#f5f7fa]">
       <img
         src={rmdGraphic}
@@ -116,5 +118,8 @@ export default function RMDPage() {
         </div>
       </div>
     </section>
+
+    <CalculatorMarketingSections loginRedirectPath="/calculators/rmd" />
+    </>
   )
 }

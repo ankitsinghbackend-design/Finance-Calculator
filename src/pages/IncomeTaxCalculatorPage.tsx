@@ -2,6 +2,7 @@ import React, { FormEvent, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
 import heroGraphicSvg from '../assets/hero-graphic.svg'
+import CalculatorMarketingSections from '../components/CalculatorMarketingSections'
 
 type FilingStatus = 'single' | 'married' | 'head'
 type TaxYear = 2025 | 2026
@@ -82,6 +83,7 @@ export default function IncomeTaxCalculatorPage() {
   }
 
   return (
+    <>
     <section className="bg-[#f5f7fa] relative overflow-hidden min-h-[calc(100vh-82px)]">
       <img
         src={heroGraphicSvg}
@@ -262,5 +264,8 @@ export default function IncomeTaxCalculatorPage() {
         </div>
       </div>
     </section>
+
+    <CalculatorMarketingSections loginRedirectPath="/calculators/income-tax" />
+    </>
   )
 }

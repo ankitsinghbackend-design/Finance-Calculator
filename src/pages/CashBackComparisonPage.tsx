@@ -1,6 +1,7 @@
 import React, { FormEvent, useMemo, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
+import CalculatorMarketingSections from '../components/CalculatorMarketingSections'
 import CashBackComparisonForm, { type CashBackComparisonFormState } from '../components/calculators/CashBackComparisonForm'
 import CashBackComparisonResults from '../components/calculators/CashBackComparisonResults'
 import {
@@ -94,6 +95,7 @@ export default function CashBackComparisonPage() {
   }
 
   return (
+    <>
     <section className="relative min-h-[calc(100vh-82px)] overflow-hidden bg-[#f5f7fa]">
       <img
         src={cashBackGraphic}
@@ -130,5 +132,8 @@ export default function CashBackComparisonPage() {
         </div>
       </div>
     </section>
+
+    <CalculatorMarketingSections loginRedirectPath="/calculators/cash-back-or-low-interest" />
+    </>
   )
 }

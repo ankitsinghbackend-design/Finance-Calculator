@@ -11,6 +11,7 @@ import InvestmentForm, {
 import InvestmentResults, {
   type InvestmentResult
 } from '../components/calculators/InvestmentResults'
+import CalculatorMarketingSections from '../components/CalculatorMarketingSections'
 import { API_BASE_URL } from '../config/api'
 import heroGraphicSvg from '../assets/hero-graphic.svg'
 
@@ -104,6 +105,7 @@ export default function InvestmentCalculatorPage() {
   }
 
   return (
+    <>
     <section className="relative min-h-[calc(100vh-82px)] overflow-hidden bg-[#f5f7fa] text-[#1d2433]">
       <img
         src={heroGraphicSvg}
@@ -154,5 +156,8 @@ export default function InvestmentCalculatorPage() {
         </div>
       </div>
     </section>
+
+    <CalculatorMarketingSections loginRedirectPath="/calculators/investment" />
+    </>
   )
 }

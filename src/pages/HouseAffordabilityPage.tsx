@@ -2,6 +2,7 @@ import React, { FormEvent, useMemo, useState } from 'react'
 import axios from 'axios'
 import heroGraphicSvg from '../assets/hero-graphic.svg'
 import { apiUrl } from '../config/api'
+import CalculatorMarketingSections from '../components/CalculatorMarketingSections'
 import HouseAffordabilityForm, {
   type HouseAffordabilityFormState
 } from '../components/calculators/HouseAffordabilityForm'
@@ -85,6 +86,7 @@ export default function HouseAffordabilityPage() {
   }
 
   return (
+    <>
     <section className="bg-[#f5f7fa] relative overflow-hidden min-h-[calc(100vh-82px)]">
       <img
         src={heroGraphicSvg}
@@ -122,5 +124,8 @@ export default function HouseAffordabilityPage() {
         </div>
       </div>
     </section>
+
+    <CalculatorMarketingSections loginRedirectPath="/calculators/house-affordability" />
+    </>
   )
 }

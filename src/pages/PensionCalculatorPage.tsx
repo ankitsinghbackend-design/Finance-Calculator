@@ -2,6 +2,7 @@ import React, { FormEvent, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
 import heroGraphicSvg from '../assets/hero-graphic.svg'
+import CalculatorMarketingSections from '../components/CalculatorMarketingSections'
 
 type PensionFormState = {
   retirementAge: string
@@ -78,6 +79,7 @@ export default function PensionCalculatorPage() {
   }
 
   return (
+    <>
     <section className="bg-[#f5f7fa] relative overflow-hidden min-h-[calc(100vh-82px)]">
       <img
         src={heroGraphicSvg}
@@ -261,5 +263,8 @@ export default function PensionCalculatorPage() {
         </div>
       </div>
     </section>
+
+    <CalculatorMarketingSections loginRedirectPath="/calculators/pension" />
+    </>
   )
 }

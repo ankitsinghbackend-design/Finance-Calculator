@@ -1,6 +1,7 @@
 import React, { FormEvent, useMemo, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
+import CalculatorMarketingSections from '../components/CalculatorMarketingSections'
 import RentalPropertyForm, { type RentalPropertyFormState } from '../components/calculators/RentalPropertyForm'
 import RentalPropertyResults from '../components/calculators/RentalPropertyResults'
 import {
@@ -124,6 +125,7 @@ export default function RentalPropertyPage() {
   }
 
   return (
+    <>
     <section className="relative min-h-[calc(100vh-82px)] overflow-hidden bg-[#f5f7fa]">
       <img
         src={rentalPropertyGraphic}
@@ -157,5 +159,8 @@ export default function RentalPropertyPage() {
         </div>
       </div>
     </section>
+
+    <CalculatorMarketingSections loginRedirectPath="/calculators/rental-property" />
+    </>
   )
 }

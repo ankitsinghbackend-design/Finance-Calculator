@@ -1,6 +1,7 @@
 import React, { FormEvent, useMemo, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
+import CalculatorMarketingSections from '../components/CalculatorMarketingSections'
 import DownPaymentForm, { type DownPaymentFormState } from '../components/calculators/DownPaymentForm'
 import DownPaymentResults from '../components/calculators/DownPaymentResults'
 import {
@@ -92,6 +93,7 @@ export default function DownPaymentPage() {
   }
 
   return (
+    <>
     <section className="relative min-h-[calc(100vh-82px)] overflow-hidden bg-[#f5f7fa]">
       <img
         src={downPaymentGraphic}
@@ -126,5 +128,8 @@ export default function DownPaymentPage() {
         </div>
       </div>
     </section>
+
+    <CalculatorMarketingSections loginRedirectPath="/calculators/down-payment" />
+    </>
   )
 }

@@ -1,6 +1,7 @@
 import React, { FormEvent, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
+import CalculatorMarketingSections from '../components/CalculatorMarketingSections'
 
 type CompoundFrequency = 'yearly' | 'semiannually' | 'quarterly' | 'monthly' | 'weekly' | 'daily'
 
@@ -72,6 +73,7 @@ export default function CompoundInterestCalculatorPage() {
   }
 
   return (
+    <>
     <section className="bg-[#f5f7fa] py-12 min-h-[calc(100vh-82px)] overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-6 xl:px-10 relative isolate">
         <img
@@ -193,5 +195,8 @@ export default function CompoundInterestCalculatorPage() {
         </div>
       </div>
     </section>
+
+    <CalculatorMarketingSections loginRedirectPath="/calculators/compound-interest" />
+    </>
   )
 }

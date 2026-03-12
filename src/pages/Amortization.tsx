@@ -2,6 +2,7 @@ import React, { FormEvent, useMemo, useState } from 'react'
 import { calculateAmortization } from '../utils/amortization'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
+import CalculatorMarketingSections from '../components/CalculatorMarketingSections'
 
 const heroGraphic = 'https://www.figma.com/api/mcp/asset/99ee5331-e90e-486e-bd3b-e8c1939b6240'
 
@@ -66,6 +67,7 @@ export default function Amortization() {
   }
 
   return (
+    <>
     <div className="bg-alt min-h-full">
       <section className="relative overflow-hidden bg-[#f5f7fa] py-12 min-h-[calc(100vh-82px)]">
         <div className="max-w-[1440px] mx-auto px-6 xl:px-10 relative isolate">
@@ -203,5 +205,8 @@ export default function Amortization() {
         </div>
       </section>
     </div>
+
+    <CalculatorMarketingSections loginRedirectPath="/calculators/amortization" />
+    </>
   )
 }

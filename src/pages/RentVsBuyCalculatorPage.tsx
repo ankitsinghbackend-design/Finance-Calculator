@@ -1,6 +1,7 @@
 import React, { FormEvent, useMemo, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
+import CalculatorMarketingSections from '../components/CalculatorMarketingSections'
 import RentVsBuyForm, { type RentVsBuyFormState } from '../components/calculators/RentVsBuyForm'
 import RentVsBuyResults from '../components/calculators/RentVsBuyResults'
 import {
@@ -120,6 +121,7 @@ export default function RentVsBuyCalculatorPage() {
   }
 
   return (
+    <>
     <section className="relative min-h-[calc(100vh-82px)] overflow-hidden bg-[#f5f7fa]">
       <img
         src={rentVsBuyGraphic}
@@ -154,5 +156,8 @@ export default function RentVsBuyCalculatorPage() {
         </div>
       </div>
     </section>
+
+    <CalculatorMarketingSections loginRedirectPath="/calculators/rent-vs-buy" />
+    </>
   )
 }

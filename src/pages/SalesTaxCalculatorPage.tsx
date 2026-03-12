@@ -1,6 +1,7 @@
 import React, { FormEvent, useMemo, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
+import CalculatorMarketingSections from '../components/CalculatorMarketingSections'
 import SalesTaxForm, { type SalesTaxFormState } from '../components/calculators/SalesTaxForm'
 import SalesTaxResults from '../components/calculators/SalesTaxResults'
 import { calculate, schema, type SalesTaxInputs, type SalesTaxResults as SalesTaxResultsType } from '../../backend/calculations/salesTax'
@@ -79,6 +80,7 @@ export default function SalesTaxCalculatorPage() {
   }
 
   return (
+    <>
     <section className="relative min-h-[calc(100vh-82px)] overflow-hidden bg-[#f5f7fa]">
       <img
         src={salesTaxGraphic}
@@ -111,5 +113,8 @@ export default function SalesTaxCalculatorPage() {
         </div>
       </div>
     </section>
+
+    <CalculatorMarketingSections loginRedirectPath="/calculators/sales-tax" />
+    </>
   )
 }

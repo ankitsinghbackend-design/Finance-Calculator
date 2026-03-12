@@ -1,6 +1,7 @@
 import React, { FormEvent, useMemo, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
+import CalculatorMarketingSections from '../components/CalculatorMarketingSections'
 import GeneralAprForm, { type GeneralAprFormState } from '../components/calculators/GeneralAprForm'
 import MortgageAprForm, { type MortgageAprFormState } from '../components/calculators/MortgageAprForm'
 import AprResultsCard from '../components/calculators/AprResultsCard'
@@ -171,6 +172,7 @@ export default function APRCalculatorPage() {
   }
 
   return (
+    <>
     <section className="relative min-h-[calc(100vh-82px)] overflow-hidden bg-[#f5f7fa]">
       <div
         className="pointer-events-none absolute top-[42px] hidden h-[883px] w-[868px] xl:block"
@@ -257,5 +259,8 @@ export default function APRCalculatorPage() {
         </div>
       </div>
     </section>
+
+    <CalculatorMarketingSections loginRedirectPath="/calculators/apr" />
+    </>
   )
 }

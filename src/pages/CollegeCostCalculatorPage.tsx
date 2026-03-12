@@ -1,6 +1,7 @@
 import React, { FormEvent, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
+import CalculatorMarketingSections from '../components/CalculatorMarketingSections'
 
 type CollegeCostResults = {
   futureAnnualCost: number
@@ -72,6 +73,7 @@ export default function CollegeCostCalculatorPage() {
   }
 
   return (
+    <>
     <section className="bg-[#f5f7fa] relative overflow-hidden min-h-[calc(100vh-82px)] py-12">
       <div className="max-w-[1440px] mx-auto px-6 xl:px-10 relative isolate">
         <img
@@ -178,5 +180,8 @@ export default function CollegeCostCalculatorPage() {
         </div>
       </div>
     </section>
+
+    <CalculatorMarketingSections loginRedirectPath="/calculators/college-cost" />
+    </>
   )
 }

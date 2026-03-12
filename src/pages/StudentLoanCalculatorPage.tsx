@@ -2,6 +2,7 @@ import React, { FormEvent, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
 import heroGraphicSvg from '../assets/hero-graphic.svg'
+import CalculatorMarketingSections from '../components/CalculatorMarketingSections'
 
 type StudentLoanFormState = {
   loanBalance: string
@@ -102,6 +103,7 @@ export default function StudentLoanCalculatorPage() {
   const cardResult = result ?? calculateStudentLoan(currentInputs)
 
   return (
+    <>
     <section className="bg-[#f5f7fa] relative overflow-hidden min-h-[calc(100vh-82px)]">
       <img
         src={heroGraphicSvg}
@@ -223,5 +225,8 @@ export default function StudentLoanCalculatorPage() {
         </div>
       </div>
     </section>
+
+    <CalculatorMarketingSections loginRedirectPath="/calculators/student-loan" />
+    </>
   )
 }
