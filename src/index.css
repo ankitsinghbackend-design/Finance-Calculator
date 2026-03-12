@@ -250,3 +250,33 @@ body{
   border-top: 2px solid #e5e7eb;
   margin: 2rem 0;
 }
+
+#google_translate_element {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.goog-te-banner-frame.skiptranslate,
+iframe.skiptranslate {
+  display: none !important;
+}
+
+body {
+  top: 0 !important;
+}
+
+.goog-logo-link,
+.goog-te-gadget span,
+.goog-te-gadget-simple img {
+  display: none !important;
+}
+
+.goog-tooltip,
+.goog-tooltip:hover,
+.goog-text-highlight {
+  background: transparent !important;
+  box-shadow: none !important;
+}

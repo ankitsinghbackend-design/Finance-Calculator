@@ -1,21 +1,31 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { useTranslation } from '../context/TranslationContext'
 
 export default function Header(){
   const location = useLocation()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isTranslateMenuOpen, setIsTranslateMenuOpen] = useState(false)
   const isFinance = location.pathname === '/finance'
   const isBlog = location.pathname.startsWith('/blogs')
   const isAdminPage = location.pathname.startsWith('/admin')
   const { isAuthenticated, logout, user } = useAuth()
+  const { currentLanguage, supportedLanguages, setLanguage, isReady } = useTranslation()
   const isAdminUser = user?.role === 'admin'
+
+  const selectedLanguageLabel = useMemo(() => {
+    return supportedLanguages.find((language) => language.code === currentLanguage)?.nativeLabel ?? 'English'
+  }, [currentLanguage, supportedLanguages])
 
   const navLink = (to: string, label: string, active: boolean) =>
     `text-base ${active ? 'text-heading font-semibold' : 'text-body hover:text-heading transition-colors'}`
 
-  const closeMobileMenu = () => setIsMobileMenuOpen(false)
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false)
+    setIsTranslateMenuOpen(false)
+  }
 
   return (
     <header className="bg-alt border-b border-cardBorder">
@@ -26,6 +36,41 @@ export default function Header(){
           <Link to="/finance" className={navLink('/finance', 'Features', isFinance)}>Features</Link>
           <Link to="/blogs" className={navLink('/blogs', 'Blog', isBlog)}>Blog</Link>
           <a href="#faqs" className="text-body text-base">FAQs</a>
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setIsTranslateMenuOpen((previous) => !previous)}
+              className="inline-flex items-center gap-2 rounded-lg border border-cardBorder px-3 py-2 text-sm font-medium text-heading transition hover:bg-white"
+            >
+              <span>Translate</span>
+              <span className="text-xs text-sub">{selectedLanguageLabel}</span>
+            </button>
+            {isTranslateMenuOpen ? (
+              <div className="absolute right-0 top-[calc(100%+8px)] z-30 w-[240px] rounded-xl border border-cardBorder bg-white p-2 shadow-card">
+                <p className="px-3 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-sub">Select language</p>
+                <div className="max-h-[320px] overflow-y-auto">
+                  {supportedLanguages.map((language) => (
+                    <button
+                      key={language.code}
+                      type="button"
+                      disabled={!isReady}
+                      onClick={() => {
+                        void setLanguage(language.code)
+                        setIsTranslateMenuOpen(false)
+                      }}
+                      className={[
+                        'flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition hover:bg-alt',
+                        currentLanguage === language.code ? 'bg-alt text-heading font-medium' : 'text-sub'
+                      ].join(' ')}
+                    >
+                      <span>{language.label}</span>
+                      <span className="text-xs">{language.nativeLabel}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+          </div>
           {isAdminUser ? (
             <Link to="/admin/blog-editor" className={`text-sm px-3 py-1.5 rounded-lg transition-colors ${isAdminPage ? 'bg-heading text-white' : 'bg-gray-100 text-sub hover:bg-gray-200'}`}>✍️ Write</Link>
           ) : null}
@@ -62,6 +107,29 @@ export default function Header(){
             <Link to="/finance" onClick={closeMobileMenu} className={`${navLink('/finance', 'Features', isFinance)} rounded-lg px-3 py-2`}>Features</Link>
             <Link to="/blogs" onClick={closeMobileMenu} className={`${navLink('/blogs', 'Blog', isBlog)} rounded-lg px-3 py-2`}>Blogs</Link>
             <a href="#faqs" onClick={closeMobileMenu} className="rounded-lg px-3 py-2 text-body text-base hover:text-heading transition-colors">FAQs</a>
+            <div className="mt-2 rounded-lg border border-cardBorder p-3">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-sub">Translate</p>
+              <div className="mt-3 grid grid-cols-1 gap-2">
+                {supportedLanguages.map((language) => (
+                  <button
+                    key={language.code}
+                    type="button"
+                    disabled={!isReady}
+                    onClick={() => {
+                      void setLanguage(language.code)
+                      closeMobileMenu()
+                    }}
+                    className={[
+                      'flex items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition hover:bg-white',
+                      currentLanguage === language.code ? 'bg-white text-heading font-medium' : 'text-sub'
+                    ].join(' ')}
+                  >
+                    <span>{language.label}</span>
+                    <span className="text-xs">{language.nativeLabel}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
             {isAdminUser ? (
               <Link
                 to="/admin/blog-editor"
