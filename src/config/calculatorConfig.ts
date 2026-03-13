@@ -111,13 +111,10 @@ export const financeMenuColumns: FinanceMenuColumn[] = [
   {
     title: 'Mortgage & Real Estate',
     items: [
-      { label: 'Mortgage & Real Estate' },
       { label: 'Amortization Calculator', calculatorId: 'amortization' },
       { label: 'Mortgage Payoff Calculator', calculatorId: 'mortgage-payoff' },
       { label: 'House Affordability Calculator', calculatorId: 'house-affordability' },
-      { label: 'Rent Calculator' },
       { label: 'Debt-to-Income (DTI) Ratio Calculator', calculatorId: 'dti-ratio' },
-      { label: 'Real Estate Calculator' },
       { label: 'Refinance Calculator', calculatorId: 'refinance' },
       { label: 'Rental Property Calculator', calculatorId: 'rental-property' },
       { label: 'APR Calculator', calculatorId: 'apr' },
@@ -145,10 +142,8 @@ export const financeMenuColumns: FinanceMenuColumn[] = [
         items: [
           { label: 'Income Tax Calculator', calculatorId: 'income-tax' },
           { label: 'Salary Calculator', calculatorId: 'salary' },
-          { label: 'Marriage Tax Calculator' },
           { label: 'Estate Tax Calculator', calculatorId: 'estate-tax' },
           { label: 'Sales Tax Calculator', calculatorId: 'sales-tax' },
-          { label: 'Take-Home-Paycheck Calculator' }
         ]
       }
     ]
@@ -156,35 +151,21 @@ export const financeMenuColumns: FinanceMenuColumn[] = [
   {
     title: 'Investment',
     items: [
-      { label: 'Interest Calculator' },
       { label: 'Investment Calculator', calculatorId: 'investment' },
-      { label: 'Finance Calculator' },
       { label: 'Compound Interest Calculator', calculatorId: 'compound-interest' },
       { label: 'Interest Rate Calculator', calculatorId: 'interest-rate' },
-      { label: 'Savings Calculator' },
-      { label: 'Simple Interest Calculator' },
-      { label: 'CD Calculator' },
       { label: 'Bond Calculator', calculatorId: 'bond' },
       { label: 'Mutual Fund Calculator', calculatorId: 'mutual-fund' },
-      { label: 'Average Return Calculator' },
-      { label: 'IRR Calculator' },
-      { label: 'ROI Calculator' },
-      { label: 'Payback Period Calculator' },
-      { label: 'Present Value Calculator' },
-      { label: 'Future Value Calculator' }
     ]
   },
   {
     title: 'Retirement',
     items: [
-      { label: 'Retirement Calculator' },
       { label: '401K Calculator', calculatorId: '401k' },
       { label: 'Pension Calculator', calculatorId: 'pension' },
       { label: 'Social Security Calculator', calculatorId: 'social-security' },
       { label: 'Annuity Calculator', calculatorId: 'annuity' },
-      { label: 'Annuity Payout Calculator' },
       { label: 'Roth IRA Calculator', calculatorId: 'roth-ira' },
-      { label: 'IRA Calculator' },
       { label: 'RMD Calculator', calculatorId: 'rmd' }
     ]
   },
@@ -192,27 +173,15 @@ export const financeMenuColumns: FinanceMenuColumn[] = [
     title: 'Other',
     items: [
       { label: 'Loan Calculator', calculatorId: 'loan' },
-      { label: 'Payment Calculator' },
       { label: 'Currency Calculator', calculatorId: 'currency' },
       { label: 'Inflation Calculator', calculatorId: 'inflation' },
       { label: 'Sales Tax Calculator', calculatorId: 'sales-tax' },
-      { label: 'Credit Card Calculator' },
-      { label: 'Credit Cards Payoff Calculator' },
-      { label: 'Debt Payoff Calculator' },
-      { label: 'Debt Consolidation Calculator' },
       { label: 'Repayment Calculator', calculatorId: 'repayment' },
       { label: 'Student Loan Calculator', calculatorId: 'student-loan' },
       { label: 'College Cost Calculator', calculatorId: 'college-cost' },
-      { label: 'VAT Calculator' },
       { label: 'Depreciation Calculator', calculatorId: 'depreciation' },
-      { label: 'Margin Calculator' },
-      { label: 'Discount Calculator' },
       { label: 'Business Loan Calculator', calculatorId: 'business-loan' },
-      { label: 'Personal Loan Calculator' },
-      { label: 'Boat Loan Calculator' },
-      { label: 'Lease Calculator' },
-      { label: 'Budget Calculator' },
-      { label: 'Commission Calculator' }
+
     ]
   }
 ]

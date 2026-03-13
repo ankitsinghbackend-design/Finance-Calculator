@@ -24,6 +24,7 @@ import shieldCheckIcon from '../assets/shield-check.svg'
 import iconChartPie2 from '../assets/icon-chart-pie-2.svg'
 import iconArrowsSplit from '../assets/icon-arrows-split.svg'
 import iconGlobe from '../assets/icon-globe.svg'
+import './CalculatorMarketingSections.android.css'
 
 type ReviewFormState = {
   name: string
@@ -1196,9 +1197,9 @@ export default function CalculatorMarketingSections({
             {howItWorks.map((item) => (
               <article
                 key={item.no}
-                className="relative border border-cardBorder bg-alt rounded-[10px] min-h-[254px] overflow-hidden px-[42px] py-[30px]"
+                className="cms-how-it-works-card relative border border-cardBorder bg-alt rounded-[10px] min-h-[254px] overflow-hidden px-[42px] py-[30px]"
               >
-                <p className="absolute right-5 top-[56px] text-[100px] leading-none font-black text-cardBorder">{item.no}</p>
+                <p className="cms-how-it-works-number absolute right-5 top-[56px] text-[100px] leading-none font-black text-cardBorder">{item.no}</p>
                 <img src={item.icon} alt="icon" className="w-[42px] h-[42px] relative z-10" />
                 <h3 className="mt-4 text-[23px] leading-normal font-medium text-heading relative z-10">{item.title}</h3>
                 <p className="mt-3 text-[16px] leading-[25.6px] text-body relative z-10">{item.body}</p>
@@ -1210,7 +1211,7 @@ export default function CalculatorMarketingSections({
 
       <section className="max-w-[1440px] mx-auto px-6 xl:px-10 py-14 bg-white">
         <div className="grid grid-cols-1 xl:grid-cols-[720px_586px] gap-12 items-center">
-          <div className="h-[378px] rounded-2xl overflow-hidden">
+          <div className="cms-finance-image h-[378px] rounded-2xl overflow-hidden">
             <img src={financeVisualImg} alt="finance calculator visual" className="w-full h-full object-cover" />
           </div>
           <div>
@@ -1313,7 +1314,7 @@ export default function CalculatorMarketingSections({
                 ))
               })()}
             </div>
-            <div className="space-y-5 w-[586px]">
+            <div className="cms-feature-items space-y-5 w-full xl:w-[586px]">
               {(() => {
                 const keys = Object.keys(featureMap)
                 let match = ''
@@ -1353,7 +1354,7 @@ export default function CalculatorMarketingSections({
             ['Secure & Private Usage', 'Fill in values like amount, interest rate, or time period to process accurate calculations.', iconShieldBlue],
             ['Free & Always Accessible', 'Get clear payment breakdowns and projections to make smarter financial decisions instantly.', iconLaptop]
           ].map(([title, body, icon]) => (
-            <article key={title} className="bg-alt border border-cardBorder rounded-[10px] p-5 min-h-[254px]">
+            <article key={title} className="cms-info-card bg-alt border border-cardBorder rounded-[10px] p-5 min-h-[254px]">
               <img src={icon} alt="icon" className="w-[42px] h-[42px]" />
               <h3 className="text-[23px] leading-tight font-medium text-heading mt-6">{title}</h3>
               <p className="text-[16px] leading-[25.6px] text-body mt-4">{body}</p>
@@ -1375,7 +1376,7 @@ export default function CalculatorMarketingSections({
               <article
                 key={item.title}
                 className={[
-                  'rounded-[10px] border px-[14px] pt-[15px] pb-[14px] min-h-[223px] overflow-hidden flex flex-col',
+                  'cms-benefit-card rounded-[10px] border px-[14px] pt-[15px] pb-[14px] min-h-[223px] overflow-hidden flex flex-col',
                   isFeatured ? 'border-primary bg-primary' : 'border-cardBorder bg-alt'
                 ].join(' ')}
               >
@@ -1436,7 +1437,7 @@ export default function CalculatorMarketingSections({
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-10">
           {additional.map((item) => (
-            <article key={item.title} className="bg-alt border border-cardBorder rounded-[10px] p-5 min-h-[254px]">
+            <article key={item.title} className="cms-info-card bg-alt border border-cardBorder rounded-[10px] p-5 min-h-[254px]">
               <img src={item.icon} alt="" className="w-[42px] h-[42px]" />
               <h3 className="text-[23px] leading-tight font-medium text-heading mt-4">{item.title}</h3>
               <p className="text-[16px] leading-[25.6px] text-body mt-3">{item.body}</p>
@@ -1467,7 +1468,7 @@ export default function CalculatorMarketingSections({
               src={shieldCheckIcon}
               alt=""
               aria-hidden
-              className="absolute right-[11px] top-1/2 -translate-y-1/2 w-[200px] h-[200px] pointer-events-none select-none"
+              className="cms-shield-icon absolute right-[11px] top-1/2 -translate-y-1/2 w-[200px] h-[200px] pointer-events-none select-none"
             />
           </article>
         </div>
@@ -1496,7 +1497,7 @@ export default function CalculatorMarketingSections({
               </div>
               <h2 className="text-[40px] font-semibold text-heading leading-none">Frequently Asked Questions</h2>
             </div>
-            <div className="bg-[rgba(167,243,208,0.2)] border border-cardBorder rounded-2xl p-5 w-full max-w-[360px]">
+            <div className="cms-faq-cta bg-[rgba(167,243,208,0.2)] border border-cardBorder rounded-2xl p-5 w-full max-w-[360px]">
               <p className="text-[19px] font-semibold text-heading">Still have questions?</p>
               <p className="text-[16px] leading-[25.6px] text-body mt-3">Can&apos;t find the answer you’re looking for? Contact us and our team will assist you as soon as possible.</p>
               <button type="button" className="mt-5 bg-white border border-[#e1e6ef] rounded-lg px-4 py-2 text-[#1d2433] font-medium shadow-card">Send Mail ✉</button>
@@ -1651,11 +1652,11 @@ export default function CalculatorMarketingSections({
             <p className="text-[16px] leading-[25.6px] text-sub mt-3">Your feedback helps us improve our financial tools and deliver a better experience for everyone. Share your thoughts, suggestions, or experience using our calculators so we can continue improving our services.</p>
           </div>
 
-          <div className="mt-10 max-w-[1080px] mx-auto bg-cardBorder rounded-[20px] p-6 md:p-10">
+          <div className="cms-review-card mt-10 max-w-[1080px] mx-auto bg-cardBorder rounded-[20px] p-6 md:p-10">
             <h3 className="text-[33px] font-semibold text-heading text-center">Leave a Review</h3>
 
             <form className="mt-10" onSubmit={handleReviewSubmit} noValidate>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="cms-review-fields grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                   <label htmlFor="review-name" className="block text-[16px] font-medium text-sub mb-1.5">Your Name*</label>
                   <input
@@ -1704,7 +1705,7 @@ export default function CalculatorMarketingSections({
 
               <div className="mt-6">
                 <p className="text-[16px] font-medium text-sub">Your Rating*</p>
-                <div className="mt-2 flex items-center gap-1.5" role="radiogroup" aria-label="Select rating">
+                <div className="cms-star-row mt-2 flex items-center gap-1.5" role="radiogroup" aria-label="Select rating">
                   {Array.from({ length: 5 }).map((_, index) => {
                     const ratingValue = index + 1
                     const isActive = ratingValue <= reviewForm.rating
@@ -1742,7 +1743,7 @@ export default function CalculatorMarketingSections({
                 type="submit"
                 disabled={!isReviewFormComplete || isSubmittingReview}
                 className={[
-                  'mt-8 w-full h-[43px] rounded-lg text-[16px] font-medium transition',
+                  'cms-review-submit mt-8 w-full h-[43px] rounded-lg text-[16px] font-medium transition',
                   !isReviewFormComplete || isSubmittingReview
                     ? 'cursor-not-allowed bg-slate-300 text-slate-600'
                     : 'bg-primary text-white hover:bg-primaryDark'

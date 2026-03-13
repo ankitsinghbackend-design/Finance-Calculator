@@ -50,10 +50,8 @@ export default function App(){
   const navigate = useNavigate()
   const { isAuthenticated, isInitializing, user } = useAuth()
 
-  const isCalculatorRoute =
-    location.pathname.startsWith('/calculators/') || location.pathname === '/finance/amortization'
   const isAdminRoute = location.pathname.startsWith('/admin')
-  const shouldHoldProtectedContent = isInitializing && (isCalculatorRoute || isAdminRoute)
+  const shouldHoldProtectedContent = isInitializing && isAdminRoute
 
   const accessPrompt = (() => {
     if (isInitializing || location.pathname === '/login') {
@@ -81,17 +79,6 @@ export default function App(){
           secondaryLabel: 'Back to Home',
           onSecondary: () => navigate('/')
         }
-      }
-    }
-
-    if (isCalculatorRoute && !isAuthenticated) {
-      return {
-        title: 'Login required',
-        description: 'Please login or create your account to access calculators and continue to this page.',
-        primaryLabel: 'Login / Sign Up',
-        onPrimary: () => navigate('/login?mode=signup', { state: { from: location.pathname + location.search } }),
-        secondaryLabel: 'Back to Home',
-        onSecondary: () => navigate('/')
       }
     }
 

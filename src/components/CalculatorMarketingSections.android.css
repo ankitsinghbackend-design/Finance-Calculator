@@ -1,0 +1,165 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Android-specific responsiveness for CalculatorMarketingSections
+   Covers every section from "How It Works" through "Leave a Review".
+   Mirrors the strategy used in Home.android.css.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Base tweaks for common Android handset widths (≤ 480 px) ── */
+@media only screen and (max-width: 480px) {
+
+  /* ── GLOBAL TYPOGRAPHY ───────────────────────────────────────────────── */
+  .calculator-marketing-sections h2 {
+    font-size: 26px !important;
+    line-height: 1.25 !important;
+  }
+
+  /* Large "Leave a Review" / "Share Your Experience" h3 */
+  .calculator-marketing-sections h3.text-\[33px\] {
+    font-size: 22px !important;
+  }
+
+  .calculator-marketing-sections p {
+    font-size: 14px !important;
+    line-height: 1.65 !important;
+  }
+
+  /* Improve tap targets on Android */
+  .calculator-marketing-sections a,
+  .calculator-marketing-sections button {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.08);
+  }
+
+  /* ── HOW IT WORKS SECTION ────────────────────────────────────────────── */
+
+  /* Card: reduce the large desktop padding to something comfortable */
+  .calculator-marketing-sections .cms-how-it-works-card {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+    min-height: auto !important;
+  }
+
+  /* Big decorative step number (01 / 02 / 03) — scale down */
+  .calculator-marketing-sections .cms-how-it-works-number {
+    font-size: 64px !important;
+    top: 24px !important;
+  }
+
+  /* Step icon */
+  .calculator-marketing-sections .cms-how-it-works-card > img {
+    width: 36px !important;
+    height: 36px !important;
+  }
+
+  /* ── FINANCE VISUAL SECTION ──────────────────────────────────────────── */
+
+  /* Hero image — smaller height so it doesn't dominate the viewport */
+  .calculator-marketing-sections .cms-finance-image {
+    height: 200px !important;
+  }
+
+  /* ── FEATURES SECTION ────────────────────────────────────────────────── */
+
+  /* The fixed-width feature-items column (w-[586px]) would overflow.
+     The component sets w-full on this element; this rule is a safety net. */
+  .calculator-marketing-sections .cms-feature-items {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  /* ── WHY CHOOSE / ADDITIONAL REASONS CARDS ───────────────────────────── */
+
+  /* Reduce card padding and remove forced min-height */
+  .calculator-marketing-sections .cms-info-card {
+    padding: 16px !important;
+    min-height: auto !important;
+  }
+
+  /* ── BENEFITS CARDS ──────────────────────────────────────────────────── */
+  .calculator-marketing-sections .cms-benefit-card {
+    min-height: auto !important;
+  }
+
+  /* ── HOW WE COMPARE TABLE ────────────────────────────────────────────── */
+
+  /* On mobile the grid collapses to 1 column; ensure the column labels
+     are clearly separated so users can tell Finovo vs Competitors apart. */
+  .calculator-marketing-sections .cms-compare-label {
+    font-size: 15px !important;
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+  }
+
+  /* ── PRIVACY & DATA SECURITY ─────────────────────────────────────────── */
+
+  /* The decorative shield background image is too large on mobile */
+  .calculator-marketing-sections .cms-shield-icon {
+    width: 80px !important;
+    height: 80px !important;
+    right: 6px !important;
+  }
+
+  /* ── DISCLAIMER & FAQ SECTIONS ───────────────────────────────────────── */
+
+  /* "Still have questions?" card — ensure it spans full width */
+  .calculator-marketing-sections .cms-faq-cta {
+    max-width: 100% !important;
+  }
+
+  /* ── LEAVE A REVIEW SECTION ──────────────────────────────────────────── */
+
+  /* Review form wrapper card */
+  .calculator-marketing-sections .cms-review-card {
+    padding: 20px !important;
+    border-radius: 16px !important;
+  }
+
+  /* Force name+email fields to a single column (below md breakpoint this is
+     already the case via Tailwind, but this provides an explicit guarantee) */
+  .calculator-marketing-sections .cms-review-fields {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Star rating buttons */
+  .calculator-marketing-sections .cms-star-row button {
+    font-size: 26px !important;
+  }
+
+  /* Review submit button */
+  .calculator-marketing-sections .cms-review-submit {
+    font-size: 15px !important;
+  }
+}
+
+/* ── Narrowest Android handsets (≤ 360 px) ─────────────────────────────────── */
+@media only screen and (max-width: 360px) {
+  .calculator-marketing-sections h2 {
+    font-size: 22px !important;
+  }
+
+  .calculator-marketing-sections h3.text-\[33px\] {
+    font-size: 19px !important;
+  }
+
+  .calculator-marketing-sections p,
+  .calculator-marketing-sections li {
+    font-size: 13px !important;
+  }
+
+  .calculator-marketing-sections .cms-how-it-works-number {
+    font-size: 48px !important;
+  }
+
+  .calculator-marketing-sections .cms-review-card {
+    padding: 14px !important;
+  }
+}
+
+/* ── High-DPI Android screens: keep form inputs readable ───────────────────── */
+@media only screen and (max-width: 480px) and (min-resolution: 2dppx) {
+  .calculator-marketing-sections input,
+  .calculator-marketing-sections textarea {
+    font-size: 16px !important; /* prevents auto-zoom on iOS/Android */
+  }
+}

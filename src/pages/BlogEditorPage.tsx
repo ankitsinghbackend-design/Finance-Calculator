@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
 import TipTapEditor from '../components/TipTapEditor'
+import { useAuth } from '../context/AuthContext'
 
 interface BlogFormState {
   title: string
@@ -29,7 +30,9 @@ const initialState: BlogFormState = {
 export default function BlogEditorPage() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
+  const { user } = useAuth()
   const isEditMode = Boolean(id)
+  const isAdmin = user?.role === 'admin'
 
   const [form, setForm] = useState<BlogFormState>(initialState)
   const [coverUploading, setCoverUploading] = useState(false)
@@ -177,6 +180,18 @@ export default function BlogEditorPage() {
       <div className="container mx-auto px-6 py-20 text-center">
         <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-heading border-r-transparent" />
         <p className="mt-4 text-sub">Loading blog...</p>
+      </div>
+    )
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className="container mx-auto px-6 py-20 max-w-3xl text-center">
+        <h1 className="text-2xl font-bold text-heading mb-3">Admin access only</h1>
+        <p className="text-sub mb-6">Blogs are read-only by default. Only admin users can create or edit posts.</p>
+        <Link to="/blogs" className="inline-block bg-heading text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors">
+          Go to Blogs
+        </Link>
       </div>
     )
   }

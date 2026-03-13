@@ -1,0 +1,102 @@
+/* Android-specific responsiveness for the Home (Landing) page */
+
+/* Base tweaks for all small screens commonly used on Android devices */
+@media only screen and (max-width: 480px) {
+  /* Container adjustments */
+  .home-landing { padding-left: 12px; padding-right: 12px; }
+
+  /* Headings and paragraphs */
+  .home-landing h1 { font-size: 28px; line-height: 1.12; }
+  .home-landing h2 { font-size: 20px; }
+  .home-landing h3 { font-size: 18px; }
+  .home-landing p { font-size: 14px; }
+
+  /* Hide large decorative hero images on small Android screens */
+  .home-landing .hidden.xl\:block { display: none !important; }
+
+  /* Make the main grid single column */
+  .home-landing .grid.grid-cols-1.xl\:grid-cols-\[586px_1fr\] { grid-template-columns: 1fr !important; }
+
+  /* Forms and cards should use full width and reduced padding */
+  .home-landing form { padding: 16px !important; border-radius: 12px !important; }
+  .home-landing .auto-loan-card { border-radius: 28px !important; }
+  .home-landing .max-w-\[516px\], .home-landing .w-full.max-w-\[516px\] { max-width: 100% !important; }
+
+  /* Financial calculator list: 3-column Android layout per Figma */
+  .home-landing .financial-calculators-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    column-gap: 10px !important;
+    row-gap: 12px !important;
+    align-items: start !important;
+  }
+  .home-landing .financial-calculators-grid > div { min-width: 0; }
+  .home-landing .financial-calculators-grid a {
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    line-height: 1.2 !important;
+  }
+  .home-landing .financial-calculators-grid > div:last-child {
+    grid-column: 3;
+    justify-self: end;
+    align-self: end;
+    padding-top: 0 !important;
+  }
+
+  /* Buttons and inputs sizing */
+  .home-landing button, .home-landing input, .home-landing textarea { font-size: 15px !important; }
+  .home-landing button[type="submit"] { height: 44px !important; font-size: 18px !important; }
+
+  /* Spacing reductions */
+  .home-landing .pt-20 { padding-top: 12px !important; }
+  .home-landing .pb-10 { padding-bottom: 12px !important; }
+
+  /* Cards and feature stacks should be compact */
+  .home-landing .rounded-2xl, .home-landing .rounded-[28px] { border-radius: 12px !important; }
+
+  /* Improve tap targets on Android */
+  .home-landing a, .home-landing button { -webkit-tap-highlight-color: rgba(0,0,0,0.08); }
+}
+
+/* Additional narrow handset rules (very small) */
+@media only screen and (max-width: 360px) {
+  .home-landing h1 { font-size: 24px; }
+  .home-landing p, .home-landing li { font-size: 13px; }
+  .home-landing button[type="submit"] { font-size: 16px; }
+}
+
+/* High DPI Android devices: ensure form elements remain readable */
+@media only screen and (max-width: 480px) and (min-resolution: 2dppx) {
+  .home-landing input, .home-landing textarea { font-size: 15px; }
+}
+
+/* Auto loan card specific styles */
+.home-landing .auto-loan-card { background: linear-gradient(180deg, #ffffff 0%, #fbfbfd 100%); }
+.home-landing .auto-loan-card .auto-loan-fields input { border-color: #e6eef4; }
+.home-landing .auto-loan-card .auto-loan-fields label { color: #6b7280; }
+.home-landing .auto-loan-results {
+  border-radius: var(--XL, 16px);
+  border: 1px solid var(--Others-Card-border, #E5E7EB);
+  background: var(--Others-Alternative-Sec, #F9FAFB);
+  box-shadow: 0 2px 6px 0 rgba(205, 205, 205, 0.72);
+}
+
+@media only screen and (max-width: 480px) {
+  .home-landing .auto-loan-card { padding: 20px !important; background: #f9fafb; }
+  .home-landing .auto-loan-card .auto-loan-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    column-gap: 10px !important;
+    row-gap: 20px !important;
+  }
+  .home-landing .auto-loan-card .auto-loan-fields input {
+    height: 42px !important;
+    border-radius: 6px !important;
+    background: #f9fafb !important;
+    border-color: #e5e7eb !important;
+    padding: 8px !important;
+    font-size: 16px !important;
+    color: #4b5563 !important;
+    font-weight: 500 !important;
+  }
+  .home-landing .auto-loan-results { padding: 14px !important; margin-top: 12px; }
+  .home-landing .auto-loan-results p.text-[38px] { font-size: 28px !important; }
+}

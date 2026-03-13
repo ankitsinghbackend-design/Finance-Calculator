@@ -102,6 +102,8 @@ const validateReviewForm = (values: ReviewFormState): ReviewFieldErrors => {
   return errors
 }
 
+import './Home.android.css'
+
 export default function Home(){
   const navigate = useNavigate()
   const { user } = useAuth()
@@ -270,7 +272,7 @@ export default function Home(){
   const [reviewSubmitError, setReviewSubmitError] = useState<string | null>(null)
   const [isSubmittingReview, setIsSubmittingReview] = useState(false)
   const [showReviewSuccessCard, setShowReviewSuccessCard] = useState(false)
-  const [showAuthPrompt, setShowAuthPrompt] = useState<null | 'calculator' | 'feedback'>(null)
+  const [showAuthPrompt, setShowAuthPrompt] = useState<null | 'feedback'>(null)
   const collapsedCalculatorRowCount = 4
 
   const expandedCalculatorColumns = [
@@ -416,11 +418,6 @@ export default function Home(){
   const handleAutoLoanSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    if (!user) {
-      setShowAuthPrompt('calculator')
-      return
-    }
-
     setCalculateError(null)
 
     const raw = {
@@ -495,15 +492,28 @@ export default function Home(){
   }, [user])
 
   return (
-    <div className="bg-alt">
+    <div className="bg-alt home-landing">
+      <style>{`
+        /* Inline Android-friendly overrides (small) */
+        .home-landing .reveal-stagger { will-change: transform, opacity; }
+        .home-landing .bg-alt { background-attachment: scroll; }
+        @media only screen and (max-width: 480px) {
+          .home-landing h1 { font-size: 28px !important; line-height: 1.12 !important; }
+          .home-landing h2, .home-landing h3 { font-size: 20px !important; }
+          .home-landing p { font-size: 14px !important; }
+          .home-landing .max-w-\[1360px\] { padding-left: 12px !important; padding-right: 12px !important; }
+          .home-landing .max-w-\[516px\], .home-landing .w-full.max-w-\[516px\] { max-width: 100% !important; }
+          .home-landing .hidden.xl\:block { display: none !important; }
+          .home-landing .grid.grid-cols-1.xl\:grid-cols-\[586px_1fr\] { grid-template-columns: 1fr !important; }
+          .home-landing .pt-20 { padding-top: 14px !important; }
+          .home-landing form .mt-7 { margin-top: 12px !important; }
+        }
+      `}</style>
+
       {showAuthPrompt ? (
         <AuthAccessModal
           title="Login required"
-          description={
-            showAuthPrompt === 'calculator'
-              ? 'Please login or sign up to use our calculators.'
-              : 'Please login or sign up before submitting feedback.'
-          }
+          description="Please login or sign up before submitting feedback."
           primaryLabel="Login / Sign Up"
           onPrimary={() => navigate('/login?mode=signup', { state: { from: '/' } })}
           secondaryLabel="Maybe later"
@@ -553,11 +563,16 @@ export default function Home(){
               </p>
 
               <form
-                className="mt-5 border border-cardBorder rounded-[28px] p-5 bg-alt w-full max-w-[516px]"
+                className="mt-5 border border-cardBorder rounded-[28px] p-6 bg-alt w-full max-w-[516px] auto-loan-card"
                 onSubmit={handleAutoLoanSubmit}
               >
-                <h3 className="text-[19px] leading-none font-semibold text-heading">Auto Loan Calculator</h3>
-                <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-x-[10px] gap-y-5">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-[19px] leading-none font-semibold text-heading">Auto Loan Calculator</h3>
+                  </div>
+                </div>
+
+                <div className="mt-5 grid grid-cols-2 gap-x-[10px] gap-y-5 auto-loan-fields">
                   {[
                     { label: 'Auto Price', name: 'price', placeholder: '50000' },
                     { label: 'Loan Term (Months)', name: 'termMonths', placeholder: '60' },
@@ -571,7 +586,7 @@ export default function Home(){
                     { label: 'Other Fees', name: 'otherFees', placeholder: '500' }
                   ].map((field) => (
                     <div key={field.name}>
-                      <p className="text-[16px] text-sub font-medium">{field.label}</p>
+                      <label className="block text-[14px] text-sub font-medium">{field.label}</label>
                       <input
                         type="number"
                         step="any"
@@ -580,7 +595,7 @@ export default function Home(){
                         value={autoLoanInputs[field.name as keyof AutoLoanFormState]}
                         onChange={handleInputChange}
                         placeholder={field.placeholder}
-                        className="h-[42px] mt-1.5 w-full rounded-md border border-cardBorder bg-alt px-2 text-[16px] text-sub font-medium"
+                        className="h-[42px] mt-1.5 w-full rounded-[6px] border border-[#e5e7eb] bg-[#f9fafb] px-2 text-[16px] font-medium text-[#4b5563]"
                       />
                     </div>
                   ))}
@@ -588,7 +603,7 @@ export default function Home(){
                 <button
                   type="submit"
                   disabled={isCalculatingAutoLoan}
-                  className="mt-7 w-full h-[46px] rounded-lg bg-primary text-white text-[30px] font-medium shadow-card"
+                  className="mt-7 w-full h-[42px] rounded-[8px] bg-primary px-[14px] py-[9px] text-white text-[16px] font-medium shadow-[0px_4px_4px_0px_rgba(205,205,205,0.32)]"
                 >
                   {isCalculatingAutoLoan ? 'Calculating...' : 'Calculate'}
                 </button>
@@ -600,15 +615,15 @@ export default function Home(){
               </form>
             </div>
 
-            <div className="pt-14 xl:pt-[147px]">
+            <div className="pt-10 xl:pt-[147px]">
               <div className="max-w-[516px] ml-auto">
-                <div className="bg-alt border border-cardBorder rounded-[16px] px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)]">
+                <div className="auto-loan-results px-6 py-8">
                 <div className="text-center">
-                  <p className="text-[16px] font-medium text-sub">Total Monthly Payment</p>
-                  <p className="text-[40px] leading-none font-semibold text-heading mt-3">
-                    <span className="text-sub">$</span>
-                    {' '}{(autoLoanResults?.monthlyPayment ?? 0).toFixed(2)}
+                  <p className="text-[14px] font-medium text-sub">Total Monthly Payment</p>
+                  <p className="text-[38px] leading-none font-bold text-heading mt-2">
+                    {(autoLoanResults?.monthlyPayment ?? 0).toLocaleString(undefined, { style: 'currency', currency: 'USD' })}
                   </p>
+                  <p className="text-[13px] text-sub mt-1">Estimated payment based on inputs</p>
                 </div>
                 <div className="h-px bg-[#a7f3d0] my-10" />
                 <div className="space-y-4 text-[19px]">
@@ -653,7 +668,7 @@ export default function Home(){
             </div>
           </div>
 
-          <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-[repeat(5,minmax(0,1fr))_auto] xl:items-start xl:gap-x-[44px]">
+          <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-[repeat(5,minmax(0,1fr))_auto] xl:items-start xl:gap-x-[44px] financial-calculators-grid">
             {visibleCalculatorColumns.map((col, idx) => (
               <div key={idx} className="min-w-0">
                 <div className="space-y-3 sm:space-y-4">
@@ -686,7 +701,7 @@ export default function Home(){
         <div className="order-last xl:order-none h-[220px] sm:h-[260px] xl:h-[316px] rounded-2xl border border-cardBorder bg-white flex items-center justify-center text-[24px] sm:text-[28px] text-sub">AD.</div>
       </section>
 
-      <section className="bg-alt py-10">
+      <section className="bg-[#f9fafb] py-10">
         <div className="max-w-[1440px] mx-auto px-6 xl:px-10">
           <div className="text-center max-w-[652px] mx-auto">
             <h2 className="text-[40px] font-semibold text-heading">How It Work’s</h2>
@@ -696,7 +711,7 @@ export default function Home(){
             {howItWorks.map((item) => (
               <article
                 key={item.no}
-                className="relative border border-cardBorder bg-alt rounded-[10px] min-h-[254px] overflow-hidden px-[42px] py-[30px]"
+                className="relative border border-cardBorder bg-[#f9fafb] rounded-[10px] min-h-[254px] overflow-hidden px-[42px] py-[30px]"
               >
                 <p className="absolute right-5 top-[56px] text-[100px] leading-none font-black text-cardBorder">{item.no}</p>
                 <img src={item.icon} alt="icon" className="w-[42px] h-[42px] relative z-10" />
@@ -765,7 +780,7 @@ export default function Home(){
             ['Secure & Private Usage', 'Fill in values like amount, interest rate, or time period to process accurate calculations.', iconShieldBlue],
             ['Free & Always Accessible', 'Get clear payment breakdowns and projections to make smarter financial decisions instantly.', iconLaptop]
           ].map(([title, body, icon]) => (
-            <article key={title} className="bg-alt border border-cardBorder rounded-[10px] p-5 min-h-[254px]">
+            <article key={title} className="bg-[#f9fafb] border border-cardBorder rounded-[10px] p-5 min-h-[254px]">
               <img src={icon} alt="icon" className="w-[42px] h-[42px]" />
               <h3 className="text-[23px] leading-tight font-medium text-heading mt-6">{title}</h3>
               <p className="text-[16px] leading-[25.6px] text-body mt-4">{body}</p>

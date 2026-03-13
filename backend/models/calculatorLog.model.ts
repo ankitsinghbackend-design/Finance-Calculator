@@ -8,8 +8,6 @@ export interface CalculatorLogLocation {
 
 export interface CalculatorLogRecord {
   calculatorId: string
-  name: string
-  email: string
   location: CalculatorLogLocation
   inputs: Record<string, unknown>
   results: Record<string, unknown>
@@ -23,19 +21,6 @@ const CalculatorLogSchema = new Schema<CalculatorLogRecord>(
       required: true,
       trim: true,
       maxlength: 120
-    },
-    name: {
-      type: String,
-      required: true,
-      trim: true,
-      maxlength: 120
-    },
-    email: {
-      type: String,
-      required: true,
-      trim: true,
-      lowercase: true,
-      maxlength: 320
     },
     location: {
       country: { type: String, trim: true, default: 'Unknown' },
@@ -63,7 +48,6 @@ const CalculatorLogSchema = new Schema<CalculatorLogRecord>(
 )
 
 CalculatorLogSchema.index({ calculatorId: 1 })
-CalculatorLogSchema.index({ email: 1 })
 CalculatorLogSchema.index({ 'location.country': 1 })
 CalculatorLogSchema.index({ createdAt: -1 })
 
