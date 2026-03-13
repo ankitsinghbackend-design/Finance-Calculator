@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
+import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from 'react'
 import axios from 'axios'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { apiUrl } from '../config/api'
@@ -37,6 +37,11 @@ type ReviewFieldErrors = Partial<Record<'name' | 'email' | 'message' | 'rating',
 
 type CalculatorMarketingSectionsProps = {
   loginRedirectPath: string
+}
+
+type FeatureItem = {
+  title: string
+  body: string
 }
 
 const initialReviewFormState: ReviewFormState = {
@@ -625,7 +630,7 @@ const autoLeaseFeatureList = [
   }
 ]
 
-const featureMap: Record<string, any[]> = {
+const featureMap: Record<string, FeatureItem[]> = {
   salary: salaryFeatureList,
   mortgage: mortgageFeatureList,
   'interest-rate': interestRateFeatureList,
@@ -667,6 +672,45 @@ const featureMap: Record<string, any[]> = {
   annuity: annuityFeatureList,
   rmd: rmdFeatureList,
   'auto-lease': autoLeaseFeatureList
+}
+
+const minimumFeatureCount = 5
+const minimumFeatureBodyLength = 260
+
+const resolveFeatureKey = (pathname: string, loginRedirectPath: string) => {
+  const keys = Object.keys(featureMap)
+
+  for (const key of keys) {
+    if ((loginRedirectPath || '').includes(key) || pathname.includes(key)) {
+      return key
+    }
+  }
+
+  return ''
+}
+
+const normalizeFeatureList = (list: FeatureItem[]) => {
+  const prepared = list.map((item, index) => {
+    const fallback = featureList[index % featureList.length]
+    const trimmedBody = item.body.trim()
+
+    return {
+      title: item.title || fallback.title,
+      body: trimmedBody.length >= minimumFeatureBodyLength ? trimmedBody : fallback.body
+    }
+  })
+
+  if (prepared.length >= minimumFeatureCount) {
+    return prepared
+  }
+
+  const needed = minimumFeatureCount - prepared.length
+  const additional = featureList.slice(0, needed).map((item) => ({
+    title: item.title,
+    body: item.body
+  }))
+
+  return [...prepared, ...additional]
 }
 
 const introMap: Record<string, { title: React.ReactNode; subtitle: string; body1: string; body2?: string }> = {
@@ -1019,6 +1063,16 @@ export default function CalculatorMarketingSections({
   const [showReviewSuccessCard, setShowReviewSuccessCard] = useState(false)
   const [showAuthPrompt, setShowAuthPrompt] = useState<null | 'feedback'>(null)
 
+  const activeFeatureKey = useMemo(
+    () => resolveFeatureKey(location.pathname, loginRedirectPath),
+    [location.pathname, loginRedirectPath]
+  )
+
+  const activeFeatureList = useMemo(() => {
+    const selectedList = activeFeatureKey ? featureMap[activeFeatureKey] : featureList
+    return normalizeFeatureList(selectedList)
+  }, [activeFeatureKey])
+
   const handleReviewInputChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target
 
@@ -1187,7 +1241,7 @@ export default function CalculatorMarketingSections({
         </div>
       ) : null}
 
-      <section className="bg-alt py-10">
+      <section className="cms-how-it-works-section bg-alt py-10">
         <div className="max-w-[1440px] mx-auto px-6 xl:px-10">
           <div className="text-center max-w-[652px] mx-auto">
             <h2 className="text-[40px] font-semibold text-heading">How It Work’s</h2>
@@ -1255,94 +1309,44 @@ export default function CalculatorMarketingSections({
       <section className="max-w-[1440px] mx-auto px-6 xl:px-10 py-2 bg-white" id="features">
         <div className="grid grid-cols-1 xl:grid-cols-[652px_605px] justify-between gap-10">
           <div>
-            {
-              (() => {
-                const keys = Object.keys(featureMap)
-                let match = ''
-                for (const k of keys) {
-                  if ((loginRedirectPath || '').includes(k) || location.pathname.includes(k)) {
-                    match = k
-                    break
-                  }
-                }
-
-                if (match) {
-                  if (match === 'salary') {
-                    return (
-                      <>
-                        <h2 className="text-[40px] leading-tight font-semibold text-heading max-w-[528px]">What the Salary Calculator Helps You Do</h2>
-                        <p className="text-[16px] leading-[25.6px] text-sub mt-3 max-w-[652px]">Quickly translate salary figures into pay periods, adjust for time-off, and plan your monthly budget with confidence.</p>
-                      </>
-                    )
-                  }
-
-                  return (
-                    <>
-                      <h2 className="text-[40px] leading-tight font-semibold text-heading max-w-[528px]">Powerful Features Built for Smart Financial Planning</h2>
-                      <p className="text-[16px] leading-[25.6px] text-sub mt-3 max-w-[652px]">Everything you need to calculate, compare, and plan finances with accuracy and confidence.</p>
-                    </>
-                  )
-                }
-
-                return (
-                  <>
-                    <h2 className="text-[40px] leading-tight font-semibold text-heading max-w-[528px]">Powerful Features Built for Smart Financial Planning</h2>
-                    <p className="text-[16px] leading-[25.6px] text-sub mt-3 max-w-[652px]">Everything you need to calculate, compare, and plan finances with accuracy and confidence.</p>
-                  </>
-                )
-              })()
-            }
+            {activeFeatureKey === 'salary' ? (
+              <>
+                <h2 className="text-[40px] leading-tight font-semibold text-heading max-w-[528px]">What the Salary Calculator Helps You Do</h2>
+                <p className="text-[16px] leading-[25.6px] text-sub mt-3 max-w-[652px]">Quickly translate salary figures into pay periods, adjust for time-off, and plan your monthly budget with confidence.</p>
+              </>
+            ) : (
+              <>
+                <h2 className="text-[40px] leading-tight font-semibold text-heading max-w-[528px]">Powerful Features Built for Smart Financial Planning</h2>
+                <p className="text-[16px] leading-[25.6px] text-sub mt-3 max-w-[652px]">Everything you need to calculate, compare, and plan finances with accuracy and confidence.</p>
+              </>
+            )}
           </div>
           <div className="flex gap-[7px]">
             <div className="w-[12px] flex flex-col items-center shrink-0">
-              {(() => {
-                const keys = Object.keys(featureMap)
-                let match = ''
-                for (const k of keys) {
-                  if ((loginRedirectPath || '').includes(k) || location.pathname.includes(k)) {
-                    match = k
-                    break
-                  }
-                }
-
-                const list = match ? featureMap[match] : featureList
-                return list.map((_, i) => (
+              {activeFeatureList.map((_, i) => (
                 <div key={i} className="contents">
                   <div className="w-3 h-3 rounded-full bg-primary shrink-0" />
-                  {i < list.length - 1 ? <div className="w-[6px] flex-1 bg-primary rounded-full" /> : null}
+                  {i < activeFeatureList.length - 1 ? <div className="w-[6px] flex-1 bg-primary rounded-full" /> : null}
                 </div>
-                ))
-              })()}
+              ))}
             </div>
             <div className="cms-feature-items space-y-5 w-full xl:w-[586px]">
-              {(() => {
-                const keys = Object.keys(featureMap)
-                let match = ''
-                for (const k of keys) {
-                  if ((loginRedirectPath || '').includes(k) || location.pathname.includes(k)) {
-                    match = k
-                    break
-                  }
-                }
-
-                const list = match ? featureMap[match] : featureList
-                return list.map((item, index) => (
+              {activeFeatureList.map((item, index) => (
                 <div
-                  key={item.title}
+                  key={`${item.title}-${index}`}
                   className="reveal-stagger"
                   style={{ transitionDelay: `${index * 200}ms` }}
                 >
                   <h3 className="text-[19px] font-semibold text-heading">{item.title}</h3>
                   <p className="text-[16px] leading-[25.6px] text-body mt-2">{item.body}</p>
                 </div>
-                ))
-              })()}
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      <section className="max-w-[1440px] mx-auto px-6 xl:px-10 py-16 bg-white" id="faqs">
+      <section className="cms-why-choose-section max-w-[1440px] mx-auto px-6 xl:px-10 py-16 bg-white" id="faqs">
         <div className="text-center max-w-[652px] mx-auto">
           <h2 className="text-[40px] font-semibold text-heading">Why Choose Our Platform?</h2>
           <p className="text-[16px] leading-[25.6px] text-sub mt-3">We provide fast, accurate, and easy-to-use financial calculators designed to help everyone make smarter financial decisions with confidence.</p>
@@ -1399,28 +1403,28 @@ export default function CalculatorMarketingSections({
         </div>
       </section>
 
-      <section className="bg-alt py-12 mt-10">
+      <section className="cms-compare-section bg-alt py-12 mt-10">
         <div className="max-w-[1440px] mx-auto px-6 xl:px-10">
           <div className="text-center max-w-[652px] mx-auto">
-            <h2 className="text-[40px] font-semibold text-heading">How We Compare to Others</h2>
-            <p className="text-[16px] leading-[25.6px] text-sub mt-3">See why users prefer our platform for faster, simpler, and more reliable financial calculations.</p>
+            <h2 className="cms-compare-heading text-[40px] font-semibold text-heading">How We Compare to Others</h2>
+            <p className="cms-compare-sub text-[16px] leading-[25.6px] text-sub mt-3">See why users prefer our platform for faster, simpler, and more reliable financial calculations.</p>
           </div>
 
-          <div className="mt-10 border-t border-cardBorder">
-            <div className="grid grid-cols-1 md:grid-cols-[220px_1fr_1fr] xl:grid-cols-[274px_374px_374px] xl:justify-between text-center py-5 border-b border-cardBorder gap-4 xl:gap-0">
+          <div className="cms-compare-table mt-10 border-t border-cardBorder">
+            <div className="cms-compare-header grid grid-cols-1 md:grid-cols-[220px_1fr_1fr] xl:grid-cols-[274px_374px_374px] xl:justify-between text-center py-5 border-b border-cardBorder gap-4 xl:gap-0">
               <div />
-              <div className="text-primary text-[28px] font-bold">Finovo</div>
-              <div className="text-sub text-[19px] font-semibold">Other Competitors</div>
+              <div className="cms-compare-finovo text-primary text-[28px] font-bold">Finovo</div>
+              <div className="cms-compare-other text-sub text-[19px] font-semibold">Other Competitors</div>
             </div>
 
             {compareRows.map((row, i) => (
-              <div key={i} className="grid grid-cols-1 md:grid-cols-[220px_1fr_1fr] xl:grid-cols-[274px_374px_374px] xl:justify-between py-4 border-b border-cardBorder gap-4 xl:gap-0">
-                <p className="text-[19px] text-sub font-semibold">{row.left}</p>
-                <div className="flex items-start gap-2 text-body text-[16px] leading-[25.6px] max-w-[374px]">
+              <div key={i} className="cms-compare-row grid grid-cols-1 md:grid-cols-[220px_1fr_1fr] xl:grid-cols-[274px_374px_374px] xl:justify-between py-4 border-b border-cardBorder gap-4 xl:gap-0">
+                <p className="cms-compare-label text-[19px] text-sub font-semibold">{row.left}</p>
+                <div className="cms-compare-item flex items-start gap-2 text-body text-[16px] leading-[25.6px] max-w-[374px]">
                   <span className="text-primary">✓</span>
                   <p>{row.finovo}</p>
                 </div>
-                <div className="flex items-start gap-2 text-body text-[16px] leading-[25.6px] max-w-[374px]">
+                <div className="cms-compare-item flex items-start gap-2 text-body text-[16px] leading-[25.6px] max-w-[374px]">
                   <span className={row.otherBad ? 'text-sub' : 'text-primary'}>{row.otherBad ? '✕' : '✓'}</span>
                   <p>{row.other}</p>
                 </div>

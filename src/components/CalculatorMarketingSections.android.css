@@ -38,6 +38,13 @@
     padding-top: 20px !important;
     padding-bottom: 20px !important;
     min-height: auto !important;
+    border-radius: var(--S, 10px) !important;
+    border: 1px solid var(--Others-Card-border, #E5E7EB) !important;
+    background: var(--Others-Alternative-Sec, #F9FAFB) !important;
+  }
+
+  .calculator-marketing-sections .cms-how-it-works-section {
+    background: var(--Others-Alternative-Sec, #F9FAFB) !important;
   }
 
   /* Big decorative step number (01 / 02 / 03) — scale down */
@@ -74,6 +81,9 @@
   .calculator-marketing-sections .cms-info-card {
     padding: 16px !important;
     min-height: auto !important;
+    border-radius: var(--S, 10px) !important;
+    border: 1px solid var(--Others-Card-border, #E5E7EB) !important;
+    background: var(--Others-Alternative-Sec, #F9FAFB) !important;
   }
 
   /* ── BENEFITS CARDS ──────────────────────────────────────────────────── */
@@ -89,6 +99,90 @@
     font-size: 15px !important;
     padding-top: 2px !important;
     padding-bottom: 2px !important;
+  }
+
+  /* How we compare to others — exact mobile style from Figma node 238:13193 */
+  .calculator-marketing-sections .cms-compare-section {
+    background: var(--Others-Alternative-Sec, #F9FAFB) !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+  }
+
+  .calculator-marketing-sections .cms-compare-heading {
+    font-size: 28px !important;
+    font-weight: 500 !important;
+    line-height: 1 !important;
+    color: #111827 !important;
+  }
+
+  .calculator-marketing-sections .cms-compare-sub {
+    margin-top: 12px !important;
+    font-size: 16px !important;
+    line-height: 25.6px !important;
+    color: #4B5563 !important;
+  }
+
+  .calculator-marketing-sections .cms-compare-table {
+    margin-top: 20px !important;
+    border-top: 0 !important;
+  }
+
+  .calculator-marketing-sections .cms-compare-header {
+    gap: 12px !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    border-bottom-width: 0.5px !important;
+    border-color: #E5E7EB !important;
+    text-align: left !important;
+  }
+
+  .calculator-marketing-sections .cms-compare-finovo {
+    font-size: 12px !important;
+    line-height: 1 !important;
+    font-weight: 700 !important;
+  }
+
+  .calculator-marketing-sections .cms-compare-other {
+    font-size: 12px !important;
+    line-height: 1 !important;
+    font-weight: 600 !important;
+    color: #4B5563 !important;
+  }
+
+  .calculator-marketing-sections .cms-compare-row {
+    gap: 12px !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    border-bottom-width: 0.5px !important;
+    border-color: #E5E7EB !important;
+  }
+
+  .calculator-marketing-sections .cms-compare-label {
+    font-size: 12px !important;
+    line-height: 1 !important;
+    font-weight: 600 !important;
+    color: #4B5563 !important;
+    text-align: left !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .calculator-marketing-sections .cms-compare-item {
+    gap: 5px !important;
+    max-width: none !important;
+    align-items: center !important;
+  }
+
+  .calculator-marketing-sections .cms-compare-item span {
+    font-size: 12px !important;
+    line-height: 1 !important;
+  }
+
+  .calculator-marketing-sections .cms-compare-item p {
+    width: 170px !important;
+    font-size: 12px !important;
+    line-height: 12.8px !important;
+    color: #4B5563 !important;
   }
 
   /* ── PRIVACY & DATA SECURITY ─────────────────────────────────────────── */
@@ -113,6 +207,9 @@
   .calculator-marketing-sections .cms-review-card {
     padding: 20px !important;
     border-radius: 16px !important;
+    border: 1px solid var(--Others-Card-border, #E5E7EB) !important;
+    background: var(--Others-Alternative-Sec, #F9FAFB) !important;
+    box-shadow: 0 2px 6px 0 rgba(205, 205, 205, 0.72) !important;
   }
 
   /* Force name+email fields to a single column (below md breakpoint this is

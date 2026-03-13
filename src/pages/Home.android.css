@@ -99,4 +99,172 @@
   }
   .home-landing .auto-loan-results { padding: 14px !important; margin-top: 12px; }
   .home-landing .auto-loan-results p.text-[38px] { font-size: 28px !important; }
+
+  /* 1) All result cards style */
+  .home-landing .auto-loan-results {
+    border-radius: var(--XL, 16px) !important;
+    border: 1px solid var(--Others-Card-border, #E5E7EB) !important;
+    background: var(--Others-Alternative-Sec, #F9FAFB) !important;
+    box-shadow: 0 2px 6px 0 rgba(205, 205, 205, 0.72) !important;
+  }
+
+  /* 2) How it works exact background */
+  .home-landing .home-how-it-works {
+    background: var(--Others-Alternative-Sec, #F9FAFB) !important;
+  }
+
+  .home-landing .home-how-card {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+    min-height: auto !important;
+    border-radius: var(--S, 10px) !important;
+    border: 1px solid var(--Others-Card-border, #E5E7EB) !important;
+    background: var(--Others-Alternative-Sec, #F9FAFB) !important;
+  }
+
+  .home-landing .home-how-card > img {
+    width: 36px !important;
+    height: 36px !important;
+  }
+
+  .home-landing .home-how-card > p.absolute {
+    font-size: 64px !important;
+    top: 24px !important;
+  }
+
+  .home-landing .home-finance-image {
+    height: 200px !important;
+  }
+
+  .home-landing .home-feature-items {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  /* 3) Why choose cards exact style */
+  .home-landing .home-why-card {
+    padding: 16px !important;
+    min-height: auto !important;
+    border-radius: var(--S, 10px) !important;
+    border: 1px solid var(--Others-Card-border, #E5E7EB) !important;
+    background: var(--Others-Alternative-Sec, #F9FAFB) !important;
+  }
+
+  .home-landing .home-benefit-card {
+    min-height: auto !important;
+  }
+
+  /* 4) How we compare to others — mobile exact from Figma 238:13193 */
+  .home-landing .home-compare {
+    background: var(--Others-Alternative-Sec, #F9FAFB) !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+  }
+
+  .home-landing .home-compare-heading {
+    font-size: 28px !important;
+    font-weight: 500 !important;
+    line-height: 1 !important;
+    color: #111827 !important;
+  }
+
+  .home-landing .home-compare-sub {
+    margin-top: 12px !important;
+    font-size: 16px !important;
+    line-height: 25.6px !important;
+    color: #4B5563 !important;
+  }
+
+  .home-landing .home-compare-table {
+    margin-top: 20px !important;
+    border-top: 0 !important;
+  }
+
+  .home-landing .home-compare-header {
+    gap: 12px !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    border-bottom-width: 0.5px !important;
+    border-color: #E5E7EB !important;
+    text-align: left !important;
+  }
+
+  .home-landing .home-compare-finovo {
+    font-size: 12px !important;
+    line-height: 1 !important;
+    font-weight: 700 !important;
+  }
+
+  .home-landing .home-compare-other {
+    font-size: 12px !important;
+    line-height: 1 !important;
+    font-weight: 600 !important;
+    color: #4B5563 !important;
+  }
+
+  .home-landing .home-compare-row {
+    gap: 12px !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    border-bottom-width: 0.5px !important;
+    border-color: #E5E7EB !important;
+  }
+
+  .home-landing .home-compare-label {
+    font-size: 12px !important;
+    line-height: 1 !important;
+    font-weight: 600 !important;
+    color: #4B5563 !important;
+    text-align: left !important;
+  }
+
+  .home-landing .home-compare-item {
+    gap: 5px !important;
+    max-width: none !important;
+    align-items: center !important;
+  }
+
+  .home-landing .home-compare-item span {
+    font-size: 12px !important;
+    line-height: 1 !important;
+  }
+
+  .home-landing .home-compare-item p {
+    width: 170px !important;
+    font-size: 12px !important;
+    line-height: 12.8px !important;
+    color: #4B5563 !important;
+  }
+
+  .home-landing .absolute.right-\[11px\].top-1\/2.-translate-y-1\/2.w-\[200px\].h-\[200px\] {
+    width: 80px !important;
+    height: 80px !important;
+    right: 6px !important;
+  }
+
+  .home-landing .home-faq-cta {
+    max-width: 100% !important;
+  }
+
+  .home-landing .home-review-card {
+    padding: 20px !important;
+    border-radius: 16px !important;
+    border: 1px solid var(--Others-Card-border, #E5E7EB) !important;
+    background: var(--Others-Alternative-Sec, #F9FAFB) !important;
+    box-shadow: 0 2px 6px 0 rgba(205, 205, 205, 0.72) !important;
+  }
+
+  .home-landing .home-review-fields {
+    grid-template-columns: 1fr !important;
+  }
+
+  .home-landing .home-star-row button {
+    font-size: 26px !important;
+  }
+
+  .home-landing .home-review-submit {
+    font-size: 15px !important;
+  }
 }

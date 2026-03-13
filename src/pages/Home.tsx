@@ -701,7 +701,10 @@ export default function Home(){
         <div className="order-last xl:order-none h-[220px] sm:h-[260px] xl:h-[316px] rounded-2xl border border-cardBorder bg-white flex items-center justify-center text-[24px] sm:text-[28px] text-sub">AD.</div>
       </section>
 
-      <section className="bg-[#f9fafb] py-10">
+      <section
+        className="home-how-it-works py-10"
+        style={{ background: 'var(--Others-Alternative-Sec, #F9FAFB)' }}
+      >
         <div className="max-w-[1440px] mx-auto px-6 xl:px-10">
           <div className="text-center max-w-[652px] mx-auto">
             <h2 className="text-[40px] font-semibold text-heading">How It Work’s</h2>
@@ -711,7 +714,8 @@ export default function Home(){
             {howItWorks.map((item) => (
               <article
                 key={item.no}
-                className="relative border border-cardBorder bg-[#f9fafb] rounded-[10px] min-h-[254px] overflow-hidden px-[42px] py-[30px]"
+                className="home-how-card relative border border-cardBorder rounded-[10px] min-h-[254px] overflow-hidden px-[42px] py-[30px]"
+                style={{ background: 'var(--Others-Alternative-Sec, #F9FAFB)' }}
               >
                 <p className="absolute right-5 top-[56px] text-[100px] leading-none font-black text-cardBorder">{item.no}</p>
                 <img src={item.icon} alt="icon" className="w-[42px] h-[42px] relative z-10" />
@@ -725,7 +729,7 @@ export default function Home(){
 
       <section className="max-w-[1440px] mx-auto px-6 xl:px-10 py-14">
         <div className="grid grid-cols-1 xl:grid-cols-[720px_586px] gap-12 items-center">
-          <div className="h-[378px] rounded-2xl overflow-hidden">
+          <div className="home-finance-image h-[378px] rounded-2xl overflow-hidden">
             <img src={financeVisualImg} alt="finance calculator visual" className="w-full h-full object-cover" />
           </div>
           <div>
@@ -752,7 +756,7 @@ export default function Home(){
                 </React.Fragment>
               ))}
             </div>
-            <div className="space-y-5 w-[586px]">
+            <div className="home-feature-items space-y-5 w-[586px]">
               {featureList.map((item, index) => (
                 <div
                   key={item.title}
@@ -768,7 +772,7 @@ export default function Home(){
         </div>
       </section>
 
-      <section className="max-w-[1440px] mx-auto px-6 xl:px-10 py-16" id="faqs">
+      <section className="home-why-choose max-w-[1440px] mx-auto px-6 xl:px-10 py-16" id="faqs">
         <div className="text-center max-w-[652px] mx-auto">
           <h2 className="text-[40px] font-semibold text-heading">Why Choose Our Platform?</h2>
           <p className="text-[16px] leading-[25.6px] text-sub mt-3">We provide fast, accurate, and easy-to-use financial calculators designed to help everyone make smarter financial decisions with confidence.</p>
@@ -780,7 +784,7 @@ export default function Home(){
             ['Secure & Private Usage', 'Fill in values like amount, interest rate, or time period to process accurate calculations.', iconShieldBlue],
             ['Free & Always Accessible', 'Get clear payment breakdowns and projections to make smarter financial decisions instantly.', iconLaptop]
           ].map(([title, body, icon]) => (
-            <article key={title} className="bg-[#f9fafb] border border-cardBorder rounded-[10px] p-5 min-h-[254px]">
+            <article key={title} className="home-why-card bg-[#f9fafb] border border-cardBorder rounded-[10px] p-5 min-h-[254px]">
               <img src={icon} alt="icon" className="w-[42px] h-[42px]" />
               <h3 className="text-[23px] leading-tight font-medium text-heading mt-6">{title}</h3>
               <p className="text-[16px] leading-[25.6px] text-body mt-4">{body}</p>
@@ -802,7 +806,7 @@ export default function Home(){
               <article
                 key={item.title}
                 className={[
-                  'rounded-[10px] border px-[14px] pt-[15px] pb-[14px] min-h-[223px] overflow-hidden flex flex-col',
+                  'home-benefit-card rounded-[10px] border px-[14px] pt-[15px] pb-[14px] min-h-[223px] overflow-hidden flex flex-col',
                   isFeatured ? 'border-primary bg-primary' : 'border-cardBorder bg-alt'
                 ].join(' ')}
               >
@@ -825,28 +829,28 @@ export default function Home(){
         </div>
       </section>
 
-      <section className="bg-alt py-12 mt-10">
+      <section className="home-compare bg-alt py-12 mt-10">
         <div className="max-w-[1440px] mx-auto px-6 xl:px-10">
           <div className="text-center max-w-[652px] mx-auto">
-            <h2 className="text-[40px] font-semibold text-heading">How We Compare to Others</h2>
-            <p className="text-[16px] leading-[25.6px] text-sub mt-3">See why users prefer our platform for faster, simpler, and more reliable financial calculations.</p>
+            <h2 className="home-compare-heading text-[40px] font-semibold text-heading">How We Compare to Others</h2>
+            <p className="home-compare-sub text-[16px] leading-[25.6px] text-sub mt-3">See why users prefer our platform for faster, simpler, and more reliable financial calculations.</p>
           </div>
 
-          <div className="mt-10 border-t border-cardBorder">
-            <div className="grid grid-cols-1 md:grid-cols-[220px_1fr_1fr] xl:grid-cols-[274px_374px_374px] xl:justify-between text-center py-5 border-b border-cardBorder gap-4 xl:gap-0">
+          <div className="home-compare-table mt-10 border-t border-cardBorder">
+            <div className="home-compare-header grid grid-cols-1 md:grid-cols-[220px_1fr_1fr] xl:grid-cols-[274px_374px_374px] xl:justify-between text-center py-5 border-b border-cardBorder gap-4 xl:gap-0">
               <div />
-              <div className="text-primary text-[28px] font-bold">Finovo</div>
-              <div className="text-sub text-[19px] font-semibold">Other Competitors</div>
+              <div className="home-compare-finovo text-primary text-[28px] font-bold">Finovo</div>
+              <div className="home-compare-other text-sub text-[19px] font-semibold">Other Competitors</div>
             </div>
 
             {compareRows.map((row, i) => (
-              <div key={i} className="grid grid-cols-1 md:grid-cols-[220px_1fr_1fr] xl:grid-cols-[274px_374px_374px] xl:justify-between py-4 border-b border-cardBorder gap-4 xl:gap-0">
-                <p className="text-[19px] text-sub font-semibold">{row.left}</p>
-                <div className="flex items-start gap-2 text-body text-[16px] leading-[25.6px] max-w-[374px]">
+              <div key={i} className="home-compare-row grid grid-cols-1 md:grid-cols-[220px_1fr_1fr] xl:grid-cols-[274px_374px_374px] xl:justify-between py-4 border-b border-cardBorder gap-4 xl:gap-0">
+                <p className="home-compare-label text-[19px] text-sub font-semibold">{row.left}</p>
+                <div className="home-compare-item flex items-start gap-2 text-body text-[16px] leading-[25.6px] max-w-[374px]">
                   <span className="text-primary">✓</span>
                   <p>{row.finovo}</p>
                 </div>
-                <div className="flex items-start gap-2 text-body text-[16px] leading-[25.6px] max-w-[374px]">
+                <div className="home-compare-item flex items-start gap-2 text-body text-[16px] leading-[25.6px] max-w-[374px]">
                   <span className={row.otherBad ? 'text-sub' : 'text-primary'}>{row.otherBad ? '✕' : '✓'}</span>
                   <p>{row.other}</p>
                 </div>
@@ -856,14 +860,14 @@ export default function Home(){
         </div>
       </section>
 
-      <section className="max-w-[1440px] mx-auto px-6 xl:px-10 py-16">
+      <section className="home-additional max-w-[1440px] mx-auto px-6 xl:px-10 py-16">
         <div className="max-w-[528px]">
           <h2 className="text-[40px] leading-tight font-semibold text-heading">Additional Reasons to Use Our Platforms.</h2>
           <p className="text-[16px] leading-[25.6px] text-sub mt-3">Discover additional advantages that make our platform smarter and more convenient for everyday financial planning.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-10">
           {additional.map((item) => (
-            <article key={item.title} className="bg-alt border border-cardBorder rounded-[10px] p-5 min-h-[254px]">
+            <article key={item.title} className="home-why-card bg-alt border border-cardBorder rounded-[10px] p-5 min-h-[254px]">
               <img src={item.icon} alt="" className="w-[42px] h-[42px]" />
               <h3 className="text-[23px] leading-tight font-medium text-heading mt-4">{item.title}</h3>
               <p className="text-[16px] leading-[25.6px] text-body mt-3">{item.body}</p>
@@ -923,7 +927,7 @@ export default function Home(){
               </div>
               <h2 className="text-[40px] font-semibold text-heading leading-none">Frequently Asked Questions</h2>
             </div>
-            <div className="bg-[rgba(167,243,208,0.2)] border border-cardBorder rounded-2xl p-5 w-full max-w-[360px]">
+            <div className="home-faq-cta bg-[rgba(167,243,208,0.2)] border border-cardBorder rounded-2xl p-5 w-full max-w-[360px]">
               <p className="text-[19px] font-semibold text-heading">Still have questions?</p>
               <p className="text-[16px] leading-[25.6px] text-body mt-3">Can&apos;t find the answer you’re looking for? Contact us and our team will assist you as soon as possible.</p>
               <button className="mt-5 bg-white border border-[#e1e6ef] rounded-lg px-4 py-2 text-[#1d2433] font-medium shadow-card">Send Mail ✉</button>
@@ -1080,11 +1084,11 @@ export default function Home(){
             <p className="text-[16px] leading-[25.6px] text-sub mt-3">Your feedback helps us improve our financial tools and deliver a better experience for everyone. Share your thoughts, suggestions, or experience using our calculators so we can continue improving our services.</p>
           </div>
 
-          <div className="mt-10 max-w-[1080px] mx-auto bg-cardBorder rounded-[20px] p-6 md:p-10">
+          <div className="home-review-card mt-10 max-w-[1080px] mx-auto bg-cardBorder rounded-[20px] p-6 md:p-10">
             <h3 className="text-[33px] font-semibold text-heading text-center">Leave a Review</h3>
 
             <form className="mt-10" onSubmit={handleReviewSubmit} noValidate>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="home-review-fields grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                   <label htmlFor="review-name" className="block text-[16px] font-medium text-sub mb-1.5">Your Name*</label>
                   <input
@@ -1133,7 +1137,7 @@ export default function Home(){
 
               <div className="mt-6">
                 <p className="text-[16px] font-medium text-sub">Your Rating*</p>
-                <div className="mt-2 flex items-center gap-1.5" role="radiogroup" aria-label="Select rating">
+                <div className="home-star-row mt-2 flex items-center gap-1.5" role="radiogroup" aria-label="Select rating">
                   {Array.from({ length: 5 }).map((_, index) => {
                     const ratingValue = index + 1
                     const isActive = ratingValue <= reviewForm.rating
@@ -1171,7 +1175,7 @@ export default function Home(){
                 type="submit"
                 disabled={!isReviewFormComplete || isSubmittingReview}
                 className={[
-                  'mt-8 w-full h-[43px] rounded-lg text-[16px] font-medium transition',
+                  'home-review-submit mt-8 w-full h-[43px] rounded-lg text-[16px] font-medium transition',
                   !isReviewFormComplete || isSubmittingReview
                     ? 'cursor-not-allowed bg-slate-300 text-slate-600'
                     : 'bg-primary text-white hover:bg-primaryDark'

@@ -2,6 +2,7 @@ import React, { FormEvent, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
 import heroGraphicSvg from '../assets/hero-graphic.svg'
+import CalculatorMarketingSections from '../components/CalculatorMarketingSections'
 
 type K401FormState = {
   currentAge: string
@@ -179,6 +180,7 @@ export default function K401CalculatorPage() {
   }
 
   return (
+    <>
     <section className="bg-[#f5f7fa] relative overflow-hidden">
       {/* Hero graphic — page-level background decoration */}
       <img
@@ -284,5 +286,8 @@ export default function K401CalculatorPage() {
         </div>
       </div>
     </section>
+
+    <CalculatorMarketingSections loginRedirectPath="/calculators/401k" />
+    </>
   )
 }
