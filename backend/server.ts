@@ -1,4 +1,5 @@
 import path from 'node:path'
+import fs from 'node:fs'
 import dotenv from 'dotenv'
 dotenv.config({ path: path.resolve(process.cwd(), 'backend/.env') })
 
@@ -24,6 +25,28 @@ app.get('/api/health', (_req, res) => {
     service: 'finance-calculator-backend',
     dbState: mongoose.connection.readyState
   })
+})
+
+app.use((req, res) => {
+  if (req.path.startsWith('/api/')) {
+    res.status(404).json({ error: 'Not found' })
+    return
+  }
+
+  const candidates = [
+    path.resolve(process.cwd(), 'public/404.html'),
+    path.resolve(process.cwd(), 'backend/public/404.html'),
+    path.join(__dirname, 'public/404.html')
+  ]
+
+  const notFoundPage = candidates.find((filePath) => fs.existsSync(filePath))
+
+  if (notFoundPage) {
+    res.status(404).sendFile(notFoundPage)
+    return
+  }
+
+  res.status(404).send('Page Not Found')
 })
 
 async function startServer() {

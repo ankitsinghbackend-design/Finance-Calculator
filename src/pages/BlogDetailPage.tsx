@@ -66,10 +66,15 @@ export default function BlogDetailPage() {
 
         setBlog(blogData)
         setSuggestedBlogs(suggestionsData)
-      } catch {
+      } catch (requestError) {
         setBlog(null)
         setSuggestedBlogs([])
-        setError('Blog post not found')
+
+        if (axios.isAxiosError(requestError) && requestError.response?.status === 410) {
+          setError('This content has been permanently removed.')
+        } else {
+          setError('Blog post not found')
+        }
       } finally {
         setLoading(false)
       }

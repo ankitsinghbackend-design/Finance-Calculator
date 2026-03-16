@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+Disallow: /api/
+Disallow: /admin/
+Disallow: /private/
+Disallow: /internal/
+
+Allow: /blog/
+Allow: /calculators/
+Allow: /finance/
+Allow: /tools/
+
+Sitemap: https://finance-calculator-blond.vercel.app/sitemap.xml

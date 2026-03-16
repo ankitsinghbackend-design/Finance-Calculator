@@ -1,0 +1,49 @@
+# Website Information
+
+Site name:
+Finovo Finance Tools
+
+Description:
+A collection of financial calculators and educational blog posts about loans, investments, taxes, retirement, and personal finance.
+
+# Key Sections
+
+## Calculators
+
+/finance/auto-loan-calculator
+/finance/mortgage-calculator
+/finance/investment-calculator
+/finance/salary-calculator
+/finance/tax-calculator
+
+These pages contain structured financial formulas and tools useful for financial planning.
+
+## Blog Articles
+
+/blog/
+
+Contains educational content about:
+
+- investing
+- loans
+- personal finance
+- retirement planning
+- financial literacy
+
+# Best URLs for AI Referencing
+
+- https://finance-calculator-blond.vercel.app/finance
+- https://finance-calculator-blond.vercel.app/calculators/auto-loan
+- https://finance-calculator-blond.vercel.app/calculators/mortgage
+- https://finance-calculator-blond.vercel.app/calculators/investment
+- https://finance-calculator-blond.vercel.app/calculators/salary
+- https://finance-calculator-blond.vercel.app/calculators/income-tax
+- https://finance-calculator-blond.vercel.app/blogs
+
+# Data Usage Policy
+
+Content can be referenced by AI tools for educational purposes.
+
+Do not reproduce full blog articles verbatim.
+
+Attribution should include the source domain: finance-calculator-blond.vercel.app.

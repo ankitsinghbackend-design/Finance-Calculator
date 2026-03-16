@@ -96,10 +96,15 @@ export async function getAllBlogs(_req: Request, res: Response): Promise<void> {
 export async function getBlogBySlug(req: Request, res: Response): Promise<void> {
   try {
     const { slug } = req.params
-    const blog = await Blog.findOne({ slug }).lean()
+    const blog = await Blog.findOne({ slug }).lean<{ isPublished: boolean } & Record<string, unknown> | null>()
 
     if (!blog) {
       res.status(404).json({ error: 'Blog not found' })
+      return
+    }
+
+    if (!blog.isPublished) {
+      res.status(410).json({ error: 'Content removed' })
       return
     }
 

@@ -42,6 +42,7 @@ import BlogListPage from './pages/BlogListPage'
 import BlogDetailPage from './pages/BlogDetailPage'
 import BlogEditorPage from './pages/BlogEditorPage'
 import AuthPage from './pages/AuthPage'
+import NotFoundPage from './pages/NotFoundPage'
 import AuthAccessModal from './components/AuthAccessModal'
 import { useAuth } from './context/AuthContext'
 
@@ -137,6 +138,7 @@ export default function App(){
               <Route path="/blogs/:slug" element={<BlogDetailPage/>} />
               <Route path="/admin/blog-editor" element={<BlogEditorPage/>} />
               <Route path="/admin/blog-editor/:id" element={<BlogEditorPage/>} />
+              <Route path="*" element={<NotFoundPage />} />
             </Routes>
           )}
         </main>
