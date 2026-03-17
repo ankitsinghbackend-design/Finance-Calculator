@@ -27,6 +27,13 @@ export type PublicUser = {
   role: UserRole
 }
 
+type PublicUserInput = {
+  _id: unknown
+  name: string
+  email: string
+  role: UserRole
+}
+
 export const hashPassword = async (password: string): Promise<string> => bcrypt.hash(password, SALT_ROUNDS)
 
 export const comparePassword = async (password: string, passwordHash: string): Promise<boolean> =>
@@ -38,7 +45,7 @@ export const createAuthToken = (payload: AuthTokenPayload): string =>
 export const verifyAuthToken = (token: string): AuthTokenPayload =>
   jwt.verify(token, AUTH_SECRET) as AuthTokenPayload
 
-export const toPublicUser = (user: Pick<IUser, '_id' | 'name' | 'email' | 'role'>): PublicUser => ({
+export const toPublicUser = (user: PublicUserInput | Pick<IUser, '_id' | 'name' | 'email' | 'role'>): PublicUser => ({
   id: String(user._id),
   name: user.name,
   email: user.email,

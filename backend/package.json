@@ -2,6 +2,7 @@
   "name": "finance-calculator-backend",
   "private": true,
   "scripts": {
+    "build": "npm --prefix .. run backend:build",
     "dev": "npm --prefix .. run backend:dev",
     "start": "npm --prefix .. run backend:start"
   },

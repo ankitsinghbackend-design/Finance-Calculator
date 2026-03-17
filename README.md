@@ -42,6 +42,24 @@ Set these variables in your runtime env:
 Backend docs: `backend/README_ADBLOCK.md`
 Frontend docs: `frontend/README_ADBLOCK_FRONTEND.md`
 
+## Backend deployment on Linux / MilesWeb
+
+Do not upload or reuse `node_modules` from macOS on the server. This project uses `tsx` for local development, and its `esbuild` dependency is platform-specific.
+
+Recommended server steps from the repository root:
+
+```bash
+rm -rf node_modules backend/node_modules dist
+npm ci
+npm run backend:build
+npm --prefix backend start
+```
+
+Notes:
+- Use `npm --prefix backend dev` only for local development.
+- On the server, use `start` after `backend:build`; it runs `node dist/backend/server.js` and avoids `tsx`/`esbuild` at runtime.
+- If you previously uploaded `node_modules`, delete it first before reinstalling on MilesWeb.
+
 ### Tests
 
 ```bash
