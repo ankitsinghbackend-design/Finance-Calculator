@@ -6,7 +6,7 @@ const router = Router()
 const siteUrl = (
   process.env.SITE_URL ||
   process.env.FRONTEND_URL ||
-  'https://finance-calculator-blond.vercel.app'
+  'https://fincalco.com'
 ).replace(/\/$/, '')
 
 const calculatorSlugs = [

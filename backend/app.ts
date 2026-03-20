@@ -14,6 +14,7 @@ export const createApp = () => {
   app.disable('x-powered-by')
   app.use(cors({ origin: true }))
   app.use(express.json({ limit: '50kb' }))
+  app.use(express.static(path.resolve(process.cwd(), 'dist')))
   app.use(express.static(path.resolve(process.cwd(), 'public')))
   app.use(express.static(path.resolve(process.cwd(), 'backend/public')))
   app.use(express.static(path.resolve(process.cwd(), '../public')))
