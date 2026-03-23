@@ -33,16 +33,21 @@ app.use((req, res) => {
     return
   }
 
-  const candidates = [
-    path.resolve(process.cwd(), 'public/404.html'),
-    path.resolve(process.cwd(), 'backend/public/404.html'),
-    path.join(__dirname, 'public/404.html')
-  ]
+  // Path to the built index.html
+  const indexPath = path.resolve(process.cwd(), 'dist/index.html')
 
-  const notFoundPage = candidates.find((filePath) => fs.existsSync(filePath))
+  if (fs.existsSync(indexPath)) {
+    let html = fs.readFileSync(indexPath, 'utf8')
+    
+    // Determine the current full URL for the canonical tag
+    const siteUrl = (process.env.SITE_URL || 'https://fincalco.com').replace(/\/$/, '')
+    const canonicalUrl = `${siteUrl}${req.path}`
+    
+    // Inject the canonical tag into the head
+    const canonicalTag = `<link rel="canonical" href="${canonicalUrl}" />`
+    html = html.replace('</head>', `  ${canonicalTag}\n  </head>`)
 
-  if (notFoundPage) {
-    res.status(404).sendFile(notFoundPage)
+    res.status(200).send(html)
     return
   }
 
