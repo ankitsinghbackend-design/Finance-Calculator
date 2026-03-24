@@ -10,8 +10,7 @@ import {
   type HelocInputs,
   type HelocResults as HelocResult
 } from '../../backend/calculations/heloc'
-
-const helocGraphic = 'https://www.figma.com/api/mcp/asset/7cab7704-a3a4-491a-a6f5-ac7b46820375'
+import EllipseBackground from '../components/EllipseBackground'
 
 const initialForm: HelocFormState = {
   loanAmount: '250000',
@@ -89,12 +88,16 @@ export default function HelocCalculatorPage() {
   return (
     <>
     <section className="relative min-h-[calc(100vh-82px)] overflow-hidden bg-[#f5f7fa]">
-      <img
-        src={helocGraphic}
-        alt=""
-        aria-hidden
-        className="pointer-events-none absolute left-[calc(37.5%+32px)] top-[42px] hidden h-[883px] w-[868px] select-none object-contain xl:block"
-      />
+        <EllipseBackground 
+          style={{
+            top: '29.89px',
+            left: '684.89px',
+            right: '68.39px',
+            transform: 'scaleX(-1) rotate(-90.569deg)',
+            width: 'calc(100% - 684.89px - 68.39px)',
+            height: 'auto'
+          }}
+        />
 
       <div className="relative z-10 mx-auto max-w-[1360px] px-6 pb-[160px] pt-[131px] xl:min-h-[1300px] xl:px-0">
         <p className="text-[19px] font-semibold text-sub">Home / Finance / Home Equity Line of Credit (HELOC) Calculator</p>

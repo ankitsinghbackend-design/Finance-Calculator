@@ -41,10 +41,12 @@ export default function Footer(){
         <div>
           <h4 className="text-heading text-lg font-medium">Calculator Categories</h4>
           <ul className="mt-3 text-sub space-y-1 text-sm">
-            <li>Loan Calculators</li>
-            <li>Investment Calculators</li>
-            <li>Retirement Calculators</li>
-            <li>Tax Calculators</li>
+            <li><Link to="/finance">Mortgage &amp; Real Estate</Link></li>
+            <li><Link to="/finance">Auto</Link></li>
+            <li><Link to="/finance">Tax &amp; Salary</Link></li>
+            <li><Link to="/finance">Investment</Link></li>
+            <li><Link to="/finance">Retirement</Link></li>
+            <li><Link to="/finance">Others</Link></li>
           </ul>
         </div>
         {/* <div>

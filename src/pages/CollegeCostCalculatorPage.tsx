@@ -2,6 +2,7 @@ import React, { FormEvent, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
 import CalculatorMarketingSections from '../components/CalculatorMarketingSections'
+import EllipseBackground from '../components/EllipseBackground'
 
 type CollegeCostResults = {
   futureAnnualCost: number
@@ -10,8 +11,6 @@ type CollegeCostResults = {
   savingsContribution: number
   fundingGap: number
 }
-
-const heroGraphic = 'https://www.figma.com/api/mcp/asset/77f24824-ecce-43d4-a66d-ee214c4cb278'
 
 const formatCurrency = (value: number): string =>
   new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value)
@@ -76,11 +75,15 @@ export default function CollegeCostCalculatorPage() {
     <>
     <section className="bg-[#f5f7fa] relative overflow-hidden min-h-[calc(100vh-82px)] py-12">
       <div className="max-w-[1440px] mx-auto px-6 xl:px-10 relative isolate">
-        <img
-          src={heroGraphic}
-          alt=""
-          aria-hidden
-          className="hidden xl:block absolute right-[-78px] top-[-28px] z-0 w-[868px] h-[883px] object-contain pointer-events-none select-none"
+        <EllipseBackground 
+          style={{
+            top: '29.89px',
+            left: '684.89px',
+            right: '68.39px',
+            transform: 'scaleX(-1) rotate(-90.569deg)',
+            width: 'calc(100% - 684.89px - 68.39px)',
+            height: 'auto'
+          }}
         />
 
         <div className="relative z-10">

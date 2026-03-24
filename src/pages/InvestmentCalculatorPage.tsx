@@ -13,7 +13,7 @@ import InvestmentResults, {
 } from '../components/calculators/InvestmentResults'
 import CalculatorMarketingSections from '../components/CalculatorMarketingSections'
 import { API_BASE_URL } from '../config/api'
-import heroGraphicSvg from '../assets/hero-graphic.svg'
+import EllipseBackground from '../components/EllipseBackground'
 
 const defaultMode: InvestmentMode = 'end-amount'
 
@@ -107,12 +107,16 @@ export default function InvestmentCalculatorPage() {
   return (
     <>
     <section className="relative min-h-[calc(100vh-82px)] overflow-hidden bg-[#f5f7fa] text-[#1d2433]">
-      <img
-        src={heroGraphicSvg}
-        alt=""
-        aria-hidden
-        className="pointer-events-none absolute right-0 top-[42px] hidden h-[883px] w-[868px] select-none object-contain xl:block"
-      />
+        <EllipseBackground 
+          style={{
+            top: '29.89px',
+            left: '684.89px',
+            right: '68.39px',
+            transform: 'scaleX(-1) rotate(-90.569deg)',
+            width: 'calc(100% - 684.89px - 68.39px)',
+            height: 'auto'
+          }}
+        />
 
       <div className="relative z-10 mx-auto max-w-[1360px] px-6 pb-16 pt-12 xl:px-0 lg:pb-24">
         <div className="max-w-[760px]">

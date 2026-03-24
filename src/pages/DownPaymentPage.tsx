@@ -10,8 +10,7 @@ import {
   type DownPaymentInputs,
   type DownPaymentResults as DownPaymentResult
 } from '../../backend/calculations/downPayment'
-
-const downPaymentGraphic = 'https://www.figma.com/api/mcp/asset/9dbc3caf-c01b-40c3-8c60-c925fa5a5c03'
+import EllipseBackground from '../components/EllipseBackground'
 
 const initialForm: DownPaymentFormState = {
   upfrontCashAvailable: '80000',
@@ -95,12 +94,16 @@ export default function DownPaymentPage() {
   return (
     <>
     <section className="relative min-h-[calc(100vh-82px)] overflow-hidden bg-[#f5f7fa]">
-      <img
-        src={downPaymentGraphic}
-        alt=""
-        aria-hidden
-        className="pointer-events-none absolute left-[calc(37.5%+32px)] top-[42px] hidden h-[883px] w-[868px] select-none object-contain xl:block"
-      />
+        <EllipseBackground 
+          style={{
+            top: '29.89px',
+            left: '684.89px',
+            right: '68.39px',
+            transform: 'scaleX(-1) rotate(-90.569deg)',
+            width: 'calc(100% - 684.89px - 68.39px)',
+            height: 'auto'
+          }}
+        />
 
       <div className="relative z-10 mx-auto max-w-[1360px] px-6 pb-[180px] pt-[131px] xl:min-h-[1181px] xl:px-0">
         <p className="text-[19px] font-semibold text-sub">Home / Finance / Down Payment Calculator</p>

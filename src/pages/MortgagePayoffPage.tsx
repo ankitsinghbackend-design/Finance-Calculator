@@ -1,6 +1,7 @@
 import React, { FormEvent, useMemo, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
+import EllipseBackground from '../components/EllipseBackground'
 
 type RepaymentOption = 'original' | 'extra' | 'biweekly' | 'normal'
 
@@ -22,8 +23,6 @@ type MortgagePayoffResult = {
   totalInterest: number
   totalPayments: number
 }
-
-const heroGraphic = 'https://www.figma.com/api/mcp/asset/f42f351a-2bfe-46f9-9af8-473d74d33d7d'
 
 const toNumber = (value: string): number => {
   const parsed = Number(value)
@@ -211,11 +210,15 @@ export default function MortgagePayoffPage() {
   return (
     <section className="bg-[#f5f7fa] py-12 min-h-[calc(100vh-82px)] overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-6 xl:px-10 relative isolate">
-        <img
-          src={heroGraphic}
-          alt=""
-          aria-hidden
-          className="hidden xl:block absolute right-[-78px] top-[-28px] z-0 w-[868px] h-[883px] object-contain pointer-events-none"
+        <EllipseBackground 
+          style={{
+            top: '29.89px',
+            left: '684.89px',
+            right: '68.39px',
+            transform: 'scaleX(-1) rotate(-90.569deg)',
+            width: 'calc(100% - 684.89px - 68.39px)',
+            height: 'auto'
+          }}
         />
 
         <div className="relative z-10">

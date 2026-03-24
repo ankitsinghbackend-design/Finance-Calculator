@@ -2,6 +2,7 @@ import React, { FormEvent, useMemo, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
 import CalculatorMarketingSections from '../components/CalculatorMarketingSections'
+import EllipseBackground from '../components/EllipseBackground'
 
 type ExchangeApiResponse = {
   result: string
@@ -22,7 +23,6 @@ type CurrencyApiResults = {
 }
 
 const RATES_API_URL = 'https://open.er-api.com/v6/latest/USD'
-const heroGraphic = 'https://www.figma.com/api/mcp/asset/fd9806b6-e9c1-47df-a9ff-12d8e2e99a24'
 
 const usdFormatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
@@ -146,11 +146,15 @@ export default function CurrencyCalculatorPage() {
     <>
     <section className="bg-[#f5f7fa] py-12 min-h-[calc(100vh-82px)] overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-6 xl:px-10 relative isolate">
-        <img
-          src={heroGraphic}
-          alt=""
-          aria-hidden
-          className="hidden xl:block absolute right-[-80px] top-[-20px] z-0 w-[868px] h-[883px] object-contain pointer-events-none"
+        <EllipseBackground 
+          style={{
+            top: '29.89px',
+            left: '684.89px',
+            right: '68.39px',
+            transform: 'scaleX(-1) rotate(-90.569deg)',
+            width: 'calc(100% - 684.89px - 68.39px)',
+            height: 'auto'
+          }}
         />
 
         <div className="relative z-10">

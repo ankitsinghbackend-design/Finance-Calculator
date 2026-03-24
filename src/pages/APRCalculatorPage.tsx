@@ -16,9 +16,7 @@ import {
   type GeneralAprInputs,
   type MortgageAprInputs
 } from '../../backend/calculations/aprLogic'
-
-const imgEllipse1 = 'https://www.figma.com/api/mcp/asset/10f76cbf-649a-4f1b-afb9-6699ae24ce90'
-const imgEllipse2 = 'https://www.figma.com/api/mcp/asset/29ba2be2-6dce-48d2-80db-12f713778116'
+import EllipseBackground from '../components/EllipseBackground'
 
 type AprMode = 'general' | 'mortgage'
 
@@ -174,36 +172,16 @@ export default function APRCalculatorPage() {
   return (
     <>
     <section className="relative min-h-[calc(100vh-82px)] overflow-hidden bg-[#f5f7fa]">
-      <div
-        className="pointer-events-none absolute top-[42px] hidden h-[883px] w-[868px] xl:block"
-        style={{ left: 'calc(37.5% + 32px)' }}
-      >
-        <div
-          className="absolute flex items-center justify-center"
-          style={{ left: '112.89px', top: '127.89px', width: '686.725px', height: '686.725px' }}
-        >
-          <div className="shrink-0" style={{ transform: 'rotate(-90.57deg)' }}>
-            <div className="relative" style={{ width: 680, height: 680 }}>
-              <div className="absolute" style={{ inset: '-0.59% -0.57% 4.56% -0.59%' }}>
-                <img src={imgEllipse1} alt="" className="block h-full w-full" style={{ maxWidth: 'none' }} />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div
-          className="absolute flex items-center justify-center"
-          style={{ left: '36.38px', top: '55.38px', width: '839.685px', height: '839.685px' }}
-        >
-          <div className="shrink-0" style={{ transform: 'rotate(15.83deg)' }}>
-            <div className="relative" style={{ width: 680, height: 680 }}>
-              <div className="absolute" style={{ inset: '0 -0.57% 48.82% 43.65%' }}>
-                <img src={imgEllipse2} alt="" className="block h-full w-full" style={{ maxWidth: 'none' }} />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        <EllipseBackground 
+          style={{
+            top: '29.89px',
+            left: '684.89px',
+            right: '68.39px',
+            transform: 'scaleX(-1) rotate(-90.569deg)',
+            width: 'calc(100% - 684.89px - 68.39px)',
+            height: 'auto'
+          }}
+        />
 
       <div className="relative z-10 mx-auto max-w-[1360px] px-6 pb-[160px] pt-[131px] xl:px-0">
         <p className="text-[19px] font-semibold text-sub">Home / Finance / APR Calculator</p>

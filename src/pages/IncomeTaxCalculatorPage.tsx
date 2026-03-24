@@ -1,8 +1,8 @@
 import React, { FormEvent, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
-import heroGraphicSvg from '../assets/hero-graphic.svg'
 import CalculatorMarketingSections from '../components/CalculatorMarketingSections'
+import EllipseBackground from '../components/EllipseBackground'
 
 type FilingStatus = 'single' | 'married' | 'head'
 type TaxYear = 2025 | 2026
@@ -85,12 +85,16 @@ export default function IncomeTaxCalculatorPage() {
   return (
     <>
     <section className="bg-[#f5f7fa] relative overflow-hidden min-h-[calc(100vh-82px)]">
-      <img
-        src={heroGraphicSvg}
-        alt=""
-        aria-hidden
-        className="hidden xl:block absolute right-0 top-[42px] w-[868px] h-[883px] object-contain pointer-events-none select-none"
-      />
+        <EllipseBackground 
+          style={{
+            top: '29.89px',
+            left: '684.89px',
+            right: '68.39px',
+            transform: 'scaleX(-1) rotate(-90.569deg)',
+            width: 'calc(100% - 684.89px - 68.39px)',
+            height: 'auto'
+          }}
+        />
 
       <div className="max-w-[1360px] mx-auto px-6 xl:px-0 pt-12 pb-12 relative z-10">
         <p className="text-[19px] text-sub font-semibold">Home / Finance / Income Tax Calculator</p>

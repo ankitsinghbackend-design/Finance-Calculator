@@ -2,8 +2,7 @@ import { FormEvent, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
 import CalculatorMarketingSections from '../components/CalculatorMarketingSections'
-
-const figmaSalaryGraphic = 'https://www.figma.com/api/mcp/asset/345dcc51-ceed-488c-9272-cfce2e451db3'
+import EllipseBackground from '../components/EllipseBackground'
 
 type SalaryFormState = {
   salaryAmount: string
@@ -143,11 +142,15 @@ export default function SalaryCalculatorPage() {
   return (
     <>
       <section className="relative min-h-[calc(100vh-82px)] overflow-hidden bg-[#f5f7fa]">
-        <img
-          src={figmaSalaryGraphic}
-          alt=""
-          aria-hidden
-          className="hidden xl:block absolute left-[calc(37.5%+32px)] top-[42px] w-[868px] h-[883px] object-contain pointer-events-none select-none"
+        <EllipseBackground 
+          style={{
+            top: '29.89px',
+            left: '684.89px',
+            right: '68.39px',
+            transform: 'scaleX(-1) rotate(-90.569deg)',
+            width: 'calc(100% - 684.89px - 68.39px)',
+            height: 'auto'
+          }}
         />
 
         <div className="relative z-10 mx-auto max-w-[1360px] px-6 pb-16 pt-[131px] xl:min-h-[1120px] xl:px-0 xl:pb-[140px]">

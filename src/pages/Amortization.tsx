@@ -3,8 +3,7 @@ import { calculateAmortization } from '../utils/amortization'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
 import CalculatorMarketingSections from '../components/CalculatorMarketingSections'
-
-const heroGraphic = 'https://www.figma.com/api/mcp/asset/99ee5331-e90e-486e-bd3b-e8c1939b6240'
+import EllipseBackground from '../components/EllipseBackground'
 
 const currency = (v: number) =>
   new Intl.NumberFormat('en-US', {
@@ -71,11 +70,15 @@ export default function Amortization() {
     <div className="bg-alt min-h-full">
       <section className="relative overflow-hidden bg-[#f5f7fa] py-12 min-h-[calc(100vh-82px)]">
         <div className="max-w-[1440px] mx-auto px-6 xl:px-10 relative isolate">
-          <img
-            src={heroGraphic}
-            alt=""
-            aria-hidden
-            className="hidden xl:block absolute right-[-78px] top-[-28px] z-0 w-[868px] h-[883px] object-contain pointer-events-none"
+          <EllipseBackground 
+            style={{
+              top: '29.89px',
+              left: '684.89px',
+              right: '68.39px',
+              transform: 'scaleX(-1) rotate(-90.569deg)',
+              width: 'calc(100% - 684.89px - 68.39px)',
+              height: 'auto'
+            }}
           />
 
           <div className="relative z-10">

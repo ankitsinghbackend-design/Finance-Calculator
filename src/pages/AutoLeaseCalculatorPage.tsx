@@ -4,9 +4,8 @@ import { apiUrl } from '../config/api'
 import CalculatorMarketingSections from '../components/CalculatorMarketingSections'
 import AutoLeaseForm, { type AutoLeaseFormState } from '../components/calculators/AutoLeaseForm'
 import AutoLeaseResults from '../components/calculators/AutoLeaseResults'
-import { calculate, schema, type AutoLeaseInputs, type AutoLeaseResults } from '../../backend/calculations/autoLease'
-
-const autoLeaseGraphic = 'https://www.figma.com/api/mcp/asset/004a012c-ea07-4c93-ab29-f342de48f050'
+import { calculate, schema, type AutoLeaseInputs, type AutoLeaseResults as AutoLeaseResult } from '../../backend/calculations/autoLease'
+import EllipseBackground from '../components/EllipseBackground'
 
 const initialForm: AutoLeaseFormState = {
   autoPrice: '52000',
@@ -44,7 +43,7 @@ const initialResult = (() => {
 
 export default function AutoLeaseCalculatorPage() {
   const [form, setForm] = useState<AutoLeaseFormState>(initialForm)
-  const [result, setResult] = useState<AutoLeaseResults | null>(initialResult)
+  const [result, setResult] = useState<AutoLeaseResult | null>(initialResult)
   const [calculateError, setCalculateError] = useState<string | null>(null)
   const [isCalculating, setIsCalculating] = useState(false)
 
@@ -64,7 +63,7 @@ export default function AutoLeaseCalculatorPage() {
 
     try {
       setIsCalculating(true)
-      const response = await axios.post<{ results: AutoLeaseResults }>(apiUrl('/api/calculators/auto-lease'), {
+      const response = await axios.post<{ results: AutoLeaseResult }>(apiUrl('/api/calculators/auto-lease'), {
         inputs: parsed.data
       })
       setResult(response.data.results)
@@ -85,12 +84,16 @@ export default function AutoLeaseCalculatorPage() {
   return (
     <>
     <section className="relative min-h-[calc(100vh-82px)] overflow-hidden bg-[#f5f7fa]">
-      <img
-        src={autoLeaseGraphic}
-        alt=""
-        aria-hidden
-        className="pointer-events-none absolute left-[calc(37.5%+32px)] top-[42px] hidden h-[883px] w-[868px] select-none object-contain xl:block"
-      />
+        <EllipseBackground 
+          style={{
+            top: '29.89px',
+            left: '684.89px',
+            right: '68.39px',
+            transform: 'scaleX(-1) rotate(-90.569deg)',
+            width: 'calc(100% - 684.89px - 68.39px)',
+            height: 'auto'
+          }}
+        />
 
       <div className="relative z-10 mx-auto max-w-[1360px] px-6 pb-[200px] pt-[131px] xl:min-h-[1500px] xl:px-0">
         <p className="text-[19px] font-semibold text-sub">Home / Finance / Auto Lease Calculator</p>

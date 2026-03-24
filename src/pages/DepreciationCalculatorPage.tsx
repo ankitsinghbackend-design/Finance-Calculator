@@ -10,8 +10,7 @@ import {
   type DepreciationInputs,
   type DepreciationResults as DepreciationResult
 } from '../../backend/calculations/depreciation'
-
-const depreciationGraphic = 'https://www.figma.com/api/mcp/asset/cde2268c-462e-42af-858e-d486cfcfabc9'
+import EllipseBackground from '../components/EllipseBackground'
 
 const initialForm: DepreciationFormState = {
   method: 'straight-line',
@@ -92,11 +91,15 @@ export default function DepreciationCalculatorPage() {
   return (
     <>
       <section className="relative overflow-hidden bg-[#f5f7fa]">
-        <img
-          src={depreciationGraphic}
-          alt=""
-          aria-hidden
-          className="pointer-events-none absolute left-[calc(37.5%+32px)] top-[42px] hidden h-[883px] w-[868px] select-none object-contain xl:block"
+        <EllipseBackground 
+          style={{
+            top: '29.89px',
+            left: '684.89px',
+            right: '68.39px',
+            transform: 'scaleX(-1) rotate(-90.569deg)',
+            width: 'calc(100% - 684.89px - 68.39px)',
+            height: 'auto'
+          }}
         />
 
         <div className="relative z-10 mx-auto max-w-[1360px] px-6 pb-[140px] pt-[131px] xl:px-0">

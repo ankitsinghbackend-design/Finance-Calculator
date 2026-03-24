@@ -5,8 +5,7 @@ import CalculatorMarketingSections from '../components/CalculatorMarketingSectio
 import SalesTaxForm, { type SalesTaxFormState } from '../components/calculators/SalesTaxForm'
 import SalesTaxResults from '../components/calculators/SalesTaxResults'
 import { calculate, schema, type SalesTaxInputs, type SalesTaxResults as SalesTaxResultsType } from '../../backend/calculations/salesTax'
-
-const salesTaxGraphic = 'https://www.figma.com/api/mcp/asset/b1e97d7d-4022-4234-a3f5-32c05b72a157'
+import EllipseBackground from '../components/EllipseBackground'
 
 const initialForm: SalesTaxFormState = {
   beforeTaxPrice: '100',
@@ -82,12 +81,16 @@ export default function SalesTaxCalculatorPage() {
   return (
     <>
     <section className="relative min-h-[calc(100vh-82px)] overflow-hidden bg-[#f5f7fa]">
-      <img
-        src={salesTaxGraphic}
-        alt=""
-        aria-hidden
-        className="pointer-events-none absolute right-0 top-[42px] hidden h-[883px] w-[868px] select-none object-contain xl:block"
-      />
+        <EllipseBackground 
+          style={{
+            top: '29.89px',
+            left: '684.89px',
+            right: '68.39px',
+            transform: 'scaleX(-1) rotate(-90.569deg)',
+            width: 'calc(100% - 684.89px - 68.39px)',
+            height: 'auto'
+          }}
+        />
 
       <div className="relative z-10 mx-auto max-w-[1360px] px-6 pb-12 pt-12 xl:px-0">
         <p className="text-[19px] font-semibold text-sub">Home / Finance / Sales Tax Calculator</p>

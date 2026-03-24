@@ -10,10 +10,7 @@ import {
   type DebtToIncomeInputs,
   type DebtToIncomeResults
 } from '../../backend/calculations/debtToIncome'
-
-/* ── Figma ellipse decorative assets ── */
-const imgEllipse1 = 'https://www.figma.com/api/mcp/asset/dbdf40ce-8d55-40b7-9641-f9023e11e5f4'
-const imgEllipse2 = 'https://www.figma.com/api/mcp/asset/4f7eadab-ac2f-4cb7-9e8d-49b7dc6f92f3'
+import EllipseBackground from '../components/EllipseBackground'
 
 /* ── Initial form values ── */
 const initialForm: DTIFormState = {
@@ -113,42 +110,16 @@ export default function DebtToIncomeCalculatorPage() {
   return (
     <>
     <section className="relative min-h-screen overflow-hidden bg-[#f5f7fa]">
-      {/* ────────────────────────────────────────────────────
-          Decorative Graphic — desktop only (ellipses only)
-          Matches Figma node 162:925
-          ──────────────────────────────────────────────────── */}
-      <div
-        className="pointer-events-none absolute top-[42px] hidden h-[883px] w-[868px] xl:block"
-        style={{ left: 'calc(37.5% + 32px)' }}
-      >
-        {/* Ellipse 1 — Figma 162:926 */}
-        <div
-          className="absolute flex items-center justify-center"
-          style={{ left: '112.89px', top: '127.89px', width: '686.725px', height: '686.725px' }}
-        >
-          <div className="shrink-0" style={{ transform: 'rotate(-90.57deg)' }}>
-            <div className="relative" style={{ width: 680, height: 680 }}>
-              <div className="absolute" style={{ inset: '-0.59% -0.57% 4.56% -0.59%' }}>
-                <img src={imgEllipse1} alt="" className="block h-full w-full" style={{ maxWidth: 'none' }} />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Ellipse 2 — Figma 162:927 */}
-        <div
-          className="absolute flex items-center justify-center"
-          style={{ left: '36.38px', top: '55.38px', width: '839.685px', height: '839.685px' }}
-        >
-          <div className="shrink-0" style={{ transform: 'rotate(15.83deg)' }}>
-            <div className="relative" style={{ width: 680, height: 680 }}>
-              <div className="absolute" style={{ inset: '0 -0.57% 48.82% 43.65%' }}>
-                <img src={imgEllipse2} alt="" className="block h-full w-full" style={{ maxWidth: 'none' }} />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        <EllipseBackground 
+          style={{
+            top: '29.89px',
+            left: '684.89px',
+            right: '68.39px',
+            transform: 'scaleX(-1) rotate(-90.569deg)',
+            width: 'calc(100% - 684.89px - 68.39px)',
+            height: 'auto'
+          }}
+        />
 
       {/* ────────────────────────────────────────────────────
           Page content

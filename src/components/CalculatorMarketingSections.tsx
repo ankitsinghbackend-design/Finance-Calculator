@@ -44,6 +44,11 @@ type FeatureItem = {
   body: string
 }
 
+type FAQItem = {
+  question: string
+  answer: string
+}
+
 const initialReviewFormState: ReviewFormState = {
   name: '',
   email: '',
@@ -672,6 +677,134 @@ const featureMap: Record<string, FeatureItem[]> = {
   annuity: annuityFeatureList,
   rmd: rmdFeatureList,
   'auto-lease': autoLeaseFeatureList
+}
+
+const defaultFaqs: FAQItem[] = [
+  {
+    question: 'How accurate are the calculation results?',
+    answer: 'Our calculators use industry-standard financial formulas to provide consistent and dependable results. However, they should be used as estimates only—always consult a financial professional for official planning.'
+  },
+  {
+    question: 'Do I need to create an account to use these tools?',
+    answer: 'No, all our calculators are completely free to use without any signup, registration, or personal data submission required.'
+  },
+  {
+    question: 'Is my financial information stored or shared?',
+    answer: 'We prioritize your privacy. No personally identifiable information (PII) is stored or shared when you use our calculators. All calculations are processed instantly within your session.'
+  },
+  {
+    question: 'Can I use these calculators on my mobile device?',
+    answer: 'Yes! Our platform is fully responsive and designed to work smoothly across desktops, tablets, and smartphones.'
+  },
+  {
+    question: 'Are there any hidden costs or fees?',
+    answer: 'Absolutely not. Our mission is to provide accessible financial tools to everyone at no cost.'
+  }
+]
+
+const salaryFaqs: FAQItem[] = [
+  {
+    question: 'How is the hourly rate calculated from an annual salary?',
+    answer: 'We divide the annual gross salary by the total number of work hours in a year (standard is 2,080 hours for a 40-hour week) to determine the base hourly rate.'
+  },
+  {
+    question: 'Does the calculator account for taxes?',
+    answer: 'This specific tool provides gross pay breakdowns. For after-tax estimates, please use our dedicated Income Tax Calculator.'
+  },
+  {
+    question: 'What are "Adjusted" figures in the results?',
+    answer: 'Adjusted figures account for your specified time off (holidays and vacation days) to show what you earn based on actual days worked.'
+  },
+  {
+    question: 'How do I calculate pay for a part-time job?',
+    answer: 'Simply enter the number of hours you work per week and your hourly or annual pay rate, and the tool will scale the results accordingly.'
+  }
+]
+
+const mortgageFaqs: FAQItem[] = [
+  {
+    question: 'What is included in a typical monthly mortgage payment?',
+    answer: 'A standard monthly payment (PITI) includes Principal, Interest, Property Taxes, and Homeowners Insurance. Our calculator allows you to include all of these for a realistic estimate.'
+  },
+  {
+    question: 'How much should I put down for a home?',
+    answer: 'While 20% is a traditional benchmark to avoid Private Mortgage Insurance (PMI), many programs allow as little as 3% or 3.5%. Use the calculator to see how different down payments affect your monthly cost.'
+  },
+  {
+    question: 'What is PMI and when do I have to pay it?',
+    answer: 'Private Mortgage Insurance (PMI) is usually required if your down payment is less than 20% of the home price. it protects the lender if you default on the loan.'
+  },
+  {
+    question: 'How does the loan term affect my interest?',
+    answer: 'Shorter terms (like 15 years) typically have lower interest rates and significantly lower total interest costs but higher monthly payments compared to 30-year terms.'
+  }
+]
+
+const autoLoanFaqs: FAQItem[] = [
+  {
+    question: 'Should I choose a longer or shorter loan term?',
+    answer: 'Longer terms reduce your monthly payment but increase the total interest you pay over the life of the loan. Shorter terms save you money in the long run but require higher monthly budget flexibility.'
+  },
+  {
+    question: 'What is a good interest rate for an auto loan?',
+    answer: 'Rates vary based on your credit score, the vehicle age (new vs. used), and the lender. Checking multiple quotes can help you find the most competitive rate for your profile.'
+  },
+  {
+    question: 'How do trade-ins affect the calculation?',
+    answer: 'A trade-in acts like a down payment—it reduces the total amount you need to borrow, which lowers both your monthly payment and total interest cost.'
+  }
+]
+
+const investmentFaqs: FAQItem[] = [
+  {
+    question: 'What starting balance should I use?',
+    answer: 'Use the current amount you have available to invest today. If starting from scratch, enter $0.'
+  },
+  {
+    question: 'What is a realistic expected return rate?',
+    answer: 'Historical stock market averages are around 7-10% before inflation, but actual returns vary by asset class. It is often wise to test a range of scenarios (e.g., 5%, 7%, and 9%).'
+  },
+  {
+    question: 'How does compounding frequency affect my growth?',
+    answer: 'The more frequently interest compounds (e.g., daily vs. annually), the faster your money grows. Most modern savings and investment accounts compound daily or monthly.'
+  }
+]
+
+const taxFaqs: FAQItem[] = [
+  {
+    question: 'Is this tax estimate final?',
+    answer: 'No, this tool provides a high-level estimate based on provided inputs. Actual tax liability depends on many factors and should be verified with a qualified tax professional or official IRS software.'
+  },
+  {
+    question: 'What is the difference between standard and itemized deductions?',
+    answer: 'The standard deduction is a flat amount determined by your filing status. Itemizing allows you to subtract specific expenses (like mortgage interest or charitable gifts) if they total more than the standard deduction.'
+  }
+]
+
+const faqMap: Record<string, FAQItem[]> = {
+  salary: salaryFaqs,
+  mortgage: mortgageFaqs,
+  'mortgage-payoff': mortgageFaqs,
+  'auto-loan': autoLoanFaqs,
+  'auto-lease': autoLoanFaqs,
+  'auto-lease-calculator': autoLoanFaqs,
+  investment: investmentFaqs,
+  'compound-interest': investmentFaqs,
+  'mutual-fund': investmentFaqs,
+  '401k': investmentFaqs,
+  'roth-ira': investmentFaqs,
+  'pension': investmentFaqs,
+  'income-tax': taxFaqs,
+  'estate-tax': taxFaqs,
+  'sales-tax': taxFaqs,
+  loan: autoLoanFaqs,
+  'business-loan': autoLoanFaqs,
+  repayment: autoLoanFaqs,
+  amortization: autoLoanFaqs,
+  'fha-loan': mortgageFaqs,
+  'va-mortgage': mortgageFaqs,
+  'house-affordability': mortgageFaqs,
+  'down-payment': mortgageFaqs
 }
 
 const minimumFeatureCount = 5
@@ -1346,7 +1479,7 @@ export default function CalculatorMarketingSections({
         </div>
       </section>
 
-      <section className="cms-why-choose-section max-w-[1440px] mx-auto px-6 xl:px-10 py-16 bg-white" id="faqs">
+      <section className="cms-why-choose-section max-w-[1440px] mx-auto px-6 xl:px-10 py-16 bg-white">
         <div className="text-center max-w-[652px] mx-auto">
           <h2 className="text-[40px] font-semibold text-heading">Why Choose Our Platform?</h2>
           <p className="text-[16px] leading-[25.6px] text-sub mt-3">We provide fast, accurate, and easy-to-use financial calculators designed to help everyone make smarter financial decisions with confidence.</p>
@@ -1491,7 +1624,7 @@ export default function CalculatorMarketingSections({
         </div>
       </section>
 
-      <section className="max-w-[1440px] mx-auto px-6 xl:px-10 py-16 bg-white">
+      <section className="max-w-[1440px] mx-auto px-6 xl:px-10 py-16 bg-white" id="faqs">
         <div className="grid grid-cols-1 xl:grid-cols-[513px_670px] justify-between gap-10">
           <div className="flex flex-col justify-center gap-14">
             <div className="flex flex-col items-start gap-5">
@@ -1509,27 +1642,26 @@ export default function CalculatorMarketingSections({
           </div>
 
           <div className="space-y-5">
-            <article className="border border-cardBorder rounded-2xl p-4">
-              <div className="flex items-center justify-between gap-4">
-                <h3 className="text-[19px] font-semibold text-heading">Accurate Financial Calculations</h3>
-                <span className="text-primary">▴</span>
-              </div>
-              <p className="text-[16px] leading-[25.6px] text-body mt-2">Our calculators are built using industry-standard financial formulas to provide dependable and consistent results. Each tool is carefully designed to help users estimate payments, returns, and savings with clarity. Regular updates ensure calculations follow current financial practices. Results are generated instantly for quick decision making. Whether planning loans or investments, accuracy remains our priority. Helping users make confident financial decisions is our core goal.</p>
-            </article>
-
-            {[
-              'Do I need to create an account to use calculators?',
-              'How accurate are the calculation results?',
-              'Is my financial information stored or shared?',
-              'Can I use calculators on mobile devices?'
-            ].map((question) => (
-              <article key={question} className="border border-cardBorder rounded-2xl p-4 flex items-center justify-between gap-4">
-                <h3 className="text-[19px] font-semibold text-heading">{question}</h3>
-                <span className="text-primary">▾</span>
-              </article>
-            ))}
+            {
+              (() => {
+                const activeFaqs = (activeFeatureKey && faqMap[activeFeatureKey]) || defaultFaqs
+                
+                return activeFaqs.map((faq, index) => (
+                  <article key={index} className="border border-cardBorder rounded-2xl p-4">
+                    <div className="flex items-center justify-between gap-4">
+                      <h3 className="text-[19px] font-semibold text-heading">{faq.question}</h3>
+                      <span className="text-primary">{index === 0 ? '▴' : '▾'}</span>
+                    </div>
+                    {index === 0 && (
+                      <p className="text-[16px] leading-[25.6px] text-body mt-2">{faq.answer}</p>
+                    )}
+                  </article>
+                ))
+              })()
+            }
           </div>
         </div>
+
 
         <div className="mt-20">
           <div className="text-center max-w-[652px] mx-auto">

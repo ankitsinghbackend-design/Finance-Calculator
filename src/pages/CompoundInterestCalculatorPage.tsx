@@ -2,6 +2,7 @@ import React, { FormEvent, useState } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../config/api'
 import CalculatorMarketingSections from '../components/CalculatorMarketingSections'
+import EllipseBackground from '../components/EllipseBackground'
 
 type CompoundFrequency = 'yearly' | 'semiannually' | 'quarterly' | 'monthly' | 'weekly' | 'daily'
 
@@ -76,11 +77,15 @@ export default function CompoundInterestCalculatorPage() {
     <>
     <section className="bg-[#f5f7fa] py-12 min-h-[calc(100vh-82px)] overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-6 xl:px-10 relative isolate">
-        <img
-          src={heroGraphic}
-          alt=""
-          aria-hidden
-          className="hidden xl:block absolute right-[-78px] top-[20px] z-0 w-[868px] h-[883px] object-contain pointer-events-none"
+        <EllipseBackground 
+          style={{
+            top: '29.89px',
+            left: '684.89px',
+            right: '68.39px',
+            transform: 'scaleX(-1) rotate(-90.569deg)',
+            width: 'calc(100% - 684.89px - 68.39px)',
+            height: 'auto'
+          }}
         />
 
         <div className="relative z-10">
@@ -92,7 +97,7 @@ export default function CompoundInterestCalculatorPage() {
           to do actual calculations on compound interest.
         </p>
 
-        <div className="relative z-10 mt-8 grid grid-cols-1 xl:grid-cols-[476px_1fr] gap-8 items-start">
+        <div className="relative z-10 mt-8 grid grid-cols-1 items-start justify-between gap-8 xl:grid-cols-[476px_516px]">
           <div className="flex flex-col gap-10 w-full max-w-[476px]">
           <form onSubmit={handleCalculate} className="bg-[#f9fafb] border border-cardBorder rounded-[28px] p-5 backdrop-blur-[10.5px]">
             <p className="text-[19px] font-semibold text-sub">Basic</p>
@@ -171,8 +176,10 @@ export default function CompoundInterestCalculatorPage() {
 
             {calculateError ? <p className="mt-3 text-sm text-red-600">{calculateError}</p> : null}
           </form>
+          </div>
 
-          <div className="bg-white border border-cardBorder rounded-[16px] px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)] overflow-hidden">
+          <div className="xl:-mt-16 flex flex-col gap-10 w-full max-w-[516px]">
+            <div className="bg-white border border-cardBorder rounded-[16px] px-6 py-12 shadow-[0px_2px_6px_0px_rgba(205,205,205,0.72)] overflow-hidden">
             <div className="text-center">
               <p className="text-[16px] font-medium text-sub">Future Value</p>
               <p className="text-[40px] leading-none font-semibold text-heading mt-3">{result ? formatCurrency(result.totalValue) : '$0.00'}</p>
@@ -189,8 +196,6 @@ export default function CompoundInterestCalculatorPage() {
             </div>
           </div>
           </div>
-
-          <div className="hidden xl:block min-h-[700px]" />
         </div>
         </div>
       </div>

@@ -10,8 +10,7 @@ import {
   type RefinanceInputs,
   type RefinanceResults as RefinanceResult
 } from '../../backend/calculations/refinance'
-
-const refinanceGraphic = 'https://www.figma.com/api/mcp/asset/c88911eb-f7ae-4170-b9d7-39bf83cd5bbb'
+import EllipseBackground from '../components/EllipseBackground'
 
 const initialForm: RefinanceFormState = {
   balanceMode: 'remaining-balance',
@@ -104,12 +103,16 @@ export default function RefinancePage() {
   return (
     <>
     <section className="relative min-h-[calc(100vh-82px)] overflow-hidden bg-[#f5f7fa]">
-      <img
-        src={refinanceGraphic}
-        alt=""
-        aria-hidden
-        className="pointer-events-none absolute left-[calc(37.5%+32px)] top-[42px] hidden h-[883px] w-[868px] select-none object-contain xl:block"
-      />
+        <EllipseBackground 
+          style={{
+            top: '29.89px',
+            left: '684.89px',
+            right: '68.39px',
+            transform: 'scaleX(-1) rotate(-90.569deg)',
+            width: 'calc(100% - 684.89px - 68.39px)',
+            height: 'auto'
+          }}
+        />
 
       <div className="relative z-10 mx-auto max-w-[1360px] px-6 pb-16 pt-[131px] xl:min-h-[1120px] xl:px-0 xl:pb-[140px]">
         <p className="text-[19px] font-semibold text-sub">Home / Finance / Refinance Calculator</p>

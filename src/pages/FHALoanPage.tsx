@@ -10,8 +10,7 @@ import {
   type FHALoanInputs,
   type FHALoanResults as FHALoanResult
 } from '../../backend/calculations/fhaLoan'
-
-const fhaGraphic = 'https://www.figma.com/api/mcp/asset/24ca046d-4ff5-45cc-b807-0d3fb7feef8d'
+import EllipseBackground from '../components/EllipseBackground'
 
 const initialForm: FHALoanFormState = {
   homePrice: '500000',
@@ -104,12 +103,16 @@ export default function FHALoanPage() {
   return (
     <>
     <section className="relative min-h-[calc(100vh-82px)] overflow-hidden bg-[#f5f7fa]">
-      <img
-        src={fhaGraphic}
-        alt=""
-        aria-hidden
-        className="pointer-events-none absolute left-[calc(37.5%+32px)] top-[42px] hidden h-[883px] w-[868px] select-none object-contain xl:block"
-      />
+        <EllipseBackground 
+          style={{
+            top: '29.89px',
+            left: '684.89px',
+            right: '68.39px',
+            transform: 'scaleX(-1) rotate(-90.569deg)',
+            width: 'calc(100% - 684.89px - 68.39px)',
+            height: 'auto'
+          }}
+        />
 
       <div className="relative z-10 mx-auto max-w-[1360px] px-6 pb-[180px] pt-[131px] xl:min-h-[1665px] xl:px-0">
         <p className="text-[19px] font-semibold text-sub">Home / Finance / FHA Loan Calculator</p>

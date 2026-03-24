@@ -10,8 +10,7 @@ import {
   type RentVsBuyInputs,
   type RentVsBuyResults as RentVsBuyResult
 } from '../../backend/calculations/rentVsBuy'
-
-const rentVsBuyGraphic = 'https://www.figma.com/api/mcp/asset/9b7cd2d2-0241-4b0a-b179-5fb66b4c4084'
+import EllipseBackground from '../components/EllipseBackground'
 
 const initialForm: RentVsBuyFormState = {
   homePrice: '500000',
@@ -123,12 +122,16 @@ export default function RentVsBuyCalculatorPage() {
   return (
     <>
     <section className="relative min-h-[calc(100vh-82px)] overflow-hidden bg-[#f5f7fa]">
-      <img
-        src={rentVsBuyGraphic}
-        alt=""
-        aria-hidden
-        className="pointer-events-none absolute left-[calc(37.5%+32px)] top-[42px] hidden h-[883px] w-[868px] select-none object-contain xl:block"
-      />
+        <EllipseBackground 
+          style={{
+            top: '29.89px',
+            left: '684.89px',
+            right: '68.39px',
+            transform: 'scaleX(-1) rotate(-90.569deg)',
+            width: 'calc(100% - 684.89px - 68.39px)',
+            height: 'auto'
+          }}
+        />
 
       <div className="relative z-10 mx-auto max-w-[1360px] px-6 pb-[180px] pt-[131px] xl:min-h-[1650px] xl:px-0">
         <p className="text-[19px] font-semibold text-sub">Home / Finance / Rent vs. Buy Calculator</p>

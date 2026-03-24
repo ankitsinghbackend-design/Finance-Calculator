@@ -11,6 +11,7 @@ import {
   type LoanMode,
   type LoanResults
 } from '../../backend/calculations/loan'
+import EllipseBackground from '../components/EllipseBackground'
 
 const loanGraphic = 'https://www.figma.com/api/mcp/asset/37b04b65-4e48-414f-b473-e374ab287d17'
 
@@ -98,6 +99,8 @@ export default function LoanCalculatorPage() {
         aria-hidden
         className="pointer-events-none absolute left-[calc(37.5%+32px)] top-[105px] hidden h-[883px] w-[868px] select-none object-contain xl:block"
       />
+
+        <EllipseBackground />
 
       <div className="relative z-10 mx-auto max-w-[1360px] px-6 pb-[200px] pt-[131px] xl:min-h-[1500px] xl:px-0">
         <p className="text-[19px] font-semibold text-sub">Home / Finance / Loan Calculator</p>
