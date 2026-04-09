@@ -93,11 +93,6 @@ router.get('/sitemap.xml', async (_req: Request, res: Response) => {
         priority: '0.9'
       },
       {
-        loc: `${siteUrl}/tools`,
-        lastmod: today,
-        priority: '0.9'
-      },
-      {
         loc: `${siteUrl}/blogs`,
         lastmod: today,
         priority: '0.8'

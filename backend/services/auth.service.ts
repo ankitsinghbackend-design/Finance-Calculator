@@ -6,12 +6,30 @@ const AUTH_SECRET = process.env.AUTH_SECRET || 'finance-calculator-dev-secret'
 const TOKEN_EXPIRY = '7d'
 const SALT_ROUNDS = 10
 
-const ADMIN_ACCOUNT = {
-  name: 'Purple_Admin',
-  email: 'admin@purple.com',
-  password: 'Admin123@purple',
-  role: 'admin' as const
+type AdminSeedAccount = {
+  name: string
+  email: string
+  password: string
+  role: UserRole
 }
+
+const getAdminSeedAccount = (): AdminSeedAccount | null => {
+  const email = process.env.ADMIN_SEED_EMAIL?.trim()
+  const password = process.env.ADMIN_SEED_PASSWORD?.trim()
+  const name = process.env.ADMIN_SEED_NAME?.trim() || 'Admin'
+
+  if (!email || !password) {
+    return null
+  }
+
+  return {
+    name,
+    email,
+    password,
+    role: 'admin'
+  }
+}
+
 
 export type AuthTokenPayload = {
   sub: string
@@ -53,16 +71,23 @@ export const toPublicUser = (user: PublicUserInput | Pick<IUser, '_id' | 'name' 
 })
 
 export async function ensureAdminUser(): Promise<void> {
-  const passwordHash = await hashPassword(ADMIN_ACCOUNT.password)
+  const adminAccount = getAdminSeedAccount()
+
+  if (!adminAccount) {
+    console.warn('Admin seed skipped: ADMIN_SEED_EMAIL / ADMIN_SEED_PASSWORD are not set')
+    return
+  }
+
+  const passwordHash = await hashPassword(adminAccount.password)
 
   await User.findOneAndUpdate(
-    { email: ADMIN_ACCOUNT.email },
+    { email: adminAccount.email },
     {
       $set: {
-        name: ADMIN_ACCOUNT.name,
-        email: ADMIN_ACCOUNT.email,
+        name: adminAccount.name,
+        email: adminAccount.email,
         passwordHash,
-        role: ADMIN_ACCOUNT.role
+        role: adminAccount.role
       }
     },
     {

@@ -1,5 +1,5 @@
-import React from 'react'
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import AutoLoanPage from './components/calculators/AutoLoanPage'
 import Home from './pages/Home'
 import Finance from './pages/Finance'
@@ -51,6 +51,21 @@ export default function App(){
   const navigate = useNavigate()
   const { isAuthenticated, isInitializing, user } = useAuth()
 
+  useEffect(() => {
+    const canonicalPath = location.pathname === '/' ? '/' : location.pathname.replace(/\/+$/, '')
+    const canonicalHref = `${window.location.origin}${canonicalPath}`
+
+    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null
+
+    if (!canonical) {
+      canonical = document.createElement('link')
+      canonical.setAttribute('rel', 'canonical')
+      document.head.appendChild(canonical)
+    }
+
+    canonical.setAttribute('href', canonicalHref)
+  }, [location.pathname])
+
   const isAdminRoute = location.pathname.startsWith('/admin')
   const shouldHoldProtectedContent = isInitializing && isAdminRoute
 
@@ -100,7 +115,7 @@ export default function App(){
               <Route path="/" element={<Home/>} />
               <Route path="/login" element={<AuthPage />} />
               <Route path="/finance" element={<Finance/>} />
-              <Route path="/finance/amortization" element={<Amortization/>} />
+              <Route path="/finance/amortization" element={<Navigate to="/calculators/amortization" replace />} />
               <Route path="/calculators/amortization" element={<Amortization/>} />
               <Route path="/calculators/auto-loan" element={<AutoLoanPage/>} />
               <Route path="/calculators/house-affordability" element={<HouseAffordabilityPage/>} />

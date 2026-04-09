@@ -18,6 +18,7 @@ app.use('/api/blogs', blogRoutes)
 app.use('/api/feedback', feedbackRoutes)
 const port = Number(process.env.PORT || 5000)
 const mongoUri = process.env.MONGODB_URI
+const shouldSeedAdminOnStart = process.env.ADMIN_SEED_ON_START === 'true'
 
 app.get('/api/health', (_req, res) => {
   res.status(200).json({
@@ -72,7 +73,10 @@ async function startServer() {
   })
 
   await mongoose.connect(mongoUri)
-  await ensureAdminUser()
+
+  if (shouldSeedAdminOnStart) {
+    await ensureAdminUser()
+  }
 
   app.listen(port, () => {
     console.log(`Backend server running at http://localhost:${port}`)

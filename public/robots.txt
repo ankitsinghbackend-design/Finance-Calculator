@@ -6,9 +6,8 @@ Disallow: /admin/
 Disallow: /private/
 Disallow: /internal/
 
-Allow: /blog/
+Allow: /blogs/
 Allow: /calculators/
 Allow: /finance/
-Allow: /tools/
 
-Sitemap: https://finance-calculator-blond.vercel.app/sitemap.xml
+Sitemap: https://fincalco.com/sitemap.xml
