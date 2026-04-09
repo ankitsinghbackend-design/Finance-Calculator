@@ -10,15 +10,13 @@ import blogRoutes from "./routes/blog.routes"
 import feedbackRoutes from './routes/feedback.routes'
 import authRoutes from './routes/auth.routes'
 import { ensureAdminUser } from './services/auth.service'
+import { env } from './config/env'
 
 const app = createApp()
 app.use('/api/auth', authRoutes)
 app.use('/api/upload', uploadRoutes)
 app.use('/api/blogs', blogRoutes)
 app.use('/api/feedback', feedbackRoutes)
-const port = Number(process.env.PORT || 5000)
-const mongoUri = process.env.MONGODB_URI
-const shouldSeedAdminOnStart = process.env.ADMIN_SEED_ON_START === 'true'
 
 app.get('/api/health', (_req, res) => {
   res.status(200).json({
@@ -41,8 +39,7 @@ app.use((req, res) => {
     let html = fs.readFileSync(indexPath, 'utf8')
     
     // Determine the current full URL for the canonical tag
-    const siteUrl = (process.env.SITE_URL || 'https://fincalco.com').replace(/\/$/, '')
-    const canonicalUrl = `${siteUrl}${req.path}`
+    const canonicalUrl = `${env.siteUrl}${req.path}`
     
     // Inject the canonical tag into the head
     const canonicalTag = `<link rel="canonical" href="${canonicalUrl}" />`
@@ -56,10 +53,6 @@ app.use((req, res) => {
 })
 
 async function startServer() {
-  if (!mongoUri) {
-    throw new Error('MONGODB_URI is missing in backend/.env')
-  }
-
   mongoose.connection.on('connected', () => {
     console.log('MongoDB connected')
   })
@@ -72,14 +65,14 @@ async function startServer() {
     console.warn('MongoDB disconnected')
   })
 
-  await mongoose.connect(mongoUri)
+  await mongoose.connect(env.mongoUri)
 
-  if (shouldSeedAdminOnStart) {
+  if (env.shouldSeedAdminOnStart) {
     await ensureAdminUser()
   }
 
-  app.listen(port, () => {
-    console.log(`Backend server running at http://localhost:${port}`)
+  app.listen(env.port, () => {
+    console.log(`Backend server running at http://localhost:${env.port}`)
   })
 }
 

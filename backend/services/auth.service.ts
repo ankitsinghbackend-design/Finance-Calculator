@@ -1,8 +1,8 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import User, { type IUser, type UserRole } from '../models/User'
+import { env } from '../config/env'
 
-const AUTH_SECRET = process.env.AUTH_SECRET || 'finance-calculator-dev-secret'
 const TOKEN_EXPIRY = '7d'
 const SALT_ROUNDS = 10
 
@@ -58,10 +58,10 @@ export const comparePassword = async (password: string, passwordHash: string): P
   bcrypt.compare(password, passwordHash)
 
 export const createAuthToken = (payload: AuthTokenPayload): string =>
-  jwt.sign(payload, AUTH_SECRET, { expiresIn: TOKEN_EXPIRY })
+  jwt.sign(payload, env.authSecret, { expiresIn: TOKEN_EXPIRY })
 
 export const verifyAuthToken = (token: string): AuthTokenPayload =>
-  jwt.verify(token, AUTH_SECRET) as AuthTokenPayload
+  jwt.verify(token, env.authSecret) as AuthTokenPayload
 
 export const toPublicUser = (user: PublicUserInput | Pick<IUser, '_id' | 'name' | 'email' | 'role'>): PublicUser => ({
   id: String(user._id),
